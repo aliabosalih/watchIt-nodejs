@@ -46,4 +46,20 @@ router.post('/filterMoviesByGenre', function (req, res) {
     });
 });
 
+
+/**
+ * get the Genres array in the body
+ */
+router.post('/add', function (req, res) {
+    moviesCtrl.addMovie(req.body, function (err, movie) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json(movies);
+        }
+    });
+});
+
+
+
 module.exports = router;
