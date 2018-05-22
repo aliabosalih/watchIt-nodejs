@@ -35,7 +35,6 @@ exports.getMovieComments = function (movieId, done) {
     });
 };
 
-
 exports.getMovieOwner= function (movieId,done) {
     userMovieRelSchema.find({"movieId":movieId,"relation":"owner"}).exec(function(err,owner){
         if(err){
@@ -47,6 +46,19 @@ exports.getMovieOwner= function (movieId,done) {
 };
 
 
+exports.filterMoviesByGenres = function (genreArr, done) {
+    let query = {};
+    if(genreArr.length > 0){
+        genreArr["Genre"] ={$in:genreArr};
+    }
+    movieSchema.find(query).sort({"watchitRatings": -1}).lean().exec(function (err, filteredMovies) {
+        if (err) {
+            done(err);
+        } else {
+            done(null, filteredMovies);
+        }
+    });
+};
 
 
 

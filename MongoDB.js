@@ -42,7 +42,7 @@ let userMovieSchema = new Schema({
 let userMovieRelation = mongoose.model('userMovieRelation', userMovieSchema);
 
 
-let commentSchema = new Schema({
+let reviewSchema = new Schema({
     "movieId": Schema.ObjectId,
     "userId": Schema.ObjectId,
     "comment": String,
@@ -51,10 +51,11 @@ let commentSchema = new Schema({
         "age": Number,
         "facebookId": String,
         "image": String
-    }
+    },
+    "rate": Number
 });
 
-let commentsSchema = mongoose.model('commentSchema', commentSchema);
+let reviewSchema = mongoose.model('reviewSchema', reviewSchema);
 let mongodb = mongoose.createConnection(db, db_options);
 
 

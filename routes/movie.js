@@ -4,7 +4,7 @@ const express = require('express'),
     omdbCtrl = require('../controllers/omdb');
 
 
-router.get('/movie/getMoviesByRate/:sortKey', function (req, res) {
+router.get('/getMoviesByRate/:sortKey', function (req, res) {
     moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(), function (err, movies) {
         if (err) {
             res.status(500).json(err);
@@ -14,7 +14,7 @@ router.get('/movie/getMoviesByRate/:sortKey', function (req, res) {
     });
 });
 
-router.get('/movie/comments/:movieId', function (req, res) {
+router.get('/comments/:movieId', function (req, res) {
     moviesCtrl.getMovieComments(req.params.sortKey.toString(), function (err, comments) {
         if (err) {
             res.status(500).json(err);
@@ -24,7 +24,7 @@ router.get('/movie/comments/:movieId', function (req, res) {
     });
 });
 
-router.get('/movie/:movieId', function (req, res) {
+router.get('/:movieId', function (req, res) {
     moviesCtrl.getMovieById(req.params.movieId.toString(), function (err, movie) {
         if (err) {
             res.status(500).json(err);
@@ -34,8 +34,11 @@ router.get('/movie/:movieId', function (req, res) {
     });
 });
 
-router.get('/movie/getMoviesByGenre/:sortKey', function (req, res) {
-    moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(), function (err, movies) {
+/**
+ * get the Genres array in the body
+ */
+router.post('/filterMoviesByGenre', function (req, res) {
+    moviesCtrl.filterMoviesByGenres(req.body, function (err, movies) {
         if (err) {
             res.status(500).json(err);
         } else {

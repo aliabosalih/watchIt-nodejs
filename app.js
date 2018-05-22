@@ -8,11 +8,6 @@ const express = require('express') ,
     movieRoute = require('./routes/movie') ;
 
 
-
-
-
-
-
 app.use(morgan('combined'));
 app.use(compression());
 app.use(bodyParser.json({defer: true, limit: '50mb'}));
