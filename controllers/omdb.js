@@ -25,11 +25,13 @@ exports.omdbGetMovieByName = function(name , done) {
         	if (response.Error)
         	{
         		console.log('error getting movie from ombd' , response.Error);
-        		done(null , response.Error);
+        		done(response.Error , null);
         	}
         	else
         	{
-        		done()
+        		let movie = getMoviewSchemaFromOmdbJson(response);
+
+        		done(null , movie);
         	}
         });
 
@@ -38,7 +40,7 @@ exports.omdbGetMovieByName = function(name , done) {
 	req.on('error' , function(err){
 
 		console.log('error getting movie from omdb' , err);
-		done(null , err);
+		done(err , null);
 
 	});
 	
