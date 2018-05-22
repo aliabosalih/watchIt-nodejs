@@ -55,7 +55,8 @@ let reviewSchema = new Schema({
     "rate": Number
 });
 
-let reviewSchema = mongoose.model('reviewSchema', reviewSchema);
+let reviewSchemaa = mongoose.model('reviewSchema', reviewSchema);
+
 let mongodb = mongoose.createConnection(db, db_options);
 
 

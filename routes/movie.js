@@ -50,7 +50,7 @@ router.post('/filterMoviesByGenre', function (req, res) {
 
 router.get('/searchByName/:name' , function(req , res){
 
-    omdbCtrl.getMovieByName(req.params.name , function(err , movies){
+    omdbCtrl.omdbGetMovieByName(req.params.name , function(err , movie){
 
         if(err)
         {
@@ -58,7 +58,7 @@ router.get('/searchByName/:name' , function(req , res){
         }
         else
         {
-            res.status(200).json(movies);
+            res.status(200).json(movie);
         }
 
     });
