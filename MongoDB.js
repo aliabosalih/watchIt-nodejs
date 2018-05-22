@@ -50,7 +50,8 @@ let reviewSchema = new Schema({
         "name": String,
         "age": Number,
         "facebookId": String,
-        "image": String
+        "image": String,
+        "userId": Schema.ObjectId
     },
     "rate": Number
 });
