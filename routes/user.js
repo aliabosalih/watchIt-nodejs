@@ -6,10 +6,12 @@ const express = require('express'),
 router.post('/signIn', function (req, res) {
     console.log('the request ', req.body);
     userCtrler.getUserByFacebookId(req.body.facebookId, function (err, user) {
-        if (err) {
+        if (err) 
+        {
             res.status(500).json(err);
         }
-        else {
+        else 
+        {
             if (user) // user already exists
             {
                 res.status(200).json(user);
