@@ -1,6 +1,6 @@
 let mongoDB = require('../MongoDB'),
     movieSchema = mongoDB.mongodb.model('movieSchema'),
-    reviewSchema = mongoDB.mongodb.model('reviewSchema'),
+    commentSchema = mongoDB.mongodb.model('commentSchema'),
     userMovieRelSchema = mongoDB.mongodb.model('userMovieRelation');
 
 
@@ -26,7 +26,7 @@ exports.getMoviesByRatings = function (key, done) {
 };
 
 exports.getMovieComments = function (movieId, done) {
-    reviewSchema.find({"movieId":movieId}).exec(function (err,comments) {
+    commentSchema.find({"movieId":movieId}).exec(function (err,comments) {
         if(err){
             done(err);
         }else {
@@ -59,6 +59,7 @@ exports.filterMoviesByGenres = function (genreArr, done) {
         }
     });
 };
+
 
 
 
