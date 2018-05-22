@@ -71,19 +71,39 @@ router.post('/add', function (req, res) {
 
 
 router.get('/searchByName/:name' , function(req , res){
+    moviesCtrl.getMovieByName(req.params.name , function(err , movies){
 
-    omdbCtrl.omdbGetMovieByName(req.params.name , function(err , movie){
+            if (err)
+            {
+                res.status(500).json(err);
+            }
+            else
+            {
+                if (movies.length > 0)
+                {
+                    res.status(200).json(movies);
+                }
+                else // doesn't xist in out db
+                {
+                    console.log("moview not found in mongo db");
+                    omdbCtrl.omdbGetMovieByName(req.params.name , function(err1 , movie1){
 
-        if(err)
-        {
-            res.status(500).json(err);
-        }
-        else
-        {
-            res.status(200).json(movie);
-        }
+                        if(err1)
+                        {
+                            res.status(500).json(err1);
+                        }
+                        else
+                        {
+                            res.status(200).json([movie1]);
+                        }
+
+                    });
+                }
+            }
 
     });
+
+    
 
 });
 

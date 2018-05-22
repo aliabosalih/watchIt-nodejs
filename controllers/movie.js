@@ -1,6 +1,6 @@
 let mongoDB = require('../MongoDB'),
     movieSchema = mongoDB.mongodb.model('movieSchema'),
-    commentSchema = mongoDB.mongodb.model('commentSchema'),
+    reviewSchema = mongoDB.mongodb.model('reviewSchema'),
     userMovieRelSchema = mongoDB.mongodb.model('userMovieRelation');
 
 
@@ -16,11 +16,11 @@ exports.getMovieById = function(id,done){
 
 exports.getMovieByName = function(name,done){
     let st = ".*" + name.toString() + ".*";
-    movieSchema.findOne({"name": {$regex : st}}).lean().exec(function (err, movie) {
+    movieSchema.find({"name": {$regex : st}}).lean().exec(function (err, movies) {
         if (err) {
             done(err);
         } else {
-            done(null, movie);
+            done(null, movies);
         }
     });
 };
@@ -37,11 +37,11 @@ exports.getMoviesByRatings = function (key, done) {
 };
 
 exports.getMovieReviews = function (movieId, done) {
-    reviewSchema.find({"movieId":movieId}).exec(function (err,comments) {
+    reviewSchema.find({"movieId":movieId}).exec(function (err,reviews) {
         if(err){
             done(err);
         }else {
-            done(null, comments);
+            done(null, reviews);
         }
     });
 };

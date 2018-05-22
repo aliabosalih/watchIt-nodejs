@@ -30,7 +30,6 @@ exports.omdbGetMovieByName = function(name , done) {
         	else
         	{
         		let movie = getMoviewSchemaFromOmdbJson(response);
-
         		done(null , movie);
         	}
         });
