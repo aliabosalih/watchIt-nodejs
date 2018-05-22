@@ -14,12 +14,12 @@ router.get('/getMoviesByRate/:sortKey', function (req, res) {
     });
 });
 
-router.get('/comments/:movieId', function (req, res) {
-    moviesCtrl.getMovieComments(req.params.sortKey.toString(), function (err, comments) {
+router.get('/reviews/:movieId', function (req, res) {
+    moviesCtrl.getMovieReviews(req.params.sortKey.toString(), function (err, reviews) {
         if (err) {
             res.status(500).json(err);
         } else {
-            res.status(200).json(comments);
+            res.status(200).json(reviews);
         }
     });
 });
