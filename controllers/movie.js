@@ -14,6 +14,17 @@ exports.getMovieById = function(id,done){
     });
 };
 
+exports.getMovieByName = function(name,done){
+    let st = ".*" + name.toString() + ".*";
+    movieSchema.findOne({"name": {$regex : st}}).lean().exec(function (err, movie) {
+        if (err) {
+            done(err);
+        } else {
+            done(null, movie);
+        }
+    });
+};
+
 exports.getMoviesByRatings = function (key, done) {
     movieSchema.find({}).sort({key: -1}).lean().exec(function (err, sortedMovies) {
         if (err) {
@@ -25,8 +36,8 @@ exports.getMoviesByRatings = function (key, done) {
 
 };
 
-exports.getMovieComments = function (movieId, done) {
-    commentSchema.find({"movieId":movieId}).exec(function (err,comments) {
+exports.getMovieReviews = function (movieId, done) {
+    reviewSchema.find({"movieId":movieId}).exec(function (err,comments) {
         if(err){
             done(err);
         }else {
