@@ -1,7 +1,8 @@
 const express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    moviesCtrl = require('../controllers/movie') , 
+    omdbCtrl = require('../controllers/omdb');
 
-let moviesCtrl = require('../controllers/movie');
 
 router.get('/getMoviesByRate/:sortKey', function (req, res) {
     moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(), function (err, movies) {
@@ -46,7 +47,6 @@ router.post('/filterMoviesByGenre', function (req, res) {
     });
 });
 
-
 /**
  * get the Genres array in the body
  */
@@ -61,5 +61,73 @@ router.post('/add', function (req, res) {
 });
 
 
+router.get('/searchByName/:name' , function(req , res){
+
+    omdbCtrl.getMovieByName(req.params.name , function(err , movies){
+
+        if(err)
+        {
+            res.status(500).json(err);
+        }
+        else
+        {
+            res.status(200).json(movies);
+        }
+
+    });
+
+});
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

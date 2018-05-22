@@ -23,12 +23,12 @@ let movieSchema = new Schema({
     "runTime": String,
     "image": String,
     "language": String,
-    "Genre": String,
-    "Released": String,
+    "genre": String,
+    "released": String,
     "imdbRatings": String,
     "watchitRatings": String,
-    "Writer": String,
-    "Awards": String
+    "writer": String,
+    "awards": String
 });
 let movies = mongoose.model('movieSchema', movieSchema);
 
