@@ -34,6 +34,15 @@ router.get('/:movieId', function (req, res) {
     });
 });
 
+router.get('/:movieName', function (req, res) {
+    moviesCtrl.getMovieByName(req.params.movieId.toString(), function (err, movie) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json(movie);
+        }
+    });
+});
 /**
  * get the Genres array in the body
  */
