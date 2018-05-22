@@ -11,6 +11,9 @@
   "dependencies": {
     "express": "^4.16.3",
     "mongodb": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "body-parser": "*",
+    "morgan": "*",
+    "compression": "*"
   }
 }
