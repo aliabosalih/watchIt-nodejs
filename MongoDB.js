@@ -51,7 +51,8 @@ let commentSchema = new Schema({
         "age": Number,
         "facebookId": String,
         "image": String
-    }
+    },
+    "rate": Number
 });
 
 let commentsSchema = mongoose.model('commentSchema', commentSchema);
