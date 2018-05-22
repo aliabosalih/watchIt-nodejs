@@ -1,3 +1,4 @@
+
 var express = require('express');
 var app = express();
 
@@ -25,6 +26,8 @@ users.find({"name":"ali"},function(err,up){
 console.log(err,up);
 
 });
+
+
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });
