@@ -6,12 +6,10 @@ const express = require('express'),
 router.post('/signIn', function (req, res) {
     console.log('the request ', req.body);
     userCtrler.getUserByFacebookId(req.body.facebookId, function (err, user) {
-        if (err) 
-        {
+        if (err) {
             res.status(500).json(err);
         }
-        else 
-        {
+        else {
             if (user) // user already exists
             {
                 res.status(200).json(user);
@@ -36,15 +34,14 @@ router.post('/signIn', function (req, res) {
 });
 
 router.get('/user/:userId', function (req, res) {
-    userCtrler.getUserById(req.params.userId.toString(),function (err,user) {
-        if(err){
+    userCtrler.getUserById(req.params.userId.toString(), function (err, user) {
+        if (err) {
             res.status(500).json(err);
-        }else{
+        } else {
             res.status(200).json(user);
         }
     });
 });
-
 
 
 module.exports = router;
