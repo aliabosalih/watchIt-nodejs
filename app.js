@@ -1,33 +1,32 @@
-var express = require('express');
-var app = express();
+
+const express = require('express') , 
+    app = express(),
+    compression = require('compression'),
+    morgan = require('morgan'),
+    bodyParser = require('body-parser'),
+    usersRoute = require('./routes/user'); 
+    movieRoute = require('./routes/movie') ;
 
 
-let mongoose = require('mongoose');
-let db = "mongodb://ds231460.mlab.com:31460/watchit-db"
-let db_options = {
-	  "user": "watchit",
-          "pass" : "!Q@W#E$R%T6y",
-	  "ssl": false
-	};
-var Schema = mongoose.Schema;
+app.use(morgan('combined'));
+app.use(compression());
+app.use(bodyParser.json({defer: true, limit: '50mb'}));
+
+app.use('/users' , usersRoute);
+app.use('/movies' , movieRoute);
 
 
+app.listen(8081 , function(){
 
-
-
-let  userSchema = new Schema({"name": String});
-let user = mongoose.model('users', userSchema);
-
-
-let mongodb = mongoose.createConnection(db,db_options);
-let users = mongodb.model('users');
-users.find({"name":"ali"},function(err,up){
-console.log(err,up);
+    console.log("sucess");
 
 });
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
-});
+
+
+
+
+
+
+
+
+
