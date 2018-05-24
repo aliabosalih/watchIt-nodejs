@@ -10,7 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
-  "mongodb": "*",
-    "mongoose": "*"
+    "mongodb": "*",
+    "mongoose": "*",
+    "body-parser": "*",
+    "morgan": "*",
+    "compression": "*",
+    "omdb": "*",
+    "https": "*",
+    "http": "*"
   }
 }
