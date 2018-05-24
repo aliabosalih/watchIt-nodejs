@@ -17,6 +17,7 @@
     "compression": "*",
     "omdb": "*",
     "https": "*",
-    "http": "*"
+    "http": "*",
+    "movie-trailer" : "*"
   }
 }
