@@ -26,11 +26,11 @@ const createUser = (user, done) => {
     a.image = "https://www.telegraph.co.uk/content/dam/science/2017/10/22/TELEMMGLPICT000144108354_trans_NvBQzQNjv4BqZqbNnzMENeQWOPqPMX-4IhRy7TN-7bbEnHI_PZtKCtQ.jpeg?imwidth=450";
     a.save(function (err, user) {
         if (err) {
-            done(err, null);
             console.log("create user error ", err);
+            done(err, null);
         } else {
-            done(null, user);
             console.log("created user!", user);
+            done(null, user);
         }
     });
 }
