@@ -15,6 +15,8 @@ app.use(bodyParser.json({defer: true, limit: '50mb'}));
 app.use('/users' , usersRoute);
 app.use('/movies' , movieRoute);
 
+let port = process.env.PORT;
+console.log("............",port);
 
 app.listen(8081 , function(){
 
