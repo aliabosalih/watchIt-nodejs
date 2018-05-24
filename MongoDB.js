@@ -30,7 +30,9 @@ let movieSchema = new Schema({
     "writer": String,
     "awards": String,
     "actors": String,
-    "ratersCounter": Number
+    "ratersCounter": Number,
+    "ratersSum" : Number,
+    "rateAvg" : Number
 });
 let movies = mongoose.model('movieSchema', movieSchema);
 

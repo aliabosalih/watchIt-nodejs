@@ -17,7 +17,7 @@ let reviewsCtrl = require('../controllers/review');
     "rate": Number
     }
  */
-router.post('', function (req, res) {
+router.post('/add', function (req, res) {
     console.log("add Review",req.body);
     reviewsCtrl.addReview(req.body,function (err, review) {
         if (err) {
@@ -27,4 +27,7 @@ router.post('', function (req, res) {
         }
     });
 
-})
+});
+
+
+module.exports = router;

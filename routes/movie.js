@@ -1,5 +1,5 @@
 const express = require('express'),
-    router = express.Router(),
+        router = express.Router(),
     moviesCtrl = require('../controllers/movie'),
     omdbCtrl = require('../controllers/omdb');
 
@@ -102,55 +102,3 @@ router.get('/searchByName/:name', function (req, res) {
 });
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

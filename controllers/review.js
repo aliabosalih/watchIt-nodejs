@@ -14,7 +14,7 @@ const setValues = function (movie, data) {
     movie.released = data.Released;
     movie.imdbRatings = data.imdbRating;
     movie.watchitRatings = data.rate;
-    movie.ratersCounter = 0;
+    movie.ratersCounter = 1;
     movie.writer = data.Writer;
     movie.actors = data.Actors
     movie.awards = data.Awards;
@@ -54,7 +54,9 @@ exports.addReview = function (data, done) {
     review.rate = data.rate;
     if (!data.movieId) {
         let movie = new movieSchema;
-        setValues(movie, data);
+        setValues(movie, data.movie);
+        movie.ratersSum = data.rate;
+        movie.rateAvg = data.rate;
         movie.save(function (err, movie) {
             if (err) {
                 done(err);
@@ -64,6 +66,15 @@ exports.addReview = function (data, done) {
             }
         });
     } else {
-        getUserAndUpdateReview(data,review,done);
+        movieSchema.findOne({_id:data.movieId}).exec(function (err,mov) {
+            let newAvg = (mov.ratersSum + data.rate )/ (mov.ratersCounter+1);
+            movieSchema.findOneAndUpdate({_id:data.movieId},{$inc:{ratersCounter:1,ratersSum:data.rate},$set:{"rateAvg":newAvg}}).exec(function(err,movie){
+                if(err){
+                    done(err);
+                }else{
+                    getUserAndUpdateReview(data,review,done);
+                }
+            });
+        });
     }
 };
