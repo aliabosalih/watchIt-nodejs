@@ -24,7 +24,7 @@ let movieSchema = new Schema({
     "image": String,
     "language": String,
     "genre": String,
-    "released": String,
+    "Year": Number,
     "imdbRatings": String,
     "watchitRatings": String,
     "writer": String,
@@ -32,7 +32,8 @@ let movieSchema = new Schema({
     "actors": String,
     "ratersCounter": Number,
     "ratersSum" : Number,
-    "rateAvg" : Number
+    "rateAvg" : Number,
+    "trailer":String
 });
 let movies = mongoose.model('movieSchema', movieSchema);
 

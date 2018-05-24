@@ -3,22 +3,34 @@ let mongoDB = require('../MongoDB'),
     reviewSchema = mongoDB.mongodb.model('reviewSchema'),
     userMovieRelSchema = mongoDB.mongodb.model('userMovieRelation');
 let userCtrl = require('./user');
+let movieTrailer = require('movie-trailer');
 
 const setValues = function (movie, data) {
     movie.name = data.Title;
-    movie.description = data.Plot;
-    movie.runTime = data.Runtime;
-    movie.image = data.Poster;
-    movie.language = data.Language;
-    movie.genre = data.Genre;
-    movie.released = data.Released;
-    movie.imdbRatings = data.imdbRating;
-    movie.watchitRatings = data.rate;
-    movie.ratersCounter = 1;
-    movie.writer = data.Writer;
-    movie.actors = data.Actors
-    movie.awards = data.Awards;
-    return movie;
+    movie.Year = Number(data.Year);
+    movieTrailer( movie.name, Number(data.Year),function(err,trailer){
+        if(err){
+            movie.trailer = "";
+        }else{
+            movie.trailer = trailer;
+
+        }
+        // console.log(err,trailer)
+        movie.description = data.Plot;
+        movie.runTime = data.Runtime;
+        movie.image = data.Poster;
+        movie.language = data.Language;
+        movie.genre = data.Genre;
+        movie.imdbRatings = data.imdbRating;
+        movie.watchitRatings = data.rate;
+        movie.ratersCounter = 1;
+        movie.writer = data.Writer;
+        movie.actors = data.Actors
+        movie.awards = data.Awards;
+        return movie;
+
+    });
+
 };
 
 const getUserAndUpdateReview= function(data,review,done){
