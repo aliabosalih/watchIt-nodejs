@@ -4,8 +4,8 @@ const express = require('express'),
     omdbCtrl = require('../controllers/omdb');
 
 
-router.get('/getMoviesByRate/:sortKey', function (req, res) {
-    moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(), function (err, movies) {
+router.get('/getMoviesByRate/:sortKey/:skip', function (req, res) {
+    moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(),req.params.skip, function (err, movies) {
         if (err) {
             res.status(500).json(err);
         } else {
