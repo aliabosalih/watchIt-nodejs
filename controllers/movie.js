@@ -25,8 +25,8 @@ exports.getMovieByName = function (name, done) {
     });
 };
 
-exports.getMoviesByRatings = function (key, done) {
-    movieSchema.find({}).sort({key: -1}).lean().exec(function (err, sortedMovies) {
+exports.getMoviesByRatings = function (key,skip, done) {
+    movieSchema.find({}).sort({key: -1}).skip(skip).limit(10).lean().exec(function (err, sortedMovies) {
         if (err) {
             done(err);
         } else {
