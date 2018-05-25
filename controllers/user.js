@@ -1,5 +1,8 @@
 let mongoDB = require('../MongoDB'),
-    userSchema = mongoDB.mongodb.model('userSchema');
+    userSchema = mongoDB.mongodb.model('userSchema'),
+    movieSchema = mongoDB.mongodb.model('movieSchema'),
+    reviewSchema = mongoDB.mongodb.model('reviewSchema');
+
 
 const getUserByFacebookId = (id, done) => {
 
@@ -16,13 +19,19 @@ const getUserByFacebookId = (id, done) => {
         }
     });
 };
-const updateUser = (data,done) => {
-    userSchema.findOneAndUpdate({"_id" : data._id},{$set :{"genres":data.genres,"name":data.name,"image":data.image}},{new:true}).exec(function (err, user) {
+const updateUser = (data, done) => {
+    userSchema.findOneAndUpdate({"_id": data._id}, {
+        $set: {
+            "genres": data.genres,
+            "name": data.name,
+            "image": data.image
+        }
+    }, {new: true}).exec(function (err, user) {
         if (err) {
-            if(!user){
+            if (!user) {
                 console.log("user doesn't exist", err);
                 done("User Not Exists");
-            }else{
+            } else {
                 console.log("update user error ", err);
                 done(err, null);
             }
@@ -33,6 +42,29 @@ const updateUser = (data,done) => {
     });
 };
 exports.updateUser = updateUser;
+
+const getReviewdMovies = (id, done) => {
+    reviewSchema.find({userId: id}).select({movieId:1}).lean().exec(function (err, reviews) {
+        if (err) {
+            done(err)
+        } else {
+            if (reviews.length == 0) {
+                done("no reviewed movies yet!");
+            } else {
+                movieSchema.find({_id:{$in:reviews}}).lean().exec(function (err,movies) {
+                   if(err){
+                       console.log("err in 56",err);
+                       done(err);
+                   } else{
+                       done(null,movies);
+                   }
+                });
+            }
+        }
+    });
+};
+
+exports.getReviewdMovies = getReviewdMovies;
 
 const createUser = (user, done) => {
     let a = new userSchema();
