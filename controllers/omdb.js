@@ -1,18 +1,22 @@
 
-const ombdKey = "fd5204d0"
-const omdpApi =  "http://www.omdbapi.com"
+const ombdKey = "874267eaf5a939d84558ff2a721bbe64"
+const omdpApi =  "https://api.themoviedb.org/3/"
+const imgUrl = "https://image.tmdb.org/t/p/w500"
 
 let mongoDB = require('../MongoDB'),
-	http = require('http'),
+	https = require('https'),
     movieSchema = mongoDB.mongodb.model('movieSchema');
+
+
+    // https://api.themoviedb.org/3/search/movie?query=batman&api_key=874267eaf5a939d84558ff2a721bbe64
 
 
 
 exports.omdbGetMovieByName = function(name , done) {
 
-	let url = omdpApi + "/?apikey=" + ombdKey + "&t=" + name.toString();
+	let url = omdpApi + "search/movie?query=" + name.toString() + "&api_key=" + ombdKey;
 
-	let req = http.get(url , function(res) {
+	let req = https.get(url , function(res) {
 
         let body = '';
 		res.on('data' , function(chunk) {
@@ -29,8 +33,9 @@ exports.omdbGetMovieByName = function(name , done) {
         	}
         	else
         	{
-        		let movie = getMoviewSchemaFromOmdbJson(response);
-        		done(null , movie);
+
+        		let movies = getMoviesSchemaFromOmdbJson(response);
+        		done(null , movies);
         	}
         });
 
@@ -46,22 +51,36 @@ exports.omdbGetMovieByName = function(name , done) {
 };
 
 
-let getMoviewSchemaFromOmdbJson = function(json) {
+let getMoviesSchemaFromOmdbJson = function(json) 
+{
 
-	    let movie = new movieSchema();
-	    movie.name = json.Title;
-	    movie.description = json.Plot;
-	    movie.runTime = json.Runtime;
-	    movie.image = json.Poster;
-	    movie.language = json.Language;
-	    movie.genre = json.Genre;
-	    movie.released = json.Released;
-	    movie.imdbRatings = json.imdbRating;
-	    movie.watchitRatings = 0;
-	    movie.writer = json.Writer;
-	    movie.awards = json.Awards;
+			var retArr = []
+			let arr = json.results
 
-	    return movie;
+			arr.forEach(function(value){
+
+				console.log("value is : " , value);
+				let movie = new movieSchema();
+
+			    movie.name = value.title;
+			    movie.description = value.overview;
+			    // movie.runTime = json.Runtime;
+			    movie.image =  imgUrl + value.poster_path;
+			    movie.language = value.original_language;
+			    // movie.genre = json.Genre;
+			    movie.released = value.release_date;
+			    // movie.imdbRatings = json.imdbRating;
+			    movie.watchitRatings = 0;
+			    // movie.writer = json.Writer;
+			    // movie.awards = json.Awards;
+
+			    retArr.push(movie);
+
+			});
+
+
+		return retArr
+	    
 };
 
 

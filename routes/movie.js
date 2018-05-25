@@ -4,6 +4,7 @@ const express = require('express'),
     omdbCtrl = require('../controllers/omdb');
 
 
+
 router.get('/getMoviesByRate/:sortKey/:skip', function (req, res) {
     moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(),req.params.skip, function (err, movies) {
         if (err) {
@@ -83,13 +84,13 @@ router.get('/searchByName/:name', function (req, res) {
             else // doesn't xist in out db
             {
                 console.log("moview not found in mongo db");
-                omdbCtrl.omdbGetMovieByName(req.params.name, function (err1, movie1) {
+                omdbCtrl.omdbGetMovieByName(req.params.name, function (err1, movies1) {
 
                     if (err1) {
                         res.status(500).json(err1);
                     }
                     else {
-                        res.status(200).json([movie1]);
+                        res.status(200).json(movies1);
                     }
 
                 });
