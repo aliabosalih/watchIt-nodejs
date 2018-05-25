@@ -4,39 +4,7 @@ let mongoDB = require('../MongoDB'),
     userMovieRelSchema = mongoDB.mongodb.model('userMovieRelation');
 let userCtrl = require('./user');
 let movieTrailer = require('movie-trailer');
-
-const setValues = function (movie, data,data1) {
-    movie.name = data.Title;
-    movie.Year = Number(data.Year);
-    movie.ratersSum = data1.rate;
-    movie.rateAvg = data1.rate;
-
-    movieTrailer( movie.name, Number(data.Year),function(err,trailer){
-        console.log(err,trailer)
-        if(err){
-            movie.trailer = "";
-        }else{
-            movie.trailer = trailer;
-
-        }
-        console.log("trailer",trailer);
-        // console.log(err,trailer)
-        movie.description = data.Plot;
-        movie.runTime = data.Runtime;
-        movie.image = data.Poster;
-        movie.language = data.Language;
-        movie.genre = data.Genre;
-        movie.imdbRatings = data.imdbRating;
-        movie.watchitRatings = data.rate;
-        movie.ratersCounter = 1;
-        movie.writer = data.Writer;
-        movie.actors = data.Actors
-        movie.awards = data.Awards;
-        console.log(".................>",movie)
-        return movie;
-    });
-
-};
+let omdb = require('./omdb');
 
 const getUserAndUpdateReview= function(data,review,done){
     userCtrl.getUserById(data.userId, function (err, user) {
@@ -71,33 +39,22 @@ exports.addReview = function (data, done) {
     review.rate = data.rate;
 
     if (!data.movieId) {
-        let movie = new movieSchema;
-        movie.name = data.movie.Title;
-        movie.Year = Number(data.movie.Year);
-        movie.ratersSum = data.rate;
-        movie.rateAvg = data.rate;
+        // let movie = new movieSchema;
+        let mv = {"results": [data.movie]}
+        let movie = omdb.getMoviesSchemaFromOmdbJson(mv);
+        console.log("................movie",movie);
 
-        movieTrailer( movie.name, Number(data.movie.Year),function(err,trailer) {
+        let year = movie[0].released.split(" ")[0];
+        movieTrailer( movie[0].name,Number(year),function(err,trailer) {
             console.log(err, trailer)
             if (err) {
-                movie.trailer = "";
+                movie[0].trailer = "";
             } else {
-                movie.trailer = trailer;
+                movie[0].trailer = trailer;
             }
             console.log("trailer", trailer);
-            movie.description = data.movie.Plot;
-            movie.runTime = data.movie.Runtime;
-            movie.image = data.movie.Poster;
-            movie.language = data.movie.Language;
-            movie.genre = data.movie.Genre;
-            movie.imdbRatings = data.movie.imdbRating;
-            movie.watchitRatings = data.movie.rate;
-            movie.ratersCounter = 1;
-            movie.writer = data.movie.Writer;
-            movie.actors = data.movie.Actors
-            movie.awards = data.movie.Awards;
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>", movie, "<<<<<<<<<<<<<<<<<<<<<<<<<,")
-            movie.save(function (err, movie) {
+            movie[0].save(function (err, movie) {
                 if (err) {
                     done(err);
                 } else {
