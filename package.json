@@ -19,5 +19,6 @@
     "https": "*",
     "http": "*",
     "movie-trailer": "*",
+    "hashmap": "*"
   }
 }
