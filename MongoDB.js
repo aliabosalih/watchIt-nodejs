@@ -13,7 +13,8 @@ var Schema = mongoose.Schema;
 let userSchema = new Schema({"name": String,
     "age": Number,
     "facebookId": String,
-    "image": String});
+    "image": String,
+    "genres":[String]});
 let user = mongoose.model('userSchema', userSchema);
 
 

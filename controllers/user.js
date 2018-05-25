@@ -23,7 +23,9 @@ const createUser = (user, done) => {
     a.name = user.name;
     a.age = user.age;
     a.facebookId = user.facebookId;
-    a.image = "https://www.telegraph.co.uk/content/dam/science/2017/10/22/TELEMMGLPICT000144108354_trans_NvBQzQNjv4BqZqbNnzMENeQWOPqPMX-4IhRy7TN-7bbEnHI_PZtKCtQ.jpeg?imwidth=450";
+    a.image = user.image;
+    a.genres = [];
+    //"https://www.telegraph.co.uk/content/dam/science/2017/10/22/TELEMMGLPICT000144108354_trans_NvBQzQNjv4BqZqbNnzMENeQWOPqPMX-4IhRy7TN-7bbEnHI_PZtKCtQ.jpeg?imwidth=450";
     a.save(function (err, user) {
         if (err) {
             console.log("create user error ", err);
