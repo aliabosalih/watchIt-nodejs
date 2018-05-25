@@ -6,6 +6,7 @@ const express = require('express'),
 
 
 router.get('/getMoviesByRate/:sortKey/:skip', function (req, res) {
+    console.log("..........",req.params.skip,Number(req.params.skip))
     moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(),req.params.skip, function (err, movies) {
         if (err) {
             res.status(500).json(err);
