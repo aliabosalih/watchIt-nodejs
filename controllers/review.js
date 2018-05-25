@@ -6,7 +6,7 @@ let userCtrl = require('./user');
 let movieTrailer = require('movie-trailer');
 let omdb = require('./omdb');
 
-const getUserAndUpdateReview= function(data,review,done){
+const getUserAndUpdateReview = function (data, review, done) {
     userCtrl.getUserById(data.userId, function (err, user) {
         if (err) {
             done(err);
@@ -42,18 +42,15 @@ exports.addReview = function (data, done) {
         // let movie = new movieSchema;
         let mv = {"results": [data.movie]}
         let movie = omdb.getMoviesSchemaFromOmdbJson(mv);
-        console.log("................movie",movie);
-
         let year = movie[0].released.split(" ")[0];
-        movieTrailer( movie[0].name,Number(year),function(err,trailer) {
+        console.log("yeaaaaaar",year);
+        movieTrailer(movie[0].name, Number(year), function (err, trailer) {
             console.log(err, trailer)
             if (err) {
                 movie[0].trailer = "";
             } else {
                 movie[0].trailer = trailer;
             }
-            console.log("trailer", trailer);
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>", movie, "<<<<<<<<<<<<<<<<<<<<<<<<<,")
             movie[0].save(function (err, movie) {
                 if (err) {
                     done(err);
@@ -64,14 +61,17 @@ exports.addReview = function (data, done) {
             });
         });
     } else {
-        movieSchema.findOne({_id:data.movieId}).exec(function (err,mov) {
-            console.log("...........",mov)
-            let newAvg = (mov.ratersSum + data.rate )/ (mov.ratersCounter+1);
-            movieSchema.findOneAndUpdate({_id:data.movieId},{$inc:{ratersCounter:1,ratersSum:data.rate},$set:{"rateAvg":newAvg}}).exec(function(err,movie){
-                if(err){
+        movieSchema.findOne({_id: data.movieId}).exec(function (err, mov) {
+            console.log("...........", mov)
+            let newAvg = (mov.ratersSum + data.rate) / (mov.ratersCounter + 1);
+            movieSchema.findOneAndUpdate({_id: data.movieId}, {
+                $inc: {ratersCounter: 1, ratersSum: data.rate},
+                $set: {"watchitRatings": newAvg}
+            }).exec(function (err, movie) {
+                if (err) {
                     done(err);
-                }else{
-                    getUserAndUpdateReview(data,review,done);
+                } else {
+                    getUserAndUpdateReview(data, review, done);
                 }
             });
         });

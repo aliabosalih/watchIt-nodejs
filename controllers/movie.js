@@ -59,11 +59,12 @@ exports.getMovieOwner = function (movieId, done) {
 
 
 exports.filterMoviesByGenres = function (genreArr, done) {
-    let query = {};
-    if (genreArr.length > 0) {
-        genreArr["Genre"] = {$in: genreArr};
-    }
-    movieSchema.find(query).sort({"watchitRatings": -1}).lean().exec(function (err, filteredMovies) {
+    let genre = "Action";
+    let skip = 0 ;
+    skip = genreArr.skip;
+    genre = genreArr.genre;
+
+    movieSchema.find({"genre":genre}).sort({"watchitRatings": -1}).lean().exec(function (err, filteredMovies) {
         if (err) {
             done(err);
         } else {

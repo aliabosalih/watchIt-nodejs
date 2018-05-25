@@ -51,10 +51,34 @@ exports.omdbGetMovieByName = function(name , done) {
 };
 
 
-let getMoviesSchemaFromOmdbJson = function(json) 
+
+exports.getMoviesSchemaFromOmdbJson =function(json)
 {
 
-		var retArr = []
+    let genres =
+        {
+            "28": "Action",
+            "12": "Adventure",
+            "16": "Animation",
+            "35": "Comedy",
+            "80": "Crime",
+            "99": "Documentary",
+            "18": "Drama",
+            "10751": "Family",
+            "14": "Fantasy",
+            "36": "History",
+            "27": "Horror",
+            "10402": "Music",
+            "9648": "Mystery",
+            "10749": "Romance",
+            "878": "Science Fiction",
+            "10770": "TV Movie",
+            "53": "Thriller",
+            "10752": "War",
+            "37": "Western",
+            "0": "Action"
+        };
+    var retArr = []
 		let arr = json.results
 
 		arr.forEach(function(value){
@@ -67,7 +91,9 @@ let getMoviesSchemaFromOmdbJson = function(json)
 		    // movie.runTime = json.Runtime;
 		    movie.image =  imgUrl + value.poster_path;
 		    movie.language = value.original_language;
-		    // movie.genre = json.Genre;
+		    let genr = value.genre_ids[0].toString()
+		    movie.genre = genr ? genres.genr :genres["0"];
+		    console.log("movie.genre ",movie.genre );
 		    movie.released = value.release_date;
 		    // movie.imdbRatings = json.imdbRating;
 		    movie.watchitRatings = 0;
