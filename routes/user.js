@@ -33,8 +33,19 @@ router.post('/signIn', function (req, res) {
 
 });
 
-router.get('/user/:userId', function (req, res) {
+router.get('/:userId', function (req, res) {
     userCtrler.getUserById(req.params.userId.toString(), function (err, user) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json(user);
+        }
+    });
+});
+
+
+router.post('/update', function (req, res) {
+    userCtrler.updateUser(req.body, function (err, user) {
         if (err) {
             res.status(500).json(err);
         } else {
