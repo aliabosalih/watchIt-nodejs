@@ -5,7 +5,7 @@ const express = require('express'),
     HashMap = require('hashmap')
 
 router.get('/getMoviesByRate/:skip', function (req, res) {
-    moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(),req.params.skip, function (err, movies) {
+    moviesCtrl.getMoviesByRatings(req.params.skip, function (err, movies) {
         if (err) {
             res.status(500).json(err);
         } else {
