@@ -18,7 +18,6 @@ let reviewsCtrl = require('../controllers/review');
     }
  */
 router.post('/add', function (req, res) {
-    console.log("add Review",req.body);
     reviewsCtrl.addReview(req.body,function (err, review) {
         if (err) {
             res.status(500).json(err);
