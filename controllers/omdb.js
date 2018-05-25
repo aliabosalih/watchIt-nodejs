@@ -54,32 +54,32 @@ exports.omdbGetMovieByName = function(name , done) {
 let getMoviesSchemaFromOmdbJson = function(json) 
 {
 
-			var retArr = []
-			let arr = json.results
+		var retArr = []
+		let arr = json.results
 
-			arr.forEach(function(value){
+		arr.forEach(function(value){
 
-				console.log("value is : " , value);
-				let movie = new movieSchema();
+			console.log("value is : " , value);
+			let movie = new movieSchema();
 
-			    movie.name = value.title;
-			    movie.description = value.overview;
-			    // movie.runTime = json.Runtime;
-			    movie.image =  imgUrl + value.poster_path;
-			    movie.language = value.original_language;
-			    // movie.genre = json.Genre;
-			    movie.released = value.release_date;
-			    // movie.imdbRatings = json.imdbRating;
-			    movie.watchitRatings = 0;
-			    // movie.writer = json.Writer;
-			    // movie.awards = json.Awards;
+		    movie.name = value.title;
+		    movie.description = value.overview;
+		    // movie.runTime = json.Runtime;
+		    movie.image =  imgUrl + value.poster_path;
+		    movie.language = value.original_language;
+		    // movie.genre = json.Genre;
+		    movie.released = value.release_date;
+		    // movie.imdbRatings = json.imdbRating;
+		    movie.watchitRatings = 0;
+		    // movie.writer = json.Writer;
+		    // movie.awards = json.Awards;
 
-			    retArr.push(movie);
+		    retArr.push(movie);
 
-			});
+		});
 
 
-		return retArr
+	return retArr
 	    
 };
 
