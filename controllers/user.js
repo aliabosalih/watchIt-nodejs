@@ -16,7 +16,23 @@ const getUserByFacebookId = (id, done) => {
         }
     });
 };
-
+const updateUser = (data,done) => {
+    userSchema.findOneAndUpdate({"_id" : data._id},{$set :{"genres":data.genres,"name":data.name,"image":data.image}},{new:true}).exec(function (err, user) {
+        if (err) {
+            if(!user){
+                console.log("user doesn't exist", err);
+                done("User Not Exists");
+            }else{
+                console.log("update user error ", err);
+                done(err, null);
+            }
+        } else {
+            console.log("created user!", user);
+            done(null, user);
+        }
+    });
+};
+exports.updateUser = updateUser;
 
 const createUser = (user, done) => {
     let a = new userSchema();
