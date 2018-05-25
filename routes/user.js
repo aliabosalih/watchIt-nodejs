@@ -54,6 +54,17 @@ router.post('/update', function (req, res) {
     });
 });
 
+router.get('/reviewdMovies/:userId', function (req, res) {
+    userCtrler.getReviewdMovies(req.params.userId, function (err, movies) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json(movies);
+        }
+    });
+});
+
+
 
 module.exports = router;
 

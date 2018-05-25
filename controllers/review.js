@@ -5,16 +5,21 @@ let mongoDB = require('../MongoDB'),
 let userCtrl = require('./user');
 let movieTrailer = require('movie-trailer');
 
-const setValues = function (movie, data) {
+const setValues = function (movie, data,data1) {
     movie.name = data.Title;
     movie.Year = Number(data.Year);
+    movie.ratersSum = data1.rate;
+    movie.rateAvg = data1.rate;
+
     movieTrailer( movie.name, Number(data.Year),function(err,trailer){
+        console.log(err,trailer)
         if(err){
             movie.trailer = "";
         }else{
             movie.trailer = trailer;
 
         }
+        console.log("trailer",trailer);
         // console.log(err,trailer)
         movie.description = data.Plot;
         movie.runTime = data.Runtime;
@@ -27,8 +32,8 @@ const setValues = function (movie, data) {
         movie.writer = data.Writer;
         movie.actors = data.Actors
         movie.awards = data.Awards;
+        console.log(".................>",movie)
         return movie;
-
     });
 
 };
@@ -64,21 +69,46 @@ exports.addReview = function (data, done) {
     review.userId = data.userId;
     review.comment = data.comment;
     review.rate = data.rate;
+
     if (!data.movieId) {
         let movie = new movieSchema;
-        setValues(movie, data.movie);
+        movie.name = data.movie.Title;
+        movie.Year = Number(data.movie.Year);
         movie.ratersSum = data.rate;
         movie.rateAvg = data.rate;
-        movie.save(function (err, movie) {
+
+        movieTrailer( movie.name, Number(data.movie.Year),function(err,trailer) {
+            console.log(err, trailer)
             if (err) {
-                done(err);
+                movie.trailer = "";
             } else {
-                review.movieId = movie._id;
-                getUserAndUpdateReview(data,review,done);
+                movie.trailer = trailer;
             }
+            console.log("trailer", trailer);
+            movie.description = data.movie.Plot;
+            movie.runTime = data.movie.Runtime;
+            movie.image = data.movie.Poster;
+            movie.language = data.movie.Language;
+            movie.genre = data.movie.Genre;
+            movie.imdbRatings = data.movie.imdbRating;
+            movie.watchitRatings = data.movie.rate;
+            movie.ratersCounter = 1;
+            movie.writer = data.movie.Writer;
+            movie.actors = data.movie.Actors
+            movie.awards = data.movie.Awards;
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>", movie, "<<<<<<<<<<<<<<<<<<<<<<<<<,")
+            movie.save(function (err, movie) {
+                if (err) {
+                    done(err);
+                } else {
+                    review.movieId = movie._id;
+                    getUserAndUpdateReview(data, review, done);
+                }
+            });
         });
     } else {
         movieSchema.findOne({_id:data.movieId}).exec(function (err,mov) {
+            console.log("...........",mov)
             let newAvg = (mov.ratersSum + data.rate )/ (mov.ratersCounter+1);
             movieSchema.findOneAndUpdate({_id:data.movieId},{$inc:{ratersCounter:1,ratersSum:data.rate},$set:{"rateAvg":newAvg}}).exec(function(err,movie){
                 if(err){
