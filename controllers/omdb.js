@@ -76,7 +76,7 @@ exports.getMoviesSchemaFromOmdbJson =function(json)
             "53": "Thriller",
             "10752": "War",
             "37": "Western",
-            "0": "Action"
+            "0": "Drama"
         };
     var retArr = []
 		let arr = json.results
@@ -100,7 +100,6 @@ exports.getMoviesSchemaFromOmdbJson =function(json)
             }else {
                 if(value.genre_ids.length > 0){
                     genr = value.genre_ids[0].toString()
-
                 }
             }
 		    movie.genre = genr ? genres.genr :genres["0"];
