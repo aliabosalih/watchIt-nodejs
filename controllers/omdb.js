@@ -91,10 +91,17 @@ exports.getMoviesSchemaFromOmdbJson =function(json)
 		    // movie.runTime = json.Runtime;
 		    movie.image =  imgUrl + value.poster_path;
 		    movie.language = value.original_language;
-            let genr = value.genre_ids[0].toString()
+            console.log("genrrrr",value.genre_ids);
+            let genr;
+
             if(typeof value.genre_ids[0] == 'object'){
                 genr = value.genre_ids[0].id;
                 console.log("genrrrr",genr,value.genre_ids);
+            }else {
+                if(value.genre_ids.length > 0){
+                    genr = value.genre_ids[0].toString()
+
+                }
             }
 		    movie.genre = genr ? genres.genr :genres["0"];
 		    console.log("movie.genre ",movie.genre );
