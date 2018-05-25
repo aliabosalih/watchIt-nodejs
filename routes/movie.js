@@ -1,9 +1,8 @@
 const express = require('express'),
         router = express.Router(),
     moviesCtrl = require('../controllers/movie'),
-    omdbCtrl = require('../controllers/omdb');
-
-
+    omdbCtrl = require('../controllers/omdb'),
+    HashMap = require('hashmap')
 
 router.get('/getMoviesByRate/:sortKey/:skip', function (req, res) {
     console.log("..........",req.params.skip,Number(req.params.skip))
@@ -72,35 +71,58 @@ router.post('/add', function (req, res) {
 });
 
 
-router.get('/searchByName/:name', function (req, res) {
+router.get('/searchByNameReviewed/:name', function (req, res) {
     moviesCtrl.getMovieByName(req.params.name, function (err, movies) {
 
-        if (err) {
+        if (err) 
+        {
             res.status(500).json(err);
         }
-        else {
-            if (movies.length > 0) {
-                res.status(200).json(movies);
-            }
-            else // doesn't xist in out db
-            {
-                console.log("moview not found in mongo db");
-                omdbCtrl.omdbGetMovieByName(req.params.name, function (err1, movies1) {
+        else 
+        {
+            res.status(200).json(movies);
+        }
+    });
+});
 
-                    if (err1) {
+
+
+router.get('/searchByNameAll/:name', function (req, res) {
+    moviesCtrl.getMovieByName(req.params.name, function (err, movies) {
+
+        if (err) 
+        {
+            res.status(500).json(err);
+        }
+        else 
+        {
+            omdbCtrl.omdbGetMovieByName(req.params.name, function (err1, movies1) {
+
+                    if (err1) 
+                    {
                         res.status(500).json(err1);
                     }
-                    else {
-                        res.status(200).json(movies1);
+                    else 
+                    {
+                        var allMovies = movies.concat(movies1)
+                        var hashMap = new HashMap()
+
+                        for (let i = 0 ; i < allMovies.length ; i++)
+                        {
+                            (function(i){
+                                if(!hashMap.get(allMovies[i].name)){
+                                     hashMap.set(allMovies[i].name.toString(),allMovies[i]);
+                                }
+                            })(i)
+                            
+                        }
+
+                        res.status(200).json(hashMap.values())
                     }
 
                 });
-            }
         }
-
     });
-
-
 });
 
 module.exports = router;
