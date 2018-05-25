@@ -44,6 +44,9 @@ exports.addReview = function (data, done) {
         let movie = omdb.getMoviesSchemaFromOmdbJson(mv);
         let year = movie[0].released.split(" ")[0];
         console.log("yeaaaaaar",year);
+        movie.watchitRatings = 0;
+        movie.ratersCounter = 1;
+        movie.ratersSum = data.rate;
         movieTrailer(movie[0].name, Number(year), function (err, trailer) {
             console.log(err, trailer)
             if (err) {

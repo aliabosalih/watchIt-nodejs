@@ -26,7 +26,6 @@ let movieSchema = new Schema({
     "watchitRatings": Number,
     "ratersCounter": Number,
     "ratersSum" : Number,
-    "rateAvg" : Number,
     "trailer":String
 });
 let movies = mongoose.model('movieSchema', movieSchema);
