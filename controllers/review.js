@@ -44,9 +44,9 @@ exports.addReview = function (data, done) {
         let movie = omdb.getMoviesSchemaFromOmdbJson(mv);
         let year = movie[0].released.split(" ")[0];
         console.log("yeaaaaaar",year);
-        movie.watchitRatings = 0;
-        movie.ratersCounter = 1;
-        movie.ratersSum = data.rate;
+        movie[0].watchitRatings = data.rate;
+        movie[0].ratersCounter = 1;
+        movie[0].ratersSum = data.rate;
         movieTrailer(movie[0].name, Number(year), function (err, trailer) {
             console.log(err, trailer)
             if (err) {
@@ -54,6 +54,10 @@ exports.addReview = function (data, done) {
             } else {
                 movie[0].trailer = trailer;
             }
+
+            console.log("========================================")
+            console.log("the movie is ",movie[0])
+            console.log("========================================")
             movie[0].save(function (err, movie) {
                 if (err) {
                     done(err);
@@ -66,7 +70,7 @@ exports.addReview = function (data, done) {
     } else {
         movieSchema.findOne({_id: data.movieId}).exec(function (err, mov) {
             console.log("...........", mov)
-            let newAvg = (mov.ratersSum + data.rate) / (mov.ratersCounter + 1);
+            let newAvg = (Number(mov.ratersSum) + data.rate) / (mov.ratersCounter + 1);
             movieSchema.findOneAndUpdate({_id: data.movieId}, {
                 $inc: {ratersCounter: 1, ratersSum: data.rate},
                 $set: {"watchitRatings": newAvg}
