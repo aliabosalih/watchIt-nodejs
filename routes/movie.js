@@ -115,7 +115,7 @@ router.get('/searchByNameAll/:name', function (req, res) {
                             })(i)
                             
                         }
-
+                        console.log("search results :",hashMap.values())
                         res.status(200).json(hashMap.values())
                     }
 
