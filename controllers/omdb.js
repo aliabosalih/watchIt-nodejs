@@ -1,59 +1,14 @@
-
 const ombdKey = "874267eaf5a939d84558ff2a721bbe64"
-const omdpApi =  "https://api.themoviedb.org/3/"
+const omdpApi = "https://api.themoviedb.org/3/"
 const imgUrl = "https://image.tmdb.org/t/p/w500"
 
 let mongoDB = require('../MongoDB'),
-	https = require('https'),
+    https = require('https'),
     movieSchema = mongoDB.mongodb.model('movieSchema');
 
 
-    // https://api.themoviedb.org/3/search/movie?query=batman&api_key=874267eaf5a939d84558ff2a721bbe64
-
-
-
-exports.omdbGetMovieByName = function(name , done) {
-
-	let url = omdpApi + "search/movie?query=" + name.toString() + "&api_key=" + ombdKey;
-
-	let req = https.get(url , function(res) {
-
-        let body = '';
-		res.on('data' , function(chunk) {
-
-               body += chunk;
-               
-        }).on('end'  , function(){
-
-        	let response = JSON.parse(body);
-        	if (response.Error)
-        	{
-        		console.log('error getting movie from ombd' , response.Error);
-        		done(response.Error , null);
-        	}
-        	else
-        	{
-
-        		let movies = getMoviesSchemaFromOmdbJson(response);
-        		done(null , movies);
-        	}
-        });
-
-	});
-
-	req.on('error' , function(err){
-
-		console.log('error getting movie from omdb' , err);
-		done(err , null);
-
-	});
-	
-};
-
-
-
-exports.getMoviesSchemaFromOmdbJson =function(json)
-{
+// https://api.themoviedb.org/3/search/movie?query=batman&api_key=874267eaf5a939d84558ff2a721bbe64
+exports.getMoviesSchemaFromOmdbJson = function (json) {
 
     let genres =
         {
@@ -79,48 +34,81 @@ exports.getMoviesSchemaFromOmdbJson =function(json)
             "0": "Drama"
         };
     var retArr = []
-		let arr = json.results
+    let arr = json.results
 
-		arr.forEach(function(value){
+    arr.forEach(function (value) {
 
-			console.log("value is : " , value);
-			let movie = new movieSchema();
+        console.log("value is : ", value);
+        let movie = new movieSchema();
 
-		    movie.name = value.title;
-		    movie.description = value.overview;
-		    // movie.runTime = json.Runtime;
-		    movie.image =  imgUrl + value.poster_path;
-		    movie.language = value.original_language;
-            console.log("genrrrr",value.genre_ids);
-            let genr;
-
-            if(typeof value.genre_ids[0] == 'object'){
-                genr = value.genre_ids[0].id;
-                console.log("genrrrr",genr,value.genre_ids);
-            }else {
-                if(value.genre_ids.length > 0){
-                    genr = value.genre_ids[0].toString()
-                }
+        movie.name = value.title;
+        movie.description = value.overview;
+        // movie.runTime = json.Runtime;
+        movie.image = imgUrl + value.poster_path;
+        movie.language = value.original_language;
+        console.log("genrrrr", value.genre_ids);
+        let genr;
+        if (typeof value.genre_ids[0] == 'object') {
+            genr = value.genre_ids[0].id;
+            console.log("genrrrr", genr, value.genre_ids);
+        } else {
+            if (value.genre_ids.length > 0) {
+                genr = value.genre_ids[0].toString()
             }
-		    movie.genre = genr ? genres.genr :genres["0"];
-		    console.log("movie.genre ",movie.genre );
-		    movie.released = value.release_date;
-		    // movie.imdbRatings = json.imdbRating;
-		    movie.watchitRatings = 0;
-		    // movie.writer = json.Writer;
-		    // movie.awards = json.Awards;
+        }
+        movie.genre = genr ? genres.genr : genres["0"];
+        console.log("movie.genre ", movie.genre);
+        movie.released = value.release_date;
+        // movie.imdbRatings = json.imdbRating;
+        movie.watchitRatings = 0;
+        // movie.writer = json.Writer;
+        // movie.awards = json.Awards;
 
-		    retArr.push(movie);
+        retArr.push(movie);
 
-		});
+    });
 
 
-	return retArr
-	    
+    return retArr
+
 };
 
 
+exports.omdbGetMovieByName = function (name, done) {
 
+    let url = omdpApi + "search/movie?query=" + name.toString() + "&api_key=" + ombdKey;
+
+    let req = https.get(url, function (res) {
+
+        let body = '';
+        res.on('data', function (chunk) {
+
+            body += chunk;
+
+        }).on('end', function () {
+
+            let response = JSON.parse(body);
+            if (response.Error) {
+                console.log('error getting movie from ombd', response.Error);
+                done(response.Error, null);
+            }
+            else {
+
+                let movies = exports.getMoviesSchemaFromOmdbJson(response);
+                done(null, movies);
+            }
+        });
+
+    });
+
+    req.on('error', function (err) {
+
+        console.log('error getting movie from omdb', err);
+        done(err, null);
+
+    });
+
+};
 
 
 //         //this url is contain the app id of allmuze
@@ -128,8 +116,8 @@ exports.getMoviesSchemaFromOmdbJson =function(json)
 //         let req = https.get(url, function(res){
 //             let body = '';
 //             res.on('data', function(chunk){
-                // body += chunk;
-                // console.log("body",body);
+// body += chunk;
+// console.log("body",body);
 //             });
 //             res.on('end', function(){
 //                 let fbResponse = JSON.parse(body);
@@ -148,9 +136,6 @@ exports.getMoviesSchemaFromOmdbJson =function(json)
 //         req.end();
 //         });
 // }
-
-
-
 
 
 //?t=batman

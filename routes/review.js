@@ -27,7 +27,8 @@ router.post('/add', function (req, res) {
     });
 
 });
-let moviesCtrl = require('../controllers/movie')
+let moviesCtrl = require('../controllers/movie');
+
 router.get('/:movieId', function (req, res) {
     moviesCtrl.getMovieReviews(req.params.movieId.toString(), function (err, reviews) {
         if (err) {
