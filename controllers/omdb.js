@@ -42,17 +42,16 @@ exports.getMoviesSchemaFromOmdbJson = function (json) {
         // movie.runTime = json.Runtime;
         movie.image = imgUrl + value.poster_path;
         movie.language = value.original_language;
-        console.log("genrrrr", value.genre_ids);
         let genr;
-        if (typeof value.genre_ids[0] == 'object') {
-            genr = value.genre_ids[0].id;
-            console.log("genrrrr", genr, value.genre_ids);
-        } else {
-            if (value.genre_ids.length > 0) {
-                genr = value.genre_ids[0].toString()
-            }
-        }
-        movie.genre = genr ? genres[genr] : genres["0"];
+        // if (typeof value.genre_ids[0] == 'object') {
+        //     genr = value.genre_ids[0].id;
+        //     console.log("genrrrr", genr, value.genre_ids);
+        // } else {
+        //     if (value.genre_ids.length > 0) {
+        //         genr = value.genre_ids[0].toString()
+        //     }
+        // }
+        movie.genre = value.genre // ? genres[genr] : genres["0"];
         movie.released = value.release_date;
         // movie.imdbRatings = json.imdbRating;
         movie.watchitRatings = 0;
