@@ -47,13 +47,24 @@ router.get('/:movieName', function (req, res) {
  * get the Genres array in the body
  */
 router.get('/filterMoviesByGenre/:category/:skip', function (req, res) {
-    moviesCtrl.filterMoviesByGenres(req.params, function (err, movies) {
-        if (err) {
-            res.status(500).json(err);
-        } else {
-            res.status(200).json(movies);
-        }
-    });
+    if(req.params.category.toString() === "All"){
+        moviesCtrl.getMoviesByRatings(req.params.skip, function (err, movies) {
+            if (err) {
+                res.status(500).json(err);
+            } else {
+                res.status(200).json(movies);
+            }
+        });
+    }else {
+        moviesCtrl.filterMoviesByGenres(req.params, function (err, movies) {
+            if (err) {
+                res.status(500).json(err);
+            } else {
+                res.status(200).json(movies);
+            }
+        });
+    }
+
 });
 
 /**
