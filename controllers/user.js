@@ -91,8 +91,6 @@ const getReviewdMovies = (id, done) => {
             }
         }
     });
-    console.log("----------- reviews",reviewsArr);
-
 };
 
 exports.getReviewdMovies = getReviewdMovies;

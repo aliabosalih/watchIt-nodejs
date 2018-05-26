@@ -37,8 +37,8 @@ exports.getMoviesSchemaFromOmdbJson = function (json) {
     arr.forEach(function (value) {
         console.log("value is : ", value);
         let movie = new movieSchema();
-        movie.name = value.title;
-        movie.description = value.overview;
+        movie.name = value.name;
+        movie.description = value.description;
         // movie.runTime = json.Runtime;
         movie.image = imgUrl + value.poster_path;
         movie.language = value.original_language;
@@ -74,7 +74,6 @@ exports.getMoviesFromOmdbJson = function (json) {
         // movie.runTime = json.Runtime;
         movie.image = imgUrl + value.poster_path;
         movie.language = value.original_language;
-        console.log("genrrrr", value.genre_ids);
         let genr;
         if (typeof value.genre_ids[0] == 'object') {
             genr = value.genre_ids[0].id;
