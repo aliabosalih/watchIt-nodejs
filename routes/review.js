@@ -27,6 +27,16 @@ router.post('/add', function (req, res) {
     });
 
 });
+let moviesCtrl = require('../controllers/movie')
+router.get('/:movieId', function (req, res) {
+    moviesCtrl.getMovieReviews(req.params.movieId.toString(), function (err, reviews) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json(reviews);
+        }
+    });
+});
 
 
 module.exports = router;
