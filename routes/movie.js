@@ -46,7 +46,7 @@ router.get('/:movieName', function (req, res) {
 /**
  * get the Genres array in the body
  */
-router.post('/filterMoviesByGenre/:category/:skip', function (req, res) {
+router.get('/filterMoviesByGenre/:category/:skip', function (req, res) {
     moviesCtrl.filterMoviesByGenres(req.params, function (err, movies) {
         if (err) {
             res.status(500).json(err);
