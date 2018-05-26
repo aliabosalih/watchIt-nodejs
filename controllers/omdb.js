@@ -6,41 +6,37 @@ let mongoDB = require('../MongoDB'),
     https = require('https'),
     movieSchema = mongoDB.mongodb.model('movieSchema');
 
+let genres =
+    {
+        "28": "Action",
+        "12": "Adventure",
+        "16": "Animation",
+        "35": "Comedy",
+        "80": "Crime",
+        "99": "Documentary",
+        "18": "Drama",
+        "10751": "Family",
+        "14": "Fantasy",
+        "36": "History",
+        "27": "Horror",
+        "10402": "Music",
+        "9648": "Mystery",
+        "10749": "Romance",
+        "878": "Science Fiction",
+        "10770": "TV Movie",
+        "53": "Thriller",
+        "10752": "War",
+        "37": "Western",
+        "0": "Drama"
+    };
 
 // https://api.themoviedb.org/3/search/movie?query=batman&api_key=874267eaf5a939d84558ff2a721bbe64
 exports.getMoviesSchemaFromOmdbJson = function (json) {
-
-    let genres =
-        {
-            "28": "Action",
-            "12": "Adventure",
-            "16": "Animation",
-            "35": "Comedy",
-            "80": "Crime",
-            "99": "Documentary",
-            "18": "Drama",
-            "10751": "Family",
-            "14": "Fantasy",
-            "36": "History",
-            "27": "Horror",
-            "10402": "Music",
-            "9648": "Mystery",
-            "10749": "Romance",
-            "878": "Science Fiction",
-            "10770": "TV Movie",
-            "53": "Thriller",
-            "10752": "War",
-            "37": "Western",
-            "0": "Drama"
-        };
     var retArr = []
     let arr = json.results
-
     arr.forEach(function (value) {
-
         console.log("value is : ", value);
         let movie = new movieSchema();
-
         movie.name = value.title;
         movie.description = value.overview;
         // movie.runTime = json.Runtime;
@@ -62,16 +58,43 @@ exports.getMoviesSchemaFromOmdbJson = function (json) {
         movie.watchitRatings = 0;
         // movie.writer = json.Writer;
         // movie.awards = json.Awards;
-
         retArr.push(movie);
-
     });
-
-
     return retArr
-
 };
 
+
+exports.getMoviesFromOmdbJson = function (json) {
+    var retArr = []
+    let arr = json.results
+    arr.forEach(function (value) {
+        console.log("value is : ", value);
+        let movie = {};
+        movie.name = value.title;
+        movie.description = value.overview;
+        // movie.runTime = json.Runtime;
+        movie.image = imgUrl + value.poster_path;
+        movie.language = value.original_language;
+        console.log("genrrrr", value.genre_ids);
+        let genr;
+        if (typeof value.genre_ids[0] == 'object') {
+            genr = value.genre_ids[0].id;
+            console.log("genrrrr", genr, value.genre_ids);
+        } else {
+            if (value.genre_ids.length > 0) {
+                genr = value.genre_ids[0].toString()
+            }
+        }
+        movie.genre = genr ? genres[genr] : genres["0"];
+        movie.released = value.release_date;
+        // movie.imdbRatings = json.imdbRating;
+        movie.watchitRatings = 0;
+        // movie.writer = json.Writer;
+        // movie.awards = json.Awards;
+        retArr.push(movie);
+    });
+    return retArr
+};
 
 exports.omdbGetMovieByName = function (name, done) {
 
@@ -93,7 +116,7 @@ exports.omdbGetMovieByName = function (name, done) {
             }
             else {
 
-                let movies = exports.getMoviesSchemaFromOmdbJson(response);
+                let movies = exports.getMoviesFromOmdbJson(response);
                 done(null, movies);
             }
         });
