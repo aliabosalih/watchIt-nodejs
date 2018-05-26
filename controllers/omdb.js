@@ -56,8 +56,7 @@ exports.getMoviesSchemaFromOmdbJson = function (json) {
                 genr = value.genre_ids[0].toString()
             }
         }
-        movie.genre = genr ? genres.genr : genres["0"];
-        console.log(genr,genres.genr,genres[genr],"movie.genre ", movie.genre);
+        movie.genre = genr ? genres[genr] : genres["0"];
         movie.released = value.release_date;
         // movie.imdbRatings = json.imdbRating;
         movie.watchitRatings = 0;
