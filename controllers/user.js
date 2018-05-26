@@ -42,26 +42,57 @@ const updateUser = (data, done) => {
     });
 };
 exports.updateUser = updateUser;
+let async = require('async');
 
 const getReviewdMovies = (id, done) => {
-    reviewSchema.find({userId: id}).select({movieId:1}).lean().exec(function (err, reviews) {
+    let reviewsArr = [];
+    let asyncFuncs = [];
+    reviewSchema.find({userId: id}).lean().exec(function (err, reviews) {
         if (err) {
             done(err)
         } else {
             if (reviews.length == 0) {
                 done("no reviewed movies yet!");
             } else {
-                movieSchema.find({_id:{$in:reviews}}).lean().exec(function (err,movies) {
-                   if(err){
-                       console.log("err in 56",err);
-                       done(err);
-                   } else{
-                       done(null,movies);
-                   }
+                console.log(reviews)
+                
+                for (let i = 0 ; i < reviews.length; i++){
+                    (function(i){
+                     asyncFuncs.push(function(callback){
+                        movieSchema.findOne({_id:reviews[i].movieId}).lean().exec(function (err,movie) {
+                                if(err){
+                                    console.log(err);
+                                }
+                                let m = JSON.parse(JSON.stringify(reviews[i]))
+                               //console.log("//////",m)
+                                m["movie"]= movie;
+                                reviewsArr.push(m);
+                                return callback(null);
+                            });
+                        });
+                    })(i);
+                }
+                async.parallel(asyncFuncs,function(err,reviewss){
+                    if(err){
+                        console.log("74 ------ ",err);
+                    } else{
+                        console.log("-----" , reviewsArr)
+                            done(null,reviewsArr)
+                    }
                 });
+                // movieSchema.find({_id:{$in:reviews}}).lean().exec(function (err,movies) {
+                //    if(err){
+                //        console.log("err in 56",err);
+                //        done(err);
+                //    } else{
+                //        done(null,movies);
+                //    }
+                // });
             }
         }
     });
+    console.log("----------- reviews",reviewsArr);
+
 };
 
 exports.getReviewdMovies = getReviewdMovies;

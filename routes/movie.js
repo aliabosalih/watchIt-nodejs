@@ -2,10 +2,11 @@ const express = require('express'),
         router = express.Router(),
     moviesCtrl = require('../controllers/movie'),
     omdbCtrl = require('../controllers/omdb'),
-    HashMap = require('hashmap')
+    HashMap = require('hashmap').HashMap;
 
-router.get('/getMoviesByRate/:skip', function (req, res) {
-    moviesCtrl.getMoviesByRatings(req.params.skip, function (err, movies) {
+router.get('/getMoviesByRate/:sortKey/:skip', function (req, res) {
+    console.log("..........",req.params.skip,Number(req.params.skip))
+    moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(),req.params.skip, function (err, movies) {
         if (err) {
             res.status(500).json(err);
         } else {
@@ -46,8 +47,8 @@ router.get('/:movieName', function (req, res) {
 /**
  * get the Genres array in the body
  */
-router.get('/filterMoviesByGenre/:genre/:skip', function (req, res) {
-    moviesCtrl.filterMoviesByGenres(req.params, function (err, movies) {
+router.post('/filterMoviesByGenre', function (req, res) {
+    moviesCtrl.filterMoviesByGenres(req.body, function (err, movies) {
         if (err) {
             res.status(500).json(err);
         } else {
