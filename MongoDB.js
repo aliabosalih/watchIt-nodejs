@@ -23,7 +23,7 @@ let movieSchema = new Schema({
     "image": String,
     "language": String,
     "genre": String,
-    "watchitRatings": Number,
+    "watchItRatings": Number,
     "ratersCounter": Number,
     "ratersSum" : Number,
     "trailer":String

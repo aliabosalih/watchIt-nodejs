@@ -29,7 +29,7 @@ exports.getMovieByName = function (name, done) {
 };
 
 exports.getMoviesByRatings = function (skip, done) {
-    movieSchema.find({}).sort({"watchitRatings": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
+    movieSchema.find({}).sort({"watchItRatings": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
         if (err) {
             done(err);
         } else {
@@ -66,7 +66,7 @@ exports.filterMoviesByGenres = function (genreArr, done) {
     skip = genreArr.skip;
     genre = genreArr.genre;
 
-    movieSchema.find({"genre":genre}).sort({"watchitRatings": -1}).lean().exec(function (err, filteredMovies) {
+    movieSchema.find({"genre":genre}).sort({"watchItRatings": -1}).lean().exec(function (err, filteredMovies) {
         if (err) {
             done(err);
         } else {
@@ -85,7 +85,7 @@ exports.addMovie = function (data,done) {
     movie["genre"] = data.genre;
     movie["released"] = data.released;
     movie["imdbRatings"] = data.imdbRatings;
-    movie["watchitRatings"] = data.watchitRatings;
+    movie["watchItRatings"] = data.watchItRatings;
     movie["writer"] = data.writer;
     movie["awards"] = data.awards;
     movie["actors"] = data.actors;
