@@ -16,10 +16,13 @@ exports.getMovieById = function (id, done) {
 
 exports.getMovieByName = function (name, done) {
     let st = ".*" + name.toString() + ".*";
-    movieSchema.find({"name": {$regex: st}}).lean().exec(function (err, movies) {
+    let re= new RegExp([st].join(""), "i");
+    movieSchema.find({"name": {$regex: st, '$options' : 'i'}}).lean().exec(function (err, movies) {
         if (err) {
+            console.log(err);
             done(err);
         } else {
+            console.log(movies);
             done(null, movies);
         }
     });
