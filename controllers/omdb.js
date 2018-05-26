@@ -54,7 +54,7 @@ exports.getMoviesSchemaFromOmdbJson = function (json) {
         movie.genre = value.genre // ? genres[genr] : genres["0"];
         movie.released = value.released;
         // movie.imdbRatings = json.imdbRating;
-        movie.watchItRatings = 0;
+        movie.watchItRating = 0;
         // movie.writer = json.Writer;
         // movie.awards = json.Awards;
         retArr.push(movie);
@@ -85,7 +85,7 @@ exports.getMoviesFromOmdbJson = function (json) {
         movie.genre = genr ? genres[genr] : genres["0"];
         movie.released = value.release_date;
         // movie.imdbRatings = json.imdbRating;
-        movie.watchItRatings = 0;
+        movie.watchItRating = 0;
         // movie.writer = json.Writer;
         // movie.awards = json.Awards;
         retArr.push(movie);
