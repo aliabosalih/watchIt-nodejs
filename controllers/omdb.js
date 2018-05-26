@@ -40,7 +40,7 @@ exports.getMoviesSchemaFromOmdbJson = function (json) {
         movie.name = value.name;
         movie.description = value.description;
         // movie.runTime = json.Runtime;
-        movie.image = imgUrl + value.image;
+        movie.image = value.image;
         movie.language = value.language;
         let genr;
         // if (typeof value.genre_ids[0] == 'object') {
