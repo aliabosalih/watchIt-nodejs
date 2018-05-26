@@ -52,7 +52,7 @@ exports.getMoviesSchemaFromOmdbJson = function (json) {
         //     }
         // }
         movie.genre = value.genre // ? genres[genr] : genres["0"];
-        movie.released = value.release_date;
+        movie.released = value.released;
         // movie.imdbRatings = json.imdbRating;
         movie.watchitRatings = 0;
         // movie.writer = json.Writer;
