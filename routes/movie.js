@@ -46,8 +46,8 @@ router.get('/:movieName', function (req, res) {
 /**
  * get the Genres array in the body
  */
-router.get('/filterMoviesByGenre/:category/:skip', function (req, res) {
-    if(req.params.category.toString() === "All"){
+router.get('/filterMoviesByGenre/:genre/:skip', function (req, res) {
+    if(req.params.genre.toString() === "All"){
         moviesCtrl.getMoviesByRatings(req.params.skip, function (err, movies) {
             if (err) {
                 res.status(500).json(err);
@@ -56,6 +56,7 @@ router.get('/filterMoviesByGenre/:category/:skip', function (req, res) {
             }
         });
     }else {
+        console.log("........................")
         moviesCtrl.filterMoviesByGenres(req.params, function (err, movies) {
             if (err) {
                 res.status(500).json(err);

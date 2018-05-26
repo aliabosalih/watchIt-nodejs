@@ -65,7 +65,7 @@ exports.filterMoviesByGenres = function (genreArr, done) {
     let skip = 0 ;
     skip = genreArr.skip;
     genre = genreArr.genre;
-
+console.log("genre",genre,skip)
     movieSchema.find({"genre":genre}).sort({"watchItRating": -1}).lean().exec(function (err, filteredMovies) {
         if (err) {
             done(err);
