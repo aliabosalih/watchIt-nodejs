@@ -4,9 +4,8 @@ const express = require('express'),
     omdbCtrl = require('../controllers/omdb'),
     HashMap = require('hashmap').HashMap;
 
-router.get('/getMoviesByRate/:sortKey/:skip', function (req, res) {
-    console.log("..........",req.params.skip,Number(req.params.skip))
-    moviesCtrl.getMoviesByRatings(req.params.sortKey.toString(),req.params.skip, function (err, movies) {
+router.get('/getMoviesByRate/:skip', function (req, res) {
+    moviesCtrl.getMoviesByRatings(req.params.skip, function (err, movies) {
         if (err) {
             res.status(500).json(err);
         } else {
