@@ -6,14 +6,6 @@ const express = require('express'),
 
 
 
-
-
-
-
-
-
-
-
 router.post('/search/ByNameReviewed', function (req, res) {
     if(req.body.name == ""){
         moviesCtrl.getMoviesByRatings(0, function (err, movies) {
