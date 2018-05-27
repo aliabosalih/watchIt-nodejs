@@ -79,8 +79,6 @@ exports.getMovieReviewsName = function (movieName, done) {
                     }
                 });
             }
-
-
         }
     });
 };

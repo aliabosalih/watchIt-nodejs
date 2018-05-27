@@ -57,12 +57,23 @@ console.log("data for add review is : ",data)
                 movie[0].trailer = trailerSplited;
             }
 
-            movie[0].save(function (err, movie) {
-                if (err) {
+            movieSchema.findOne({"name":movie[0].name}).lean().exec(function(err,mov){
+                if(err){
                     done(err);
-                } else {
-                    review.movieId = movie._id;
-                    getUserAndUpdateReview(data, review, done);
+                }else{
+                    if(!mov){
+                        movie[0].save(function (err, movie) {
+                            if (err) {
+                                done(err);
+                            } else {
+                                review.movieId = movie._id;
+                                getUserAndUpdateReview(data, review, done);
+                            }
+                        });
+                    }else{
+                        review.movieId = mov._id;
+                        getUserAndUpdateReview(data, review, done);
+                    }
                 }
             });
         });
