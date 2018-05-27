@@ -106,7 +106,12 @@ const createUser = (user, done) => {
             done(err, null);
         } else {
             console.log("created user!", user);
-            done(null, user);
+            let u = {};
+            u._id = user._id;
+            u.facebookId = user.facebookId;
+            u.image = user.image;
+            u.name = user.name;
+            done(null, u);
         }
     });
 }
