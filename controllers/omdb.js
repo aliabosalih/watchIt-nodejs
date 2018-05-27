@@ -62,6 +62,7 @@ exports.getMoviesSchemaFromOmdbJson = function (json) {
     return retArr
 };
 
+let movieTrailer = require('movie-trailer');
 
 exports.getMoviesFromOmdbJson = function (json) {
     var retArr = []
