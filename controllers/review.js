@@ -50,7 +50,7 @@ console.log("data for add review is : ",data)
         movieTrailer(movie[0].name, Number(year), function (err, trailer) {
             console.log(err, trailer)
             if (err) {
-                movie[0].trailer = "";
+                movie[0].trailer = "6hB3S9bIaco";
             } else {
                 let trailerSplited = trailer.split("?v=")[1];
                 console.log("trailerrr",trailerSplited,".......",trailer)
