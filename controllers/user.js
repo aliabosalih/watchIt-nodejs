@@ -117,6 +117,7 @@ const createUser = (user, done) => {
 }
 
 const getUserById = (userId, done) => {
+    console.log("userId",userId)
     userSchema.findOne({'_id': userId}).lean().exec(function (err, user) {
         if (err || !user) {
             done(err || "User Not Found!");

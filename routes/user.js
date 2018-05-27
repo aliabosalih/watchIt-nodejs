@@ -17,7 +17,7 @@ router.post('/signIn', function (req, res) {
                 u.facebookId = user.facebookId;
                 u.image = user.image;
                 u.name = user.name;
-                res.status(200).json(user);
+                res.status(200).json(u);
             }
             else // create new user
             {
@@ -38,7 +38,7 @@ router.post('/signIn', function (req, res) {
 
 });
 
-router.get('/:userId', function (req, res) {
+router.get('/user/:userId', function (req, res) {
     userCtrler.getUserById(req.params.userId.toString(), function (err, user) {
         if (err) {
             res.status(500).json(err);
