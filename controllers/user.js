@@ -22,9 +22,7 @@ const getUserByFacebookId = (id, done) => {
 const updateUser = (data, done) => {
     userSchema.findOneAndUpdate({"_id": data._id}, {
         $set: {
-            "genres": data.genres,
-            "name": data.name,
-            "image": data.image
+            "genres": data.genres
         }
     }, {new: true}).exec(function (err, user) {
         if (err) {
