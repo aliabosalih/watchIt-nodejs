@@ -79,7 +79,11 @@ exports.getMoviesFromOmdbJson = function (json, done) {
             movieTrailer(arr[i].title, Number(year), function (err, trailer) {
                 movie.name = arr[i].title;
                 movie.description = arr[i].overview;
-                movie.image = imgUrl + arr[i].poster_path;
+                if(arr[i].poster_path){
+                    movie.image = imgUrl + arr[i].poster_path;
+                }else{
+                    movie.image = "https://365psd.com/psd/404-error-page-free-psd-template-56927"
+                }
                 movie.language = arr[i].original_language;
                 if (trailer) {
                     movie.trailer = trailer.split("watch?v=")[1];
