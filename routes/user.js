@@ -12,6 +12,11 @@ router.post('/signIn', function (req, res) {
         else {
             if (user) // user already exists
             {
+                let u = {};
+                u._id = user._id;
+                u.facebookId = user.facebookId;
+                u.image = user.image;
+                u.name = user.name;
                 res.status(200).json(user);
             }
             else // create new user
