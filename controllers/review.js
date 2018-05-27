@@ -71,8 +71,18 @@ console.log("data for add review is : ",data)
                             }
                         });
                     }else{
+                        let newAvg = (Number(mov.ratersSum) + data.rate) / (mov.ratersCounter + 1);
                         review.movieId = mov._id;
-                        getUserAndUpdateReview(data, review, done);
+                        movieSchema.findOneAndUpdate({_id:  mov._id}, {
+                            $inc: {ratersCounter: 1, ratersSum: data.rate},
+                            $set: {"watchItRating": newAvg}
+                        }).exec(function (err, movie1) {
+                            if (err) {
+                                done(err);
+                            } else {
+                                getUserAndUpdateReview(data, review, done);
+                            }
+                        });
                     }
                 }
             });
