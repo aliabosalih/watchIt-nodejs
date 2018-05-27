@@ -67,4 +67,5 @@ typings/
 !.elasticbeanstalk/*.global.yml
 /node_modules
 .idea
+.elasticbeanstalk
 .gitignore
