@@ -70,10 +70,9 @@ exports.getMoviesFromOmdbJson = function (json) {
     arr.forEach(function (value) {
         let movie = {};
         movieTrailer(value.title, function (err, trailer) {
-            console.log(err, trailer)
+            console.log("log",err, trailer);
             movie.name = value.title;
             movie.description = value.overview;
-            // movie.runTime = json.Runtime;
             movie.image = imgUrl + value.poster_path;
             movie.language = value.original_language;
             console.log("trailerrr ",trailer)
@@ -82,7 +81,6 @@ exports.getMoviesFromOmdbJson = function (json) {
             let genr;
             if (typeof value.genre_ids[0] == 'object') {
                 genr = value.genre_ids[0].id;
-                console.log("genrrrr", genr, value.genre_ids);
             } else {
                 if (value.genre_ids.length > 0) {
                     genr = value.genre_ids[0].toString()
@@ -90,10 +88,7 @@ exports.getMoviesFromOmdbJson = function (json) {
             }
             movie.genre = genr ? genres[genr] : genres["0"];
             movie.released = value.release_date;
-            // movie.imdbRatings = json.imdbRating;
             movie.watchItRating = 0;
-            // movie.writer = json.Writer;
-            // movie.awards = json.Awards;
             retArr.push(movie);
         });
 

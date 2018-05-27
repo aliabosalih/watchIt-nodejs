@@ -33,9 +33,8 @@ router.post('/search/ByNameReviewed', function (req, res) {
 
 
 router.post('/search/ByNameAll', function (req, res) {
-    console.log(",,,,,,,,,,,,, ",req.body.name)
+    console.log("body in search",req.body.name)
     if(req.body.name == ""){
-        console.log("=-===================")
         moviesCtrl.getMoviesByRatings(0, function (err, movies) {
             if (err) {
                 res.status(500).json(err);
