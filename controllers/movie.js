@@ -62,14 +62,16 @@ exports.getMovieReviews = function (movieId, done) {
 };
 
 exports.getMovieReviewsName = function (movieName, done) {
-    movieSchema.find({"name": movieName}).exec(function (err, movie) {
+    movieSchema.findOne({"name": movieName}).exec(function (err, movie) {
         if (err) {
             done(err);
         } else {
+            console.log("movie",movie);
             reviewSchema.find({movieId:movie._id}).lean().exec(function(err,reviews){
                 if (err) {
                     done(err);
                 }else{
+                    console.log(reviews);
                     done(null, reviews);
                 }
             });
