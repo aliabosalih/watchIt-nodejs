@@ -10,7 +10,8 @@ var Schema = mongoose.Schema;
 
 
 
-let userSchema = new Schema({"name": String,
+let userSchema = new Schema(
+    {"name": String,
     "facebookId": String,
     "image": String,
     "genres":[String]});
