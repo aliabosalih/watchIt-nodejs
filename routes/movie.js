@@ -14,8 +14,8 @@ const express = require('express'),
 
 
 
-router.get('/search/ByNameReviewed/:name', function (req, res) {
-    if(req.params.name == ""){
+router.post('/search/ByNameReviewed', function (req, res) {
+    if(req.body.name == ""){
         moviesCtrl.getMoviesByRatings(0, function (err, movies) {
             if (err) {
                 res.status(500).json(err);
@@ -24,7 +24,7 @@ router.get('/search/ByNameReviewed/:name', function (req, res) {
             }
         });
     }else{
-        moviesCtrl.getMovieByName(req.params.name, function (err, movies) {
+        moviesCtrl.getMovieByName(req.body.name, function (err, movies) {
 
             if (err)
             {
@@ -40,9 +40,9 @@ router.get('/search/ByNameReviewed/:name', function (req, res) {
 
 
 
-router.get('/search/ByNameAll/:name', function (req, res) {
-    console.log(",,,,,,,,,,,,, ",req.params.name)
-    if(req.params.name == ""){
+router.post('/search/ByNameAll', function (req, res) {
+    console.log(",,,,,,,,,,,,, ",req.body.name)
+    if(req.body.name == ""){
         console.log("=-===================")
         moviesCtrl.getMoviesByRatings(0, function (err, movies) {
             if (err) {
@@ -52,13 +52,13 @@ router.get('/search/ByNameAll/:name', function (req, res) {
             }
         });
     }else {
-        moviesCtrl.getMovieByName(req.params.name, function (err, movies) {
+        moviesCtrl.getMovieByName(req.body.name, function (err, movies) {
 
             if (err) {
                 res.status(500).json(err);
             }
             else {
-                omdbCtrl.omdbGetMovieByName(req.params.name, function (err1, movies1) {
+                omdbCtrl.omdbGetMovieByName(req.body.name, function (err1, movies1) {
 
                     if (err1) {
                         res.status(500).json(err1);
