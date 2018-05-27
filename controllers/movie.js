@@ -66,15 +66,20 @@ exports.getMovieReviewsName = function (movieName, done) {
         if (err) {
             done(err);
         } else {
-            console.log("movie",movie);
-            reviewSchema.find({movieId:movie._id}).lean().exec(function(err,reviews){
-                if (err) {
-                    done(err);
-                }else{
-                    console.log(reviews);
-                    done(null, reviews);
-                }
-            });
+            if( !movie){
+                 done(null,[]);
+            }else{
+                console.log("movie",movie);
+                reviewSchema.find({movieId:movie._id}).lean().exec(function(err,reviews){
+                    if (err) {
+                        done(err);
+                    }else{
+                        console.log(reviews);
+                        done(null, reviews);
+                    }
+                });
+            }
+
 
         }
     });
