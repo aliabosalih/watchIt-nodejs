@@ -66,13 +66,13 @@ exports.getMovieReviewsName = function (movieName, done) {
         if (err) {
             done(err);
         } else {
-            reviewSchema({movieId:movie._id}).lean().exec(function(err,reviews){
+            reviewSchema.find({movieId:movie._id}).lean().exec(function(err,reviews){
                 if (err) {
                     done(err);
                 }else{
                     done(null, reviews);
                 }
-            })
+            });
 
         }
     });
