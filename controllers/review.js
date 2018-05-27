@@ -52,7 +52,9 @@ console.log("data for add review is : ",data)
             if (err) {
                 movie[0].trailer = "";
             } else {
-                movie[0].trailer = trailer;
+                let trailerSplited = trailer.split("?v=")[1];
+                console.log("trailerrr",trailerSplited,".......",trailer)
+                movie[0].trailer = trailerSplited;
             }
 
             movie[0].save(function (err, movie) {
