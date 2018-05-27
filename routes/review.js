@@ -41,7 +41,7 @@ router.get('/:movieId', function (req, res) {
 });
 
 
-router.get('/:movieName', function (req, res) {
+router.get('/name/:movieName', function (req, res) {
     moviesCtrl.getMovieReviewsName(req.params.movieName.toString(), function (err, reviews) {
         if (err) {
             res.status(500).json(err);

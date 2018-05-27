@@ -34,7 +34,7 @@ const updateUser = (data, done) => {
                 done(err, null);
             }
         } else {
-            console.log("created user!", user);
+            console.log("updated  user!", user);
             done(null, user);
         }
     });
@@ -96,7 +96,6 @@ exports.getReviewdMovies = getReviewdMovies;
 const createUser = (user, done) => {
     let a = new userSchema();
     a.name = user.name;
-    a.age = user.age;
     a.facebookId = user.facebookId;
     a.image = user.image;
     a.genres = [];
