@@ -82,7 +82,7 @@ exports.getMoviesFromOmdbJson = function (json, done) {
                 if(arr[i].poster_path){
                     movie.image = imgUrl + arr[i].poster_path;
                 }else{
-                    movie.image = "https://365psd.com/images/previews/05e/404-error-page-free-psd-template-56927.jpg"
+                    movie.image = "http://www.designbolts.com/wp-content/uploads/2015/12/Minion-404-funny-page-404-error-design.jpg"
                 }
                 movie.language = arr[i].original_language;
                 if (trailer) {
