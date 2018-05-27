@@ -61,6 +61,16 @@ exports.getMovieReviews = function (movieId, done) {
     });
 };
 
+exports.getMovieReviewsName = function (movieName, done) {
+    reviewSchema.find({"name": movieName}).exec(function (err, reviews) {
+        if (err) {
+            done(err);
+        } else {
+            done(null, reviews);
+        }
+    });
+};
+
 exports.getMovieOwner = function (movieId, done) {
     userMovieRelSchema.find({"movieId": movieId, "relation": "owner"}).exec(function (err, owner) {
         if (err) {
