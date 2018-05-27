@@ -28,7 +28,7 @@ exports.getMovieByName = function (name, done) {
     });
 };
 
-exports.getMoviesByRatings = function (genres,skip, done) {
+exports.getMoviesByRatings = function (skip, done) {
     movieSchema.find({}).sort({"watchItRating": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
         if (err) {
             done(err);
@@ -40,8 +40,8 @@ exports.getMoviesByRatings = function (genres,skip, done) {
 };
 
 
-exports.getMyRecommende = function (genres,skip, done) {
-    movieSchema.find({genre:{$in:genres}}).sort({"watchItRating": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
+exports.getMyRecommended = function (genres,skip, done) {
+    movieSchema.find({"genre":{$in:genres}}).sort({"watchItRating": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
         if (err) {
             done(err);
         } else {
