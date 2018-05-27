@@ -14,6 +14,17 @@ router.get('/getMoviesByRate/:skip', function (req, res) {
     });
 });
 
+router.post('/getRecommended/:skip', function (req, res) {
+    moviesCtrl.getMoviesByRatings(req.body.genres,req.params.skip ,function (err, movies) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json(movies);
+        }
+    });
+});
+
+
 router.get('/reviews/:movieId', function (req, res) {
     moviesCtrl.getMovieReviews(req.params.movieId.toString(), function (err, reviews) {
         if (err) {
