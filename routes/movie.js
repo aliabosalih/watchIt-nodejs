@@ -43,16 +43,15 @@ router.post('/search/ByNameAll', function (req, res) {
             }
         });
     }else {
-
         moviesCtrl.getMovieByName(req.body.name, function (err, movies) {
-
             if (err) {
                 res.status(500).json(err);
             }
             else {
                 omdbCtrl.omdbGetMovieByName(req.body.name, function (err1, movies1) {
-
                     if (err1) {
+                        console.log("movies1")
+
                         res.status(500).json(err1);
                     }
                     else {
@@ -60,7 +59,6 @@ router.post('/search/ByNameAll', function (req, res) {
                         var allMovies = movies;
                         if(movies1){
                             allMovies = movies.concat(movies1)
-
                         }
                         var hashMap = new HashMap()
 

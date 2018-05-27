@@ -70,48 +70,52 @@ exports.getMoviesFromOmdbJson = function (json, done) {
     let asyncFuncs = [];
     let asyncArr = [];
     let remaining = arr.length;
-    for (let i = 0; i < arr.length; i++) {
-        (function (i) {
-            let movie = {};
-            movie.released = arr[i].release_date;
-            let year = movie.released.split("-")[0];
-            console.log(year)
-            movieTrailer(arr[i].title, Number(year), function (err, trailer) {
-                movie.name = arr[i].title;
-                movie.description = arr[i].overview;
-                if(arr[i].poster_path){
-                    movie.image = imgUrl + arr[i].poster_path;
-                }else{
-                    movie.image = "http://www.designbolts.com/wp-content/uploads/2015/12/Minion-404-funny-page-404-error-design.jpg"
-                }
-                movie.language = arr[i].original_language;
-                if (trailer) {
-                    movie.trailer = trailer.split("watch?v=")[1];
-                } else {
-                    movie.trailer = "JyRZsJLVYaw"
-                }
-                let genr;
-                if (typeof arr[i].genre_ids[0] == 'object') {
-                    genr = arr[i].genre_ids[0].id;
-                } else {
-                    if (arr[i].genre_ids.length > 0) {
-                        genr = arr[i].genre_ids[0].toString()
+    if (arr.length == 0) {
+        return done(null,[]);
+    } else {
+        for (let i = 0; i < arr.length; i++) {
+            (function (i) {
+                let movie = {};
+                movie.released = arr[i].release_date;
+                let year = movie.released.split("-")[0];
+                console.log(year)
+                movieTrailer(arr[i].title, Number(year), function (err, trailer) {
+                    movie.name = arr[i].title;
+                    movie.description = arr[i].overview;
+                    if (arr[i].poster_path) {
+                        movie.image = imgUrl + arr[i].poster_path;
+                    } else {
+                        movie.image = "http://www.designbolts.com/wp-content/uploads/2015/12/Minion-404-funny-page-404-error-design.jpg"
                     }
-                }
-                movie.genre = genr ? genres[genr] : genres["0"];
-                movie.watchItRating = 0;
-                retArr.push(movie);
-                remaining--;
-                if (remaining == 0) {
-                    return done(null, retArr)
-                }
-            });
-        })(i);
+                    movie.language = arr[i].original_language;
+                    if (trailer) {
+                        movie.trailer = trailer.split("watch?v=")[1];
+                    } else {
+                        movie.trailer = "JyRZsJLVYaw"
+                    }
+                    let genr;
+                    if (typeof arr[i].genre_ids[0] == 'object') {
+                        genr = arr[i].genre_ids[0].id;
+                    } else {
+                        if (arr[i].genre_ids.length > 0) {
+                            genr = arr[i].genre_ids[0].toString()
+                        }
+                    }
+                    movie.genre = genr ? genres[genr] : genres["0"];
+                    movie.watchItRating = 0;
+                    retArr.push(movie);
+                    remaining--;
+                    if (remaining == 0) {
+                        return done(null, retArr)
+                    }
+                });
+            })(i);
+        }
+
     }
 };
 
 exports.omdbGetMovieByName = function (name, done) {
-
     let url = omdpApi + "search/movie?query=" + name.toString() + "&api_key=" + ombdKey;
 
     let req = https.get(url, function (res) {
@@ -122,14 +126,13 @@ exports.omdbGetMovieByName = function (name, done) {
             body += chunk;
 
         }).on('end', function () {
-
             let response = JSON.parse(body);
             if (response.Error) {
                 console.log('error getting movie from ombd', response.Error);
                 done(response.Error, null);
             }
             else {
-
+                console.log(".>/././", response)
                 exports.getMoviesFromOmdbJson(response, function (err, movies) {
                     if (err) {
                         done(null, []);

@@ -20,7 +20,7 @@ exports.getMovieByName = function (name, done) {
     movieSchema.find({"name": {$regex: st, '$options' : 'i'}}).lean().exec(function (err, movies) {
         if (err) {
             console.log(err);
-            done(err);
+            done(err,[]);
         } else {
             console.log(movies);
             done(null, movies);
