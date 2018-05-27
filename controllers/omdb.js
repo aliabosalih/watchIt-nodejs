@@ -69,7 +69,7 @@ exports.getMoviesFromOmdbJson = function (json) {
     let arr = json.results
     arr.forEach(function (value) {
         let movie = {};
-        movieTrailer(movie[0].name, function (err, trailer) {
+        movieTrailer(value.title, function (err, trailer) {
             console.log(err, trailer)
             movie.name = value.title;
             movie.description = value.overview;
