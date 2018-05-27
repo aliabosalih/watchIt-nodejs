@@ -63,37 +63,47 @@ exports.getMoviesSchemaFromOmdbJson = function (json) {
 };
 
 let movieTrailer = require('movie-trailer');
-
-exports.getMoviesFromOmdbJson = function (json) {
-    var retArr = []
-    let arr = json.results
-    arr.forEach(function (value) {
-        let movie = {};
-        movieTrailer(value.title, function (err, trailer) {
-            console.log("log",err, trailer);
-            movie.name = value.title;
-            movie.description = value.overview;
-            movie.image = imgUrl + value.poster_path;
-            movie.language = value.original_language;
-            console.log("trailerrr ",trailer)
-            movie.trailer = trailer.split("watch?v=")[1];
-            console.log("trailerrr ",movie.trailer)
-            let genr;
-            if (typeof value.genre_ids[0] == 'object') {
-                genr = value.genre_ids[0].id;
-            } else {
-                if (value.genre_ids.length > 0) {
-                    genr = value.genre_ids[0].toString()
+let async = require('async')
+exports.getMoviesFromOmdbJson = function (json, done) {
+    let retArr = []
+    let arr = json.results;
+    let asyncFuncs = [];
+    let asyncArr = [];
+    let remaining = arr.length;
+    for (let i = 0; i < arr.length; i++) {
+        (function (i) {
+            let movie = {};
+            movie.released = arr[i].release_date;
+            let year = movie.released.split("-")[0];
+            console.log(year)
+            movieTrailer(arr[i].title, Number(year), function (err, trailer) {
+                movie.name = arr[i].title;
+                movie.description = arr[i].overview;
+                movie.image = imgUrl + arr[i].poster_path;
+                movie.language = arr[i].original_language;
+                if (trailer) {
+                    movie.trailer = trailer.split("watch?v=")[1];
+                } else {
+                    movie.trailer = "JyRZsJLVYaw"
                 }
-            }
-            movie.genre = genr ? genres[genr] : genres["0"];
-            movie.released = value.release_date;
-            movie.watchItRating = 0;
-            retArr.push(movie);
-        });
-
-    });
-    return retArr
+                let genr;
+                if (typeof arr[i].genre_ids[0] == 'object') {
+                    genr = arr[i].genre_ids[0].id;
+                } else {
+                    if (arr[i].genre_ids.length > 0) {
+                        genr = arr[i].genre_ids[0].toString()
+                    }
+                }
+                movie.genre = genr ? genres[genr] : genres["0"];
+                movie.watchItRating = 0;
+                retArr.push(movie);
+                remaining--;
+                if (remaining == 0) {
+                    return done(null, retArr)
+                }
+            });
+        })(i);
+    }
 };
 
 exports.omdbGetMovieByName = function (name, done) {
@@ -116,8 +126,13 @@ exports.omdbGetMovieByName = function (name, done) {
             }
             else {
 
-                let movies = exports.getMoviesFromOmdbJson(response);
-                done(null, movies);
+                exports.getMoviesFromOmdbJson(response, function (err, movies) {
+                    if (err) {
+                        done(null, []);
+                    } else {
+                        done(null, movies);
+                    }
+                });
             }
         });
 

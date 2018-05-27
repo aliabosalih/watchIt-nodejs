@@ -43,6 +43,7 @@ router.post('/search/ByNameAll', function (req, res) {
             }
         });
     }else {
+
         moviesCtrl.getMovieByName(req.body.name, function (err, movies) {
 
             if (err) {
@@ -55,7 +56,12 @@ router.post('/search/ByNameAll', function (req, res) {
                         res.status(500).json(err1);
                     }
                     else {
-                        var allMovies = movies.concat(movies1)
+                        console.log("movies1",movies1)
+                        var allMovies = movies;
+                        if(movies1){
+                            allMovies = movies.concat(movies1)
+
+                        }
                         var hashMap = new HashMap()
 
                         for (let i = 0; i < allMovies.length; i++) {
