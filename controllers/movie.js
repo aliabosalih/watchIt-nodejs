@@ -151,7 +151,7 @@ exports.addMovie = function (data,done) {
             done(null, m);
         }
     });
-}
+};
 
 
 
