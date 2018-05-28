@@ -24,7 +24,7 @@ const getUserAndUpdateReview = function (data, review, done) {
                     done(err, null);
                     console.log("create review error ", err);
                 } else {
-                    movieSchema.findOne({_id:review.movie}).lean().exec(function(errr,movie){
+                    movieSchema.findOne({_id:review.movieId}).lean().exec(function(errr,movie){
                         if(err){
                             done(err);
                         }else{
