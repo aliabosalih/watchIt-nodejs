@@ -1,7 +1,8 @@
 let mongoDB = require('../MongoDB'),
     movieSchema = mongoDB.mongodb.model('movieSchema'),
     reviewSchema = mongoDB.mongodb.model('reviewSchema'),
-    userMovieRelSchema = mongoDB.mongodb.model('userMovieRelation');
+    userMovieRelSchema = mongoDB.mongodb.model('userMovieRelation'),
+    userSchema = mongoDB.mongodb.model('userSchema');
 
 
 exports.getMovieById = function (id, done) {
@@ -39,6 +40,22 @@ exports.getMoviesByRatings = function (skip, done) {
 
 };
 
+exports.getMyRecommendedId = function (id,skip, done) {
+    userSchema.findOne({_id:id}).lean().exec(function (error,user) {
+        if(error){
+            console.log(error)
+            exports.getMoviesByRatings(skip,done);
+        }else{
+            movieSchema.find({"genre":{$in: user.genres}}).sort({"watchItRating": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
+                if (err) {
+                    done(err);
+                } else {
+                    done(null, sortedMovies);
+                }
+            });
+        }
+    });
+};
 
 exports.getMyRecommended = function (genres,skip, done) {
     movieSchema.find({"genre":{$in:genres}}).sort({"watchItRating": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {

@@ -93,6 +93,17 @@ router.get('/getMoviesByRate/:skip', function (req, res) {
     });
 });
 
+router.get('/getRecommended/:id/:skip', function (req, res) {
+    moviesCtrl.getMyRecommendedId(req.params.id,req.params.skip ,function (err, movies) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json(movies);
+        }
+    });
+});
+
+
 router.post('/getRecommended/:skip', function (req, res) {
     moviesCtrl.getMyRecommended(req.body.genres,req.params.skip ,function (err, movies) {
         if (err) {
