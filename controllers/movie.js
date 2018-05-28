@@ -58,10 +58,12 @@ exports.getMyRecommendedId = function (id,skip, done) {
 };
 
 exports.getMyRecommended = function (genres,skip, done) {
+    console.log("req",genres)
     movieSchema.find({"genre":{$in:genres}}).sort({"watchItRating": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
         if (err) {
             done(err);
         } else {
+            console.log("...........",sortedMovies)
             done(null, sortedMovies);
         }
     });

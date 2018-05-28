@@ -80,9 +80,6 @@ router.post('/search/ByNameAll', function (req, res) {
     }
 });
 
-
-
-
 router.get('/getMoviesByRate/:skip', function (req, res) {
     moviesCtrl.getMoviesByRatings(req.params.skip, function (err, movies) {
         if (err) {
