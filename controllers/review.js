@@ -24,8 +24,14 @@ const getUserAndUpdateReview = function (data, review, done) {
                     done(err, null);
                     console.log("create review error ", err);
                 } else {
-                    done(null, user);
-                    console.log("created review!", user);
+                    movieSchema.findOne({_id:review.movie}).lean().exec(function(errr,movie){
+                        if(err){
+                            done(err);
+                        }else{
+                            console.log("created review!", movie);
+                            done(null, movie);
+                        }
+                    })
                 }
             });
         }
