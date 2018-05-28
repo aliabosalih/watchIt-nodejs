@@ -133,7 +133,7 @@ router.get('/:movieId', function (req, res) {
 });
 
 router.get('/movie/:movieName', function (req, res) {
-    moviesCtrl.getMovieByName(req.params.movieName.toString(), function (err, movie) {
+    moviesCtrl.getOneMovieByName(req.params.movieName.toString(), function (err, movie) {
         if (err) {
             res.status(500).json(err);
         } else {

@@ -28,6 +28,18 @@ exports.getMovieByName = function (name, done) {
         }
     });
 };
+exports.getOneMovieByName = function (name, done) {
+console.log("name ",name)
+    movieSchema.findOne({"name": name}).lean().exec(function (err, movies) {
+        if (err) {
+            console.log(err);
+            done(err,[]);
+        } else {
+            console.log(movies);
+            done(null, movies);
+        }
+    });
+};
 
 exports.getMoviesByRatings = function (skip, done) {
     movieSchema.find({}).sort({"watchItRating": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
