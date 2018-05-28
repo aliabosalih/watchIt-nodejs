@@ -43,8 +43,6 @@ exports.addReview = function (data, done) {
     review.userId = data.userId;
     review.comment = data.comment;
     review.rate = data.rate;
-console.log("data for add review is : ",data)
-
     if (!data.movieId) {
         // let movie = new movieSchema;
         let mv = {"results": [data.movie]}
@@ -59,7 +57,6 @@ console.log("data for add review is : ",data)
                 movie[0].trailer = "6hB3S9bIaco";
             } else {
                 let trailerSplited = trailer.split("?v=")[1];
-                console.log("trailerrr",trailerSplited,".......",trailer)
                 movie[0].trailer = trailerSplited;
             }
 

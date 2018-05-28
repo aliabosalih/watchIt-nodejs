@@ -78,7 +78,6 @@ exports.getMoviesFromOmdbJson = function (json, done) {
                 let movie = {};
                 movie.released = arr[i].release_date;
                 let year = movie.released.split("-")[0];
-                console.log(year)
                 movieTrailer(arr[i].title, Number(year), function (err, trailer) {
                     movie.name = arr[i].title;
                     movie.description = arr[i].overview;
