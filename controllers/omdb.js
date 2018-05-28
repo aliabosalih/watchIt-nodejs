@@ -101,6 +101,8 @@ exports.getMoviesFromOmdbJson = function (json, done) {
                             genr = arr[i].genre_ids[0].toString()
                         }
                     }
+                    movie.ratersCounter = 0;
+                    movie.ratersSum = 0;
                     movie.genre = genr ? genres[genr] : genres["0"];
                     movie.watchItRating = 0;
                     retArr.push(movie);
