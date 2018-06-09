@@ -1,4 +1,3 @@
-'use strict';
 const express = require('express'),
         router = express.Router(),
     moviesCtrl = require('../controllers/movie'),

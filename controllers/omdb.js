@@ -1,4 +1,3 @@
-'use strict';
 const ombdKey = "874267eaf5a939d84558ff2a721bbe64"
 const omdpApi = "https://api.themoviedb.org/3/"
 const imgUrl = "https://image.tmdb.org/t/p/w500"
