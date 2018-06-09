@@ -1,4 +1,4 @@
-
+'use strict';
 let mongoose = require('mongoose');
 let db = "mongodb://ds231460.mlab.com:31460/watchit-db"
 let db_options = {
@@ -8,6 +8,11 @@ let db_options = {
 };
 var Schema = mongoose.Schema;
 
+
+let userFcmToken = new Schema(
+    {   "userId": String,
+        "fcmToken": String});
+let tokens = mongoose.model('userFcmTokenSchema', userFcmToken);
 
 
 let userSchema = new Schema(
