@@ -20,6 +20,7 @@
     "mongoose": "*",
     "morgan": "*",
     "movie-trailer": "*",
-    "omdb": "*"
+    "omdb": "*",
+    "firebase-admin": "*"
   }
 }

@@ -1,3 +1,4 @@
+'use strict';
 let mongoDB = require('../MongoDB'),
     userSchema = mongoDB.mongodb.model('userSchema'),
     movieSchema = mongoDB.mongodb.model('movieSchema'),
