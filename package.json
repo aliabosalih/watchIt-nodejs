@@ -18,6 +18,7 @@
     "omdb": "*",
     "https": "*",
     "http": "*",
-    "movie-trailer" : "*"
+    "movie-trailer" : "*",
+    "firebase-admin" : "*"
   }
 }
