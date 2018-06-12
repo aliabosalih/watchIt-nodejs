@@ -1,4 +1,4 @@
-
+'use strict';
 let mongoose = require('mongoose');
 let db = "mongodb://ds231460.mlab.com:31460/watchit-db"
 let db_options = {
@@ -9,30 +9,29 @@ let db_options = {
 var Schema = mongoose.Schema;
 
 
+let userFcmToken = new Schema(
+    {   "userId": String,
+        "fcmToken": String});
+let tokens = mongoose.model('userFcmTokenSchema', userFcmToken);
 
-let userSchema = new Schema({"name": String,
-    "facebookId": String,
-    "image": String,
-    "genres":[String]});
+
+let userSchema = new Schema(
+    {"name": String,
+        "facebookId": String,
+        "image": String,
+        "genres":[String]});
 let user = mongoose.model('userSchema', userSchema);
 
 
 let movieSchema = new Schema({
     "name": String,
     "description": String,
-    "runTime": String,
     "image": String,
     "language": String,
     "genre": String,
-    "Year": Number,
-    "imdbRatings": String,
-    "watchitRatings": String,
-    "writer": String,
-    "awards": String,
-    "actors": String,
+    "watchItRating": Number,
     "ratersCounter": Number,
     "ratersSum" : Number,
-    "rateAvg" : Number,
     "trailer":String
 });
 let movies = mongoose.model('movieSchema', movieSchema);
