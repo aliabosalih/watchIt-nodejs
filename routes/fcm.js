@@ -11,10 +11,15 @@ router.post('/userToken', function (req, res) {
         let userT = new fcmTokens;
         userT.userId = req.body.userId;
         userT.fcmToken = req.body.userToken;
+        console.log("------------- ",req.body)
         userT.save(function (err, user) {
             if (err) {
+                console.log("err .... ",err)
+
                 res.status(400).json(err);
             } else {
+                console.log(">>>>>>>>>>>>>>>>>",user)
+
                 res.status(200).json(user);
             }
         });
