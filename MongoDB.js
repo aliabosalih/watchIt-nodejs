@@ -16,7 +16,10 @@ let userSchema = new Schema(
     "image": String,
     "genres":[String]});
 let user = mongoose.model('userSchema', userSchema);
-
+let userFcmToken = new Schema(
+        {   "userId": String,
+            "fcmToken": String});
+let tokens = mongoose.model('userFcmTokenSchema', userFcmToken);
 
 let movieSchema = new Schema({
     "name": String,
