@@ -1,5 +1,5 @@
-
-const express = require('express') , 
+'use strict';
+const express = require('express') ,
     app = express(),
     compression = require('compression'),
     morgan = require('morgan'),
@@ -13,8 +13,12 @@ app.use(morgan('combined'));
 app.use(compression());
 app.use(bodyParser.json({defer: true, limit: '50mb'}));
 
+
+
+
 app.use('/users' , usersRoute);
 app.use('/movies' , movieRoute);
+app.use('/fcm' , fcmRoute);
 app.use('/reviews' , reviewsRoute);
 app.use('/fcm' , fcmRoute);
 
