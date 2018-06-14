@@ -53,7 +53,7 @@ const sentGroupMessage = function(notificationKey){
 }
 
 const sendMessage = function(registrationTokenArr){
-
+    registrationTokenArr = "fSOCM4ubGMY:APA91bFPNzvD2bWCsQcfti4DsRh8Gc_e5Jkqdp2bLk9fefPrrsv5jaBzCRg5BEjX8FUiKaiegVf_NXNOSJ2Hu5Fmkv-w-rNopq2yhM6vW4TUAyN59rhWrMUfj6RL8K1j67oIdD5YGL2v"
 // This registration token comes from the client FCM SDKs.
     //var registrationToken = "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...";
 
@@ -63,12 +63,13 @@ const sendMessage = function(registrationTokenArr){
         data: {
             score: "850",
             time: "2:45"
-        }
+        },
+        token : registrationTokenArr
     };
 
 // Send a message to the device corresponding to the provided
 // registration token.
-    admin.messaging().sendToDevice(registrationTokenArr, payload)
+    admin.messaging().send(payload)
         .then(function(response) {
             // See the MessagingDevicesResponse reference documentation for
             // the contents of response.
@@ -169,6 +170,7 @@ function removeDeviceRegToken(user,body,done){
     }
 }
 exports.sendToGroupWithNotifKey = sendToGroupWithNotifKey;
+exports.sendMessage = sendMessage;
 exports.getUserRegTokens = getUserRegTokens;
 exports.sendGroupMessage = sendGroupMessage;
 exports.removeDeviceRegToken = removeDeviceRegToken;
