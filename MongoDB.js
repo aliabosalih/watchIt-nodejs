@@ -1,4 +1,4 @@
-
+'use strict';
 let mongoose = require('mongoose');
 let db = "mongodb://ds231460.mlab.com:31460/watchit-db"
 let db_options = {
@@ -9,6 +9,10 @@ let db_options = {
 var Schema = mongoose.Schema;
 
 
+let userFcmToken = new Schema(
+    {   "userId": String,
+        "fcmToken": String});
+let tokens = mongoose.model('userFcmTokenSchema', userFcmToken);
 
 let userSchema = new Schema(
     {"name": String,
@@ -16,10 +20,6 @@ let userSchema = new Schema(
     "image": String,
     "genres":[String]});
 let user = mongoose.model('userSchema', userSchema);
-let userFcmToken = new Schema(
-        {   "userId": String,
-            "fcmToken": String});
-let tokens = mongoose.model('userFcmTokenSchema', userFcmToken);
 
 let movieSchema = new Schema({
     "name": String,

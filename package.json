@@ -21,5 +21,10 @@
     "morgan": "*",
     "movie-trailer": "*",
     "omdb": "*"
+    "compression": "*",
+    "omdb": "*",
+    "https": "*",
+    "http": "*",
+    "firebase-admin" : "*"
   }
 }

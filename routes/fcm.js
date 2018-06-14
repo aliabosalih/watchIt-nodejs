@@ -25,3 +25,4 @@ router.post('/userToken', function (req, res) {
         });
     });
 module.exports = router;
+
