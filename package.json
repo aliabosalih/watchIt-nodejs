@@ -11,7 +11,6 @@
   "dependencies": {
     "async": "*",
     "body-parser": "*",
-    "compression": "*",
     "express": "^4.16.3",
     "hashmap": "*",
     "http": "*",
@@ -20,7 +19,7 @@
     "mongoose": "*",
     "morgan": "*",
     "movie-trailer": "*",
-    "omdb": "*"
+    "omdb": "*",
     "compression": "*",
     "omdb": "*",
     "https": "*",

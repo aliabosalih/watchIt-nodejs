@@ -2,6 +2,7 @@
 const express = require('express'),
     router = express.Router(),
     moviesCtrl = require('../controllers/movie'),
+    fcmCtrl = require('../controllers/fcm'),
     omdbCtrl = require('../controllers/omdb'),
     HashMap = require('hashmap').HashMap;
 let mongoDB = require('../MongoDB'),
@@ -24,5 +25,13 @@ router.post('/userToken', function (req, res) {
             }
         });
     });
+
+
+router.get('/notificationTest', function (req, res) {
+    fcmCtrl.sendMessage()
+    fcmCtrl.sendMessage1()
+    res.status(200).json({success:true});
+
+});
 module.exports = router;
 
