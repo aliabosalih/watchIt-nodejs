@@ -1,10 +1,56 @@
 let mongoDB = require('../MongoDB'),
     movieSchema = mongoDB.mongodb.model('movieSchema'),
     reviewSchema = mongoDB.mongodb.model('reviewSchema'),
+    fcmTokens = mongoDB.mongodb.model('userFcmTokenSchema'),
+    User = mongoDB.mongodb.model('userSchema'),
     userMovieRelSchema = mongoDB.mongodb.model('userMovieRelation');
 let userCtrl = require('./user');
 let movieTrailer = require('movie-trailer');
 let omdb = require('./omdb');
+let fcmCtrl = require('./fcm');
+
+
+
+
+function notifyOwner(data,movie){
+    User.find({_id:data.userId}).exec(function (err,user) {
+        if(err){
+            console.log("err in 49 review",err)
+        }else{
+            fcmTokens.find({userId:movie.owner}).exec(function (error,tokenD) {
+                if(error || !tokenD){
+                    console.log("error in 53 review",error)
+                }else{
+                    let token = tokenD.fcmToken;
+                    let notification = {
+                        title: 'new comments',
+                        body: user.name + ' reviewd your movie! take a look'
+                    };
+                    fcmCtrl.sendNotification(notification,token.toString());
+                }
+            });
+        }
+    })
+
+}
+
+function getUsersWithGenres(genre,done){
+    User.aggregate([{$unwind:"$genres"},{$match:{"genres":genre}}]).exec(function (err, users) {
+        if(err){
+            console.log(err)
+            done(err)
+        }else{
+            console.log("................",users);
+            let ids = [];
+            for(let i = 0 ; i < users.length; i++){
+                ids.push(users[i]._id)
+            }
+            done(null,ids)
+        }
+    })
+}
+
+exports.getUsersWithGenres = getUsersWithGenres;
 
 const getUserAndUpdateReview = function (data, review, done) {
     userCtrl.getUserById(data.userId, function (err, user) {
@@ -28,6 +74,9 @@ const getUserAndUpdateReview = function (data, review, done) {
                         if(err){
                             done(err);
                         }else{
+                            // if(movie.owner !== data.userId){
+                            //     notifyOwner(data,movie);
+                            // }
                             console.log("created review!", movie);
                             done(null, movie);
                         }
@@ -37,6 +86,8 @@ const getUserAndUpdateReview = function (data, review, done) {
         }
     });
 };
+
+
 exports.addReview = function (data, done) {
     let review = new reviewSchema;
     review.movieId = data.movieId;
@@ -45,7 +96,7 @@ exports.addReview = function (data, done) {
     review.rate = data.rate;
     if (!data.movieId) {
         // let movie = new movieSchema;
-        let mv = {"results": [data.movie]}
+        let mv = {"results": [data.movie]};
         let movie = omdb.getMoviesSchemaFromOmdbJson(mv);
         let year = movie[0].released.split(" ")[0];
         movie[0].watchItRating = data.rate;
@@ -70,7 +121,23 @@ exports.addReview = function (data, done) {
                                 done(err);
                             } else {
                                 review.movieId = movie._id;
-                                getUserAndUpdateReview(data, review, done);
+                                // call back handle the notification for the preffer genres for other users.!
+                                getUserAndUpdateReview(data, review,done);
+                                // getUserAndUpdateReview(data, review, function(err,movie){
+                                //     getUsersWithGenres(movie.genre,function(err,ids){
+                                //         fcmTokens.find({userId:{$in:ids}}).lean().exec(function(err,tokensDoc){
+                                //             for(let j= 0 ; j < tokensDoc.length;j++){
+                                //                 let token = tokensDoc[j].fcmToken;
+                                //                 let notification = {
+                                //                     title: "new movies in your preferred genres",
+                                //                     body:  "share your review in " + movie.name + "from your preferred genres in watchIt!"
+                                //                 };
+                                //                 fcmCtrl.sendNotification(notification,token.toString());
+                                //             }
+                                //             return done();
+                                //         })
+                                //     })
+                                // });
                             }
                         });
                     }else{

@@ -63,20 +63,18 @@ let reviewSchemas = mongoose.model('reviewSchema', reviewSchema);
 
 
 let conversationSchema = new Schema({
-    "user1"  : {
+    "user1"  :  {
         "name": String,
-        "age": Number,
         "facebookId": String,
         "image": String,
-        "userId": Schema.ObjectId
+        "userId": String
     } ,
-    "user2" : {
+    "user2" :  {
         "name": String,
-        "age": Number,
         "facebookId": String,
         "image": String,
-        "userId": Schema.ObjectId
-    } 
+        "userId": String
+    }
 });
 let  conversationSchemas = mongoose.model('conversationSchema', conversationSchema);
 

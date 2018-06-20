@@ -29,6 +29,16 @@ router.post('/add', function (req, res) {
 });
 let moviesCtrl = require('../controllers/movie');
 
+router.get('/genres/getUsersWithGenres', function (req, res) {
+    reviewsCtrl.getUsersWithGenres("Crime", function (err, reviews) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json(reviews);
+        }
+    });
+});
+
 router.get('/:movieId', function (req, res) {
 
     moviesCtrl.getMovieReviews(req.params.movieId.toString(), function (err, reviews) {
@@ -50,4 +60,8 @@ router.get('/name/:movieName', function (req, res) {
         }
     });
 });
+
+
+
+
 module.exports = router;
