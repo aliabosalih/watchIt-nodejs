@@ -14,10 +14,13 @@ console.log(userId)
             return done(err)
         } else {
             for (let k = 0; k < docs.length; k++) {
+                let u = {};
                 if (docs[k].user1.userId == userId) {
-                    chaters.push(docs[k].user2)
+                    u["user"] = docs[k].user2;
+                    chaters.push(u)
                 } else {
-                    chaters.push(docs[k].user1)
+                    u["user"] = docs[k].user1;
+                    chaters.push(u)
                 }
             }
             return done(null,chaters);
