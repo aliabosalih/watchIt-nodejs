@@ -52,25 +52,25 @@ const sentGroupMessage = function(notificationKey){
         });
 }
 
-const sendMessage1 = function(){
-    let registrationTokenArr = "fSOCM4ubGMY:APA91bFPNzvD2bWCsQcfti4DsRh8Gc_e5Jkqdp2bLk9fefPrrsv5jaBzCRg5BEjX8FUiKaiegVf_NXNOSJ2Hu5Fmkv-w-rNopq2yhM6vW4TUAyN59rhWrMUfj6RL8K1j67oIdD5YGL2v"
+const sendNotification = function(notificationBody,registrationTokenArr){
+     registrationTokenArr = "fSOCM4ubGMY:APA91bFPNzvD2bWCsQcfti4DsRh8Gc_e5Jkqdp2bLk9fefPrrsv5jaBzCRg5BEjX8FUiKaiegVf_NXNOSJ2Hu5Fmkv-w-rNopq2yhM6vW4TUAyN59rhWrMUfj6RL8K1j67oIdD5YGL2v"
 // This registration token comes from the client FCM SDKs.
     //var registrationToken = "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...";
-
 // See the "Defining the message payload" section below for details
 // on how to define a message payload.
-
+    notificationBody = {
+        title: 'new comments',
+        body:   ' reviewd your movie! take a look'
+    };
     var payload = {
-        notification: {
-            title: 'first notification',
-            body: ' gained 11.80 points to close at 835.67, up 1.43% on the day.'
-        }, data: {
+        notification:notificationBody ,
+        data: {
             score: "850",
             time: "2:45"
         },
+
         token : registrationTokenArr
     };
-
 // Send a message to the device corresponding to the provided
 // registration token.
     admin.messaging().send(payload)
@@ -82,7 +82,6 @@ const sendMessage1 = function(){
         .catch(function(error) {
             console.log("Error sending message:", error);
         });
-
 };
 
 const sendMessage = function(){
@@ -207,7 +206,7 @@ function removeDeviceRegToken(user,body,done){
 }
 exports.sendToGroupWithNotifKey = sendToGroupWithNotifKey;
 exports.sendMessage = sendMessage;
-exports.sendMessage1 = sendMessage1;
+exports.sendNotification = sendNotification;
 exports.getUserRegTokens = getUserRegTokens;
 exports.sendGroupMessage = sendGroupMessage;
 exports.removeDeviceRegToken = removeDeviceRegToken;
