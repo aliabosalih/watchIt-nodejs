@@ -17,9 +17,12 @@ console.log(userId)
                 let u = {};
                 if (docs[k].user1.userId == userId) {
                     u["user"] = docs[k].user2;
+                    u["messages"]= [];
+
                     chaters.push(u)
                 } else {
                     u["user"] = docs[k].user1;
+                    u["messages"]= [];
                     chaters.push(u)
                 }
             }
