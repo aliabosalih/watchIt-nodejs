@@ -13,7 +13,6 @@ console.log(userId)
         if (err) {
             return done(err)
         } else {
-            console.log(docs)
             for (let k = 0; k < docs.length; k++) {
                 if (docs[k].user1.userId == userId) {
                     chaters.push(docs[k].user2)
