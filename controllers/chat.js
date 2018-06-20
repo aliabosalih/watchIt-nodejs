@@ -18,13 +18,14 @@ exports.getUsersConversations = function (userId, done) {
                         let u = {};
                         u["user"] = docs1[k].user2;
                         u["messages"] = [];
+                        u["messages"] = [{id:docs1[i].user2._id,"text":"Bye"}];
                         u["name"] = docs1[k].name;
                         chaters.push(u)
                     }
                     for (let i = 0; i < docs2.length; i++) {
                         let u = {};
                         u["user"] = docs2[i].user1;
-                        u["messages"] = [];
+                        u["messages"] = [{id:docs2[i].user1._id,"text":"Hi"}];
                         u["name"] = docs2[i].name;
                         chaters.push(u)
                     }
