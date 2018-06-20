@@ -17,7 +17,6 @@ router.get('/getUserConversations/:userId', function (req, res) {
 
 
 router.post('/addConversation', function (req, res) {
-    console.log("body in conversation", req.body.name)
 
     chatCtrl.addConversation(req.body.user1, req.body.user2, function (err) {
         if (err) {

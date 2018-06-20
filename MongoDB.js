@@ -67,14 +67,15 @@ let conversationSchema = new Schema({
         "name": String,
         "facebookId": String,
         "image": String,
-        "userId": String
+        "_id": String
     } ,
     "user2" :  {
         "name": String,
         "facebookId": String,
         "image": String,
-        "userId": String
-    }
+        "_id": String
+    },
+    "name":String
 });
 let  conversationSchemas = mongoose.model('conversationSchema', conversationSchema);
 
