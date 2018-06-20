@@ -6,65 +6,65 @@ exports.getUsersConversations = function (userId, done) {
     let chaters = [];
     console.log(userId)
 
-    conversationSchema.find({
-            $or:
-                [{"user1._id": userId.toString()}, {"user2._id": userId.toString()}]
-        }
-    ).lean().exec(function (err, docs) {
+    conversationSchema.find({"user1._id": userId.toString()}).lean().exec(function (err, docs1) {
         if (err) {
             return done(err)
         } else {
-            for (let k = 0; k < docs.length; k++) {
-                let u = {};
-                if (docs[k].user1.userId == userId) {
-                    u["user"] = docs[k].user2;
-                    u["messages"]= [];
-                    u["name"]=  docs[k].name;
-                    chaters.push(u)
+            conversationSchema.find({"user2._id": userId.toString()}).lean().exec(function (err, docs2) {
+                if (err) {
+                    return done(err)
                 } else {
-                    u["user"] = docs[k].user1;
-                    u["messages"]= [];
-                    u["name"]=  docs[k].name;
-                    chaters.push(u)
+                    for (let k = 0; k < docs1.length; k++) {
+                        let u = {};
+                        u["user"] = docs1[k].user2;
+                        u["messages"] = [];
+                        u["name"] = docs1[k].name;
+                        chaters.push(u)
+                    }
+                    for (let i = 0; i < docs2.length; i++) {
+                        let u = {};
+                        u["user"] = docs2[i].user1;
+                        u["messages"] = [];
+                        u["name"] = docs2[i].name;
+                        chaters.push(u)
+                    }
+                    return done(null, chaters);
+
                 }
-            }
-            return done(null,chaters);
+
+            });
+
         }
     });
 };
-//     conversationSchema.find({"user1._id": userId.toString()}).lean().exec(function (err, docs1) {
+
+
+//     conversationSchema.find({
+//             $or:
+//                 [{"user1._id": userId.toString()}, {"user2._id": userId.toString()}]
+//         }
+//     ).lean().exec(function (err, docs) {
 //         if (err) {
 //             return done(err)
 //         } else {
-//             conversationSchema.find({"user2._id": userId.toString()}).lean().exec(function (err, docs2) {
-//                 if (err) {
-//                     return done(err)
+//             for (let k = 0; k < docs.length; k++) {
+//                 let u = {};
+//                 if (docs[k].user1.userId == userId) {
+//                     u["user"] = docs[k].user2;
+//                     u["messages"]= [];
+//                     u["name"]=  docs[k].name;
+//                     chaters.push(u)
 //                 } else {
-//                     for (let k = 0; k < docs1.length; k++) {
-//                         let u = {};
-//                         u["user"] = docs1[k].user2;
-//                         u["messages"] = [];
-//                         u["name"] = docs1[k].name;
-//                         chaters.push(u)
-//                     }
-//                     for (let i = 0; i < docs2.length; i++) {
-//                         let u = {};
-//                         u["user"] = docs2[i].user1;
-//                         u["messages"] = [];
-//                         u["name"] = docs2[i].name;
-//                         chaters.push(u)
-//                     }
-//                     return done(null, chaters);
-//
+//                     u["user"] = docs[k].user1;
+//                     u["messages"]= [];
+//                     u["name"]=  docs[k].name;
+//                     chaters.push(u)
 //                 }
-//
-//             });
-//
+//             }
+//             return done(null,chaters);
 //         }
 //     });
-// }
-
-
+// };
 
 
 
