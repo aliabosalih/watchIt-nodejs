@@ -30,7 +30,8 @@ let movieSchema = new Schema({
     "watchItRating": Number,
     "ratersCounter": Number,
     "ratersSum" : Number,
-    "trailer":String
+    "trailer":String,
+    "owner" : Schema.ObjectId
 });
 let movies = mongoose.model('movieSchema', movieSchema);
 
