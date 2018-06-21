@@ -20,6 +20,7 @@ router.post('/addConversation', function (req, res) {
 
     chatCtrl.addConversation(req.body.user1, req.body.user2, function (err , conversation) {
         if (err) {
+            console.log(err)
             res.status(500).json(err);
         }
         else {
