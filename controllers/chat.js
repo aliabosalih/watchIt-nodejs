@@ -79,18 +79,24 @@ exports.addConversation = function (user1, user2, done) {
         }, {"user1._id": user2.toString(), "user2._id": user1.toString()}]
     }).lean().exec(function (err, conver) {
         if (err) {
+            console.log("here 1")
+
             return done(err)
         } else {
             if (!conver) {
                 User.findOne({_id: user1}).lean().exec(function (err, doc1) {
                     if (err) {
+                        console.log("here 2")
+
                         return done(err)
                     } else {
                         console.log(doc1)
                         User.findOne({_id: user2}).lean().exec(function (err, doc2) {
                             if (err) {
+                                console.log("here 3")
                                 return done(err)
                             } else {
+                                console.log(">>>",doc2)
                                 let u = new conversationSchema();
                                 let user1doc = {
                                     "facebookId": doc1.facebookId,
@@ -110,6 +116,7 @@ exports.addConversation = function (user1, user2, done) {
                                 u["name"] = user1.toString() + "|" + user2.toString();
                                 u.save(function (err, succ) {
                                     if (err) {
+                                        console.log("here 4")
                                         return done(err)
                                     } else {
                                         let uu = {};
