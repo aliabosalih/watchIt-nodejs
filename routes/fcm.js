@@ -14,37 +14,62 @@ router.post('/userToken', function (req, res) {
     userT.fcmToken = req.body.userToken;
     console.log("------------- ", req.body)
 
-    fcmTokens.findOneAndUpdate({userId: req.body.userId}, userT, {upsert: true}).exec(function (err, token) {
-        if (err) {
-            console.log("err .... ", err)
+//     fcmTokens.findOne({userId: req.body.userId}).lean().exec(function (err, tokenDoc) {
+//         if (err) {
+//             console.log("errrrrrr ", err);
+//             res.status(400).json(err);
+//         } else {
+//             if (!tokenDoc) {
+//                 userT.save(function (err, user) {
+//                     if (err) {
+//                         console.log("err .... ", err)
+//
+//                         res.status(400).json(err);
+//                     } else {
+//                         console.log(">>>>>>>>>>>>>>>>>", user)
+//
+//                         res.status(200).json(user);
+//                     }
+//                 });
+//             } else {
+//                 fcmTokens.update({userId: req.body.userId}, {$set: {"fcmToken": req.body.userToken}}, {new: true}).exec(function (err, token) {
+//                     if (err) {
+//                         console.log("err .... ", err)
+//
+//                         res.status(400).json(err);
+//                     } else {
+//                         console.log(">>>>>>>>>>>>>>>>>", token)
+//
+//                         res.status(200).json(token)
+//                     }
+//                 })
+//             }
+//         }
+//     })
+// });
 
-            res.status(400).json(err);
-        } else {
-            console.log(">>>>>>>>>>>>>>>>>", token)
+let uuu = {$set : {"userId":req.body.userId,"fcmToken":req.body.userToken}}
+fcmTokens.findOneAndUpdate({userId: req.body.userId}, uuu, {upsert: true}).exec(function (err, token) {
+    if (err) {
+        console.log("err .... ", err)
 
-            res.status(200).json(token)
-        }
-    });
-})
-        // userT.save(function (err, user) {
-        //     if (err) {
-        //         console.log("err .... ",err)
-        //
-        //         res.status(400).json(err);
-        //     } else {
-        //         console.log(">>>>>>>>>>>>>>>>>",user)
-        //
-        //         res.status(200).json(user);
-        //     }
-        // });
-    // });
+        res.status(400).json(err);
+    } else {
+        console.log(">>>>>>>>>>>>>>>>>", token)
+
+        res.status(200).json(token)
+    }
+});
+});
+
+// });
 
 
 router.get('/notificationTest', function (req, res) {
     // fcmCtrl.sendMessage()
-    let a,b ;
-    fcmCtrl.sendNotification(a,b)
-    res.status(200).json({success:true});
+    let a, b;
+    fcmCtrl.sendNotification(a, b)
+    res.status(200).json({success: true});
 
 });
 module.exports = router;
