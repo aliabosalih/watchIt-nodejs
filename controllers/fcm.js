@@ -80,9 +80,7 @@ const sendNotification = function(notificationBody,registrationTokenArr){
     var payload = {
         notification:notificationBody ,
         data: {
-            movie :"5b0b25fa3a16bd60f3cf1ac0",
-            score: "850",
-            time: "2:45"
+            movie :"5b0b25fa3a16bd60f3cf1ac0"
         },
 
         token : registrationTokenArr
