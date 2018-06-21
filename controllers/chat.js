@@ -112,8 +112,11 @@ exports.addConversation = function (user1, user2, done) {
                                     if (err) {
                                         return done(err)
                                     } else {
-                                        u["isNew"] = 1;
-                                        return done(null, u);
+                                        let uu = {};
+                                        uu["isNew"] = true;
+                                        uu["user"] =JSON.parse(JSON.stringify(user2doc));
+                                        uu["messages"] = [{id:user2doc,"text":"Bye"}];
+                                        return done(null, uu);
                                     }
                                 })
                             }
@@ -126,11 +129,15 @@ exports.addConversation = function (user1, user2, done) {
                     result["user"] = conver.user2;
                     result["messages"] = [{id:user1,"text":"Bye"}];
                     result["name"] = conver.name;
+                    result["isNew"] = false;
+
                     return done(null,result)
                 }else{
                     result["user"] = conver.user1;
                     result["messages"] = [{id:user1,"text":"Bye"}];
                     result["name"] = conver.name;
+                    result["isNew"] = false;
+
                     return done(null,result)
                 }
 
