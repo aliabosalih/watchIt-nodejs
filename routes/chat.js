@@ -18,12 +18,12 @@ router.get('/getUserConversations/:userId', function (req, res) {
 
 router.post('/addConversation', function (req, res) {
 
-    chatCtrl.addConversation(req.body.user1, req.body.user2, function (err) {
+    chatCtrl.addConversation(req.body.user1, req.body.user2, function (err , conversation) {
         if (err) {
             res.status(500).json(err);
         }
         else {
-            res.status(200).json();
+            res.status(200).json(conversation);
         }
     })
 });
