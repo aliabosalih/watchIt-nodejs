@@ -121,6 +121,7 @@ exports.addConversation = function (user1, user2, done) {
                                     } else {
                                         let uu = {};
                                         uu["isNew"] = true;
+                                        uu["name"] = succ.name;
                                         uu["user"] =JSON.parse(JSON.stringify(user2doc));
                                         uu["messages"] = [{id:user2doc,"text":"Bye"}];
                                         return done(null, uu);
