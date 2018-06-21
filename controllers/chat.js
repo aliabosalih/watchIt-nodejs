@@ -72,7 +72,7 @@ exports.getUsersConversations = function (userId, done) {
 
 
 exports.addConversation = function (user1, user2, done) {
-    conversationSchema.find({
+    conversationSchema.findOne({
         $or: [{
             "user1._id": user1.toString(),
             "user2._id": user2.toString()
