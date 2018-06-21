@@ -20,9 +20,9 @@ router.post('/userToken', function (req, res) {
 
             res.status(400).json(err);
         } else {
-            console.log(">>>>>>>>>>>>>>>>>", user)
+            console.log(">>>>>>>>>>>>>>>>>", token)
 
-            res.status(200).json(user)
+            res.status(200).json(token)
         }
     });
 })

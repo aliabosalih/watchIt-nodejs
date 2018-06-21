@@ -53,7 +53,7 @@ const sentGroupMessage = function(notificationKey){
 }
 
 const sendNotification = function(notificationBody,registrationTokenArr){
-     registrationTokenArr = "fSOCM4ubGMY:APA91bFPNzvD2bWCsQcfti4DsRh8Gc_e5Jkqdp2bLk9fefPrrsv5jaBzCRg5BEjX8FUiKaiegVf_NXNOSJ2Hu5Fmkv-w-rNopq2yhM6vW4TUAyN59rhWrMUfj6RL8K1j67oIdD5YGL2v"
+     registrationTokenArr = "djFhJDpIhyw:APA91bH_lm8G1LMSH1x_fSXk8CmlQvhPvfSdjTKVOoatBtdzQR2cnOI2dCe1AcH7OYW5hASfg90c9ZOjIoAUXXUhyaHmTL4HwPBI4QF0SNbUeQQeK-6iRO4nXefdqqPrci11SVNmqSnWRW1UN5u47sli7FJy7NzAeQ"
 // This registration token comes from the client FCM SDKs.
     //var registrationToken = "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...";
 // See the "Defining the message payload" section below for details
@@ -62,22 +62,25 @@ const sendNotification = function(notificationBody,registrationTokenArr){
         title: 'new comments',
         body:   ' reviewd your movie! take a look'
     };
+
+     let data1 = {
+         "_id": "5b0b25fa3a16bd60f3cf1ac0",
+         "name": "The Shadow",
+         "description": "Based on the 1930's comic strip, puts the hero up against his arch enemy, Shiwan Khan, who plans to take over the world by holding a city to ransom using an atom bomb. Using his powers of invisibility and \"The power to cloud men's minds\", the Shadow comes blazing to the city's rescue with explosive results.",
+         "image": "https://image.tmdb.org/t/p/w500/uk2DdXqdGiFfF5PrvvadQHKES1o.jpg",
+         "language": "en",
+         "genre": "Adventure",
+         "watchItRating": 4.333333333333333,
+         "ratersCounter": 3,
+         "ratersSum": 13,
+         "trailer": "8LYIcXs4HV0",
+         "__v": 0
+     };
+     let dataSend = JSON.stringify(data1);
     var payload = {
         notification:notificationBody ,
         data: {
-            "movie" : {
-                "_id": "5b0b25fa3a16bd60f3cf1ac0",
-                "name": "The Shadow",
-                "description": "Based on the 1930's comic strip, puts the hero up against his arch enemy, Shiwan Khan, who plans to take over the world by holding a city to ransom using an atom bomb. Using his powers of invisibility and \"The power to cloud men's minds\", the Shadow comes blazing to the city's rescue with explosive results.",
-                "image": "https://image.tmdb.org/t/p/w500/uk2DdXqdGiFfF5PrvvadQHKES1o.jpg",
-                "language": "en",
-                "genre": "Adventure",
-                "watchItRating": 4.333333333333333,
-                "ratersCounter": 3,
-                "ratersSum": 13,
-                "trailer": "8LYIcXs4HV0",
-                "__v": 0
-            },
+            movie :"5b0b25fa3a16bd60f3cf1ac0",
             score: "850",
             time: "2:45"
         },
