@@ -72,31 +72,69 @@ exports.getUsersConversations = function (userId, done) {
 
 
 exports.addConversation = function (user1, user2, done) {
-    User.findOne({_id:user1}).lean().exec(function (err,doc1) {
-        if(err){
+    conversationSchema.find({
+        $or: [{
+            "user1._id": user1.toString(),
+            "user2._id": user2.toString()
+        }, {"user1._id": user2.toString(), "user2._id": user1.toString()}]
+    }).lean().exec(function (err, conver) {
+        if (err) {
             return done(err)
-        }else{
-            console.log(doc1)
-            User.findOne({_id:user2}).lean().exec(function (err,doc2) {
-                if(err){
-                    return done(err)
+        } else {
+            if (!conver) {
+                User.findOne({_id: user1}).lean().exec(function (err, doc1) {
+                    if (err) {
+                        return done(err)
+                    } else {
+                        console.log(doc1)
+                        User.findOne({_id: user2}).lean().exec(function (err, doc2) {
+                            if (err) {
+                                return done(err)
+                            } else {
+                                let u = new conversationSchema();
+                                let user1doc = {
+                                    "facebookId": doc1.facebookId,
+                                    "name": doc1.name,
+                                    "_id": doc1._id,
+                                    "image": doc1.image
+                                };
+                                let user2doc = {
+                                    "facebookId": doc2.facebookId,
+                                    "name": doc2.name,
+                                    "_id": doc2._id,
+                                    "image": doc2.image
+                                };
+                                u["user1"] = JSON.parse(JSON.stringify(user1doc));
+                                u["user2"] = JSON.parse(JSON.stringify(user2doc));
+                                // u["user2"] = user2doc;
+                                u["name"] = user1.toString() + "|" + user2.toString();
+                                u.save(function (err, succ) {
+                                    if (err) {
+                                        return done(err)
+                                    } else {
+                                        u["isNew"] = 1;
+                                        return done(null, u);
+                                    }
+                                })
+                            }
+                        });
+                    }
+                });
+            } else {
+                let result = {};
+                if(conver.user1._id == user1){
+                    result["user"] = conver.user2;
+                    result["messages"] = [{id:user1,"text":"Bye"}];
+                    result["name"] = conver.name;
+                    return done(null,result)
                 }else{
-                    let u = new conversationSchema();
-                    let user1doc = {"facebookId" : doc1.facebookId,"name":doc1.name,"_id":doc1._id,"image":doc1.image};
-                    let user2doc = {"facebookId" : doc2.facebookId,"name":doc2.name,"_id":doc2._id,"image":doc2.image};
-                    u["user1"] = JSON.parse(JSON.stringify(user1doc));
-                    u["user2"] = JSON.parse(JSON.stringify(user2doc));
-                    // u["user2"] = user2doc;
-                    u["name"] = user1.toString() + "|" + user2.toString();
-                    u.save(function (err,succ) {
-                        if(err){
-                            return done(err)
-                        }else{
-                            return done(null,u);
-                        }
-                    })
+                    result["user"] = conver.user1;
+                    result["messages"] = [{id:user1,"text":"Bye"}];
+                    result["name"] = conver.name;
+                    return done(null,result)
                 }
-            });
+
+            }
         }
-    });
+    })
 }
