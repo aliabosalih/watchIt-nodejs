@@ -60,30 +60,20 @@ const sendNotification = function(notificationBody,registrationTokenArr){
 // on how to define a message payload.
     notificationBody = {
         title: 'new comments',
-        body:   ' reviewd your movie! take a look'
-    };
-
-     let data1 = {
-         "_id": "5b0b25fa3a16bd60f3cf1ac0",
-         "name": "The Shadow",
-         "description": "Based on the 1930's comic strip, puts the hero up against his arch enemy, Shiwan Khan, who plans to take over the world by holding a city to ransom using an atom bomb. Using his powers of invisibility and \"The power to cloud men's minds\", the Shadow comes blazing to the city's rescue with explosive results.",
-         "image": "https://image.tmdb.org/t/p/w500/uk2DdXqdGiFfF5PrvvadQHKES1o.jpg",
-         "language": "en",
-         "genre": "Adventure",
-         "watchItRating": 4.333333333333333,
-         "ratersCounter": 3,
-         "ratersSum": 13,
-         "trailer": "8LYIcXs4HV0",
-         "__v": 0
+        body:   ' reviewd your movie! take a look',
      };
-     let dataSend = JSON.stringify(data1);
     var payload = {
-        notification:notificationBody ,
+        token : registrationTokenArr,
+               notification:notificationBody ,
         data: {
             movie :"5b0b25fa3a16bd60f3cf1ac0"
-        },
-
-        token : registrationTokenArr
+        }
+        // ,
+        // android:{
+        //     "notification":{
+        //         click_action: '.NotificationActivity'
+        //     }
+        // }
     };
 // Send a message to the device corresponding to the provided
 // registration token.

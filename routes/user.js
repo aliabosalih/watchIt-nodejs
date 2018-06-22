@@ -17,6 +17,7 @@ router.post('/signIn', function (req, res) {
                 u.facebookId = user.facebookId;
                 u.image = user.image;
                 u.name = user.name;
+
                 res.status(200).json(u);
             }
             else // create new user
