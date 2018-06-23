@@ -112,7 +112,7 @@ exports.chatSendNotification = function (msg, user1, user2, done) {
                     };
 
                     u["user"] = uu;
-                    u["name"] = user1.toString() + "|" + user2.toString();
+                    u["name"] = chat12.name; // user1.toString() + "|" + user2.toString();
                     tokens.findOne({userId: user2}).lean().exec(function (err, tokenUser2) {
                         if (err) {
                             return done(err);
@@ -208,6 +208,7 @@ exports.getUsersConversations = function (userId, done) {
                         u["messages"] = [];
                         u["messages"] = [{id: docs1[k].user2._id, "text": "Bye"}];
                         u["name"] = docs1[k].name;
+                        u["msgCounter"] = docs1[k].msgCounter;
                         chaters.push(u)
                     }
                     for (let i = 0; i < docs2.length; i++) {
@@ -215,6 +216,7 @@ exports.getUsersConversations = function (userId, done) {
                         u["user"] = docs2[i].user1;
                         u["messages"] = [];
                         u["name"] = docs2[i].name;
+                        u["msgCounter"] = docs2[i].msgCounter;
                         chaters.push(u)
                     }
                     return done(null, chaters);
