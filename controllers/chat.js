@@ -164,7 +164,11 @@ exports.chatSendNotificationAndAddconversation= function(msg,user1,user2,done){
                                 };
                                 console.log("--------------------------- ",user2Token)
                                 fcmCtrl.chatNotification(u,notificationBody,user2Token);
-                                return done(null,conv);
+                                if(!conversation){
+                                    return done(null,conv);
+                                }else{
+                                    return done();
+                                }
                             }
                         });
                     }
