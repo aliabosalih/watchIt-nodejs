@@ -133,14 +133,19 @@ exports.omdbGetMovieByName = function (name, done) {
                 done(response.Error, null);
             }
             else {
-                console.log(".>/././", response)
-                exports.getMoviesFromOmdbJson(response, function (err, movies) {
-                    if (err) {
-                        done(null, []);
-                    } else {
-                        done(null, movies);
-                    }
-                });
+                console.log(".>/././", response);
+                if(response && response.results){
+                    exports.getMoviesFromOmdbJson(response, function (err, movies) {
+                        if (err) {
+                            done(null, []);
+                        } else {
+                            done(null, movies);
+                        }
+                    });
+                }else{
+                    done(null, []);
+                }
+
             }
         });
 
