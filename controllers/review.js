@@ -130,12 +130,14 @@ exports.addReview = function (data, done) {
                                     getUsersWithGenres(movie.genre,function(err,ids){
                                         fcmTokens.find({userId:{$in:ids}}).lean().exec(function(err,tokensDoc){
                                             for(let j= 0 ; j < tokensDoc.length;j++){
-                                                let token = tokensDoc[j].fcmToken;
-                                                let notification = {
-                                                    title: "new movies in your preferred genres",
-                                                    body:  "add your review for " + movie.name + " - from your preferred genres in watchIt!"
-                                                };
-                                                fcmCtrl.sendNotification(notification,token.toString(),movie._id);
+                                                if(review.userId != tokensDoc[j].userId){
+                                                    let token = tokensDoc[j].fcmToken;
+                                                    let notification = {
+                                                        title: "new movies in your preferred genres",
+                                                        body:  "add your review for " + movie.name + " - from your preferred genres in watchIt!"
+                                                    };
+                                                    fcmCtrl.sendNotification(notification,token.toString(),movie._id);
+                                                }
                                             }
                                             return done(null,movie);
                                         })
