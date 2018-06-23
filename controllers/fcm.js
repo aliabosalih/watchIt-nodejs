@@ -69,7 +69,7 @@ if(!movieId){
         token : registrationTokenArr,
                notification:notificationBody ,
         data: {
-            movie :movieId
+            movie :movieId.toString()
         }
     };
 // Send a message to the device corresponding to the provided
