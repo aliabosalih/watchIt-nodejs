@@ -111,7 +111,7 @@ exports.addReview = function (data, done) {
                 let trailerSplited = trailer.split("?v=")[1];
                 movie[0].trailer = trailerSplited;
             }
-
+            movie[0].owner = data.userId;
             movieSchema.findOne({"name":movie[0].name}).lean().exec(function(err,mov){
                 if(err){
                     done(err);
