@@ -2,7 +2,8 @@ const express = require('express'),
     router = express.Router(),
     userCtrler = require('../controllers/user');
 
-
+let mongoDB = require('../MongoDB'),
+    User = mongoDB.mongodb.model('userSchema');
 router.post('/signIn', function (req, res) {
     console.log('the request ', req.body);
     userCtrler.getUserByFacebookId(req.body.facebookId, function (err, user) {
@@ -13,12 +14,18 @@ router.post('/signIn', function (req, res) {
             if (user) // user already exists
             {
                 let u = {};
-                u._id = user._id;
                 u.facebookId = user.facebookId;
                 u.image = user.image;
                 u.name = user.name;
+                User.findOneAndUpdate({_id:user._id},{$set:u},{new:true}).lean().exec(function(err,updatedUser){
+                    if(err){
+                        res.status(500).json(err);
+                    }else{
+                        console.log("updated user is ,,,,,,,,,,, ",updatedUser)
+                        res.status(200).json(updatedUser);
 
-                res.status(200).json(u);
+                    }
+                })
             }
             else // create new user
             {
