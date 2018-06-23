@@ -76,6 +76,7 @@ const getUserAndUpdateReview = function (data, review, done) {
                             done(err);
                         }else{
                             if(movie.owner !== data.userId && data.firstTime != 1) {
+                                console.log("hereeeeeeeeeee ------------ ",data.userId,movie.owner)
                                 notifyOwner(data,movie);
                             }
                             console.log("created review!", movie);
