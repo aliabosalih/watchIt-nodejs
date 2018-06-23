@@ -192,11 +192,11 @@ exports.getUsersConversations = function (userId, done) {
     let chaters = [];
     console.log(userId)
 
-    conversationSchema.find({"user1._id": userId.toString()}).lean().exec(function (err, docs1) {
+    conversationSchema.find({"user1._id": userId.toString(),"msgCounter":{$gt:0}}).lean().exec(function (err, docs1) {
         if (err) {
             return done(err)
         } else {
-            conversationSchema.find({"user2._id": userId.toString()}).lean().exec(function (err, docs2) {
+            conversationSchema.find({"user2._id": userId.toString(),"msgCounter":{$gt:0}}).lean().exec(function (err, docs2) {
                 if (err) {
                     return done(err)
                 } else {
