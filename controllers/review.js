@@ -13,6 +13,7 @@ let fcmCtrl = require('./fcm');
 
 
 function notifyOwner(data,movie){
+    console.log("data issss ",data , movie)
     User.find({_id:data.userId}).exec(function (err,user) {
         if(err){
             console.log("err in 49 review",err)
