@@ -75,7 +75,7 @@ const getUserAndUpdateReview = function (data, review, done) {
                         if(err){
                             done(err);
                         }else{
-                            if(movie.owner !== data.userId){
+                            if(movie.owner !== data.userId && data.firstTime != 1) {
                                 notifyOwner(data,movie);
                             }
                             console.log("created review!", movie);
@@ -124,6 +124,7 @@ exports.addReview = function (data, done) {
                                 review.movieId = movie._id;
                                 // call back handle the notification for the preffer genres for other users.!
                                 // getUserAndUpdateReview(data, review,done);
+                                data.firstTime = 1;
                                 getUserAndUpdateReview(data, review, function(err,movie){
                                     getUsersWithGenres(movie.genre,function(err,ids){
                                         fcmTokens.find({userId:{$in:ids}}).lean().exec(function(err,tokensDoc){
