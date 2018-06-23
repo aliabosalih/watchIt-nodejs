@@ -18,7 +18,7 @@ function notifyOwner(data,movie){
         if(err){
             console.log("err in 49 review",err)
         }else{
-            fcmTokens.find({userId:movie.owner}).exec(function (error,tokenD) {
+            fcmTokens.findOne({userId:movie.owner}).exec(function (error,tokenD) {
                 if(error || !tokenD){
                     console.log("error in 53 review",error)
                 }else{
