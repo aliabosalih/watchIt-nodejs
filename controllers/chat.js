@@ -5,112 +5,6 @@ let User = mongoDB.mongodb.model('userSchema');
 let fcmCtrl = require('../controllers/fcm');
 let tokens = mongoDB.mongodb.model('userFcmTokenSchema');
 
-exports.chatSendNotification= function(msg,user1,user2,done){
-    console.log("------------------- ",user1,"......................",user2);
-    let user1Token = undefined;
-    let user2Token = undefined;
-    User.findOne({_id:user1}).lean().exec(function (err,userDoc) {
-        if(err){
-            return done(err);
-        }else{
-            let u ={};
-
-            let uu = {
-                "facebookId": userDoc.facebookId,
-                "name": userDoc.name,
-                "_id": userDoc._id,
-                "image": userDoc.image
-            };
-
-            u["user"] = uu;
-            u["name"] = user1.toString() + "|" + user2.toString();
-            tokens.findOne({userId:user2}).lean().exec(function (err,tokenUser2) {
-                if(err){
-                    return done(err);
-                }else{
-                    user2Token = tokenUser2.fcmToken;
-                    let  notificationBody = {
-                        title: userDoc.name.toString() + 'new message',
-                        body:  msg.toString(),
-                    };
-                    console.log("--------------------------- ",user2Token)
-                    fcmCtrl.chatNotification(u,notificationBody,user2Token);
-                    return done();
-                }
-            })
-        }
-    })
-
-
-}
-exports.getUsersConversations = function (userId, done) {
-    let chaters = [];
-    console.log(userId)
-
-    conversationSchema.find({"user1._id": userId.toString()}).lean().exec(function (err, docs1) {
-        if (err) {
-            return done(err)
-        } else {
-            conversationSchema.find({"user2._id": userId.toString()}).lean().exec(function (err, docs2) {
-                if (err) {
-                    return done(err)
-                } else {
-                    for (let k = 0; k < docs1.length; k++) {
-                        let u = {};
-                        u["user"] = docs1[k].user2;
-                        u["messages"] = [];
-                        u["messages"] = [{id:docs1[k].user2._id,"text":"Bye"}];
-                        u["name"] = docs1[k].name;
-                        chaters.push(u)
-                    }
-                    for (let i = 0; i < docs2.length; i++) {
-                        let u = {};
-                        u["user"] = docs2[i].user1;
-                        u["messages"] = [];
-                        u["name"] = docs2[i].name;
-                        chaters.push(u)
-                    }
-                    return done(null, chaters);
-
-                }
-
-            });
-
-        }
-    });
-};
-
-
-//     conversationSchema.find({
-//             $or:
-//                 [{"user1._id": userId.toString()}, {"user2._id": userId.toString()}]
-//         }
-//     ).lean().exec(function (err, docs) {
-//         if (err) {
-//             return done(err)
-//         } else {
-//             for (let k = 0; k < docs.length; k++) {
-//                 let u = {};
-//                 if (docs[k].user1.userId == userId) {
-//                     u["user"] = docs[k].user2;
-//                     u["messages"]= [];
-//                     u["name"]=  docs[k].name;
-//                     chaters.push(u)
-//                 } else {
-//                     u["user"] = docs[k].user1;
-//                     u["messages"]= [];
-//                     u["name"]=  docs[k].name;
-//                     chaters.push(u)
-//                 }
-//             }
-//             return done(null,chaters);
-//         }
-//     });
-// };
-
-
-
-
 
 exports.addConversation = function (user1, user2, done) {
     conversationSchema.findOne({
@@ -120,8 +14,7 @@ exports.addConversation = function (user1, user2, done) {
         }, {"user1._id": user2.toString(), "user2._id": user1.toString()}]
     }).lean().exec(function (err, conver) {
         if (err) {
-            console.log("here 1")
-
+            console.log("here 1");
             return done(err)
         } else {
             if (!conver) {
@@ -186,11 +79,133 @@ exports.addConversation = function (user1, user2, done) {
                     result["messages"] = [{id:user1,"text":"Bye"}];
                     result["name"] = conver.name;
                     result["isNew"] = false;
-
                     return done(null,result)
                 }
-
             }
         }
-    })
+    });
 }
+
+exports.chatSendNotification= function(msg,user1,user2,done){
+    console.log("------------------- ",user1,"......................",user2);
+    let user1Token = undefined;
+    let user2Token = undefined;
+    User.findOne({_id:user1}).lean().exec(function (err,userDoc) {
+        if(err){
+            return done(err);
+        }else{
+            let u ={};
+
+            let uu = {
+                "facebookId": userDoc.facebookId,
+                "name": userDoc.name,
+                "_id": userDoc._id,
+                "image": userDoc.image
+            };
+
+            u["user"] = uu;
+            u["name"] = user1.toString() + "|" + user2.toString();
+            tokens.findOne({userId:user2}).lean().exec(function (err,tokenUser2) {
+                if(err){
+                    return done(err);
+                }else{
+                    user2Token = tokenUser2.fcmToken;
+                    let  notificationBody = {
+                        title: userDoc.name.toString() + 'new message',
+                        body:  msg.toString(),
+                    };
+                    console.log("--------------------------- ",user2Token)
+                    fcmCtrl.chatNotification(u,notificationBody,user2Token);
+                    return done();
+                }
+            });
+        }
+    });
+}
+
+
+
+exports.chatSendNotificationAndAddconversation= function(msg,user1,user2,done){
+    conversationSchema.findOne({
+        $or: [{
+            "user1._id": user1.toString(),
+            "user2._id": user2.toString()
+        }, {"user1._id": user2.toString(), "user2._id": user1.toString()}]
+    }).lean().exec(function (err,conversation) {
+        if(err){
+            return done(err);
+        }else{
+            exports.addConversation(user1,user2,function (err,conv) {
+                console.log("------------------- ",user1,"......................",user2);
+                let user1Token = undefined;
+                let user2Token = undefined;
+                User.findOne({_id:user1}).lean().exec(function (err,userDoc) {
+                    if(err){
+                        return done(err);
+                    }else{
+                        let u ={};
+                        let uu = {
+                            "facebookId": userDoc.facebookId,
+                            "name": userDoc.name,
+                            "_id": userDoc._id,
+                            "image": userDoc.image
+                        };
+
+                        u["user"] = uu;
+                        u["name"] = user1.toString() + "|" + user2.toString();
+                        tokens.findOne({userId:user2}).lean().exec(function (err,tokenUser2) {
+                            if(err){
+                                return done(err);
+                            }else{
+                                user2Token = tokenUser2.fcmToken;
+                                let  notificationBody = {
+                                    title: userDoc.name.toString() + 'new message',
+                                    body:  msg.toString(),
+                                };
+                                console.log("--------------------------- ",user2Token)
+                                fcmCtrl.chatNotification(u,notificationBody,user2Token);
+                                return done(null,conv);
+                            }
+                        });
+                    }
+                });
+            });
+
+        }
+    })
+
+
+}
+exports.getUsersConversations = function (userId, done) {
+    let chaters = [];
+    console.log(userId)
+
+    conversationSchema.find({"user1._id": userId.toString()}).lean().exec(function (err, docs1) {
+        if (err) {
+            return done(err)
+        } else {
+            conversationSchema.find({"user2._id": userId.toString()}).lean().exec(function (err, docs2) {
+                if (err) {
+                    return done(err)
+                } else {
+                    for (let k = 0; k < docs1.length; k++) {
+                        let u = {};
+                        u["user"] = docs1[k].user2;
+                        u["messages"] = [];
+                        u["messages"] = [{id:docs1[k].user2._id,"text":"Bye"}];
+                        u["name"] = docs1[k].name;
+                        chaters.push(u)
+                    }
+                    for (let i = 0; i < docs2.length; i++) {
+                        let u = {};
+                        u["user"] = docs2[i].user1;
+                        u["messages"] = [];
+                        u["name"] = docs2[i].name;
+                        chaters.push(u)
+                    }
+                    return done(null, chaters);
+                }
+            });
+        }
+    });
+};

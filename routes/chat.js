@@ -18,6 +18,7 @@ router.get('/getUserConversations/:userId', function (req, res) {
 
 router.post('/addConversation', function (req, res) {
 console.log("+++++++++++++++++++ ",req.body.user1,  "))))))))))))))))" ,req.body.user2)
+
     chatCtrl.addConversation(req.body.user1, req.body.user2, function (err , conversation) {
         if (err) {
             console.log(err)
@@ -57,7 +58,7 @@ router.post('/buildConv', function (req, res) {
 
 
 router.post('/sendMessage', function (req, res) {
-    chatCtrl.chatSendNotification(req.body.text,req.body.srcUserId,req.body.dstUserId, function (err, conversations) {
+    chatCtrl.chatSendNotificationAndAddconversation(req.body.text,req.body.srcUserId,req.body.dstUserId, function (err, conversations) {
         if (err) {
             res.status(500).json(err);
         }
