@@ -3,18 +3,27 @@ let mongoDB = require('../MongoDB'),
 
 let User = mongoDB.mongodb.model('userSchema');
 let fcmCtrl = require('../controllers/fcm');
-
+let tokens = mongoDB.mongodb.model('userFcmTokenSchema');
 
 exports.chatSendNotification= function(msg,user1,user2,done){
     console.log("------------------- ",user1,"......................",user2);
     let user1Token = undefined;
-    let user2Token = undefined
-    let  notificationBody = {
-        title: 'new message',
-        body:  msg.toString(),
-    };
-    fcmCtrl.sendNotification(notificationBody,user2Token);
-    return done()
+    let user2Token = undefined;
+    tokens.findOne({userId:user2}).lean().exec(function (err,tokenUser2) {
+        if(err){
+            return done(err);
+        }else{
+            user2Token = tokenUser2.fcmToken;
+            let  notificationBody = {
+                title: 'new message',
+                body:  msg.toString(),
+            };
+            console.log("--------------------------- ",user2Token)
+            fcmCtrl.chatNotification(notificationBody,user2Token);
+            return done();
+        }
+    })
+
 }
 exports.getUsersConversations = function (userId, done) {
     let chaters = [];

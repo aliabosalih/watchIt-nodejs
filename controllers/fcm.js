@@ -88,6 +88,52 @@ if(!notificationBody){
         });
 };
 
+
+
+
+
+
+const chatNotification = function(notificationBody,registrationTokenArr){
+    if(!registrationTokenArr) {
+        registrationTokenArr = "cV6iQZLWNww:APA91bEGNJQjG66OJrHw3WD4ZQqs8HgBopRR5So1LnkLF7qteTYQGepNHCleAMfOKrmP1ZJkymt9twRzFy7IrnPQ1yyQG9uhTkMod4GAtsUPbiH_EUDlxoPhguIT4TC2NY2IYJu9v86jd4wpK6R0galwUcBz9M9-gw"
+    }
+
+    if(!notificationBody){
+        notificationBody = {
+            title: 'new comments',
+            body:   ' reviewd your movie! take a look',
+        };
+    }
+console.log(notificationBody,registrationTokenArr)
+    var payload = {
+        token : registrationTokenArr,
+        notification:notificationBody ,
+        data: {
+            movie :"5b0b25fa3a16bd60f3cf1ac0"
+        }
+        // ,
+        // android:{
+        //     "notification":{
+        //         click_action: '.NotificationActivity'
+        //     }
+        // }
+    };
+// Send a message to the device corresponding to the provided
+// registration token.
+    admin.messaging().send(payload)
+        .then(function(response) {
+            // See the MessagingDevicesResponse reference documentation for
+            // the contents of response.
+            console.log("Successfully sent message:", response);
+        })
+        .catch(function(error) {
+            console.log("Error sending message:", error);
+        });
+};
+
+
+
+
 const sendMessage = function(){
   let  registrationTokenArr = "fSOCM4ubGMY:APA91bFPNzvD2bWCsQcfti4DsRh8Gc_e5Jkqdp2bLk9fefPrrsv5jaBzCRg5BEjX8FUiKaiegVf_NXNOSJ2Hu5Fmkv-w-rNopq2yhM6vW4TUAyN59rhWrMUfj6RL8K1j67oIdD5YGL2v"
 // This registration token comes from the client FCM SDKs.
@@ -208,6 +254,7 @@ function removeDeviceRegToken(user,body,done){
         });
     }
 }
+exports.chatNotification = chatNotification;
 exports.sendToGroupWithNotifKey = sendToGroupWithNotifKey;
 exports.sendMessage = sendMessage;
 exports.sendNotification = sendNotification;
