@@ -75,7 +75,8 @@ let conversationSchema = new Schema({
         "image": String,
         "_id": String
     },
-    "name":String
+    "msgCounter":Number,
+    "name": String
 });
 let  conversationSchemas = mongoose.model('conversationSchema', conversationSchema);
 
