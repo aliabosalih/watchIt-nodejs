@@ -74,7 +74,7 @@ exports.addConversation = function (user1, user2, done) {
                     result["messages"] = [{id: user1, "text": "Hi"}];
                     result["name"] = conver.name;
                     result["isNew"] = false;
-                    console.log("conversation is ++++++++++++++++ ",result)
+                    console.log("conversation is ++++++++++++++++ ", result)
                     return done(null, result)
                 } else {
                     result["user"] = conver.user1;
@@ -82,7 +82,7 @@ exports.addConversation = function (user1, user2, done) {
                     result["messages"] = [{id: user1, "text": "Hi"}];
                     result["name"] = conver.name;
                     result["isNew"] = false;
-                    console.log("conversation is ++++++++++++++++ ",result)
+                    console.log("conversation is ++++++++++++++++ ", result)
                     return done(null, result)
                 }
             }
@@ -94,10 +94,15 @@ exports.chatSendNotification = function (msg, user1, user2, done) {
     console.log("------------------- ", user1, "......................", user2);
     let user1Token = undefined;
     let user2Token = undefined;
-    conversationSchema.findOneAndUpdate({$or:[{"user1._id": user1, "user2._id": user2},{"user1._id": user2, "user2._id": user1}]},{$inc:{"msgCounter":1}}).lean().exec(function (err, chat12) {
-        if(err){
+    conversationSchema.findOneAndUpdate({
+        $or: [{"user1._id": user1, "user2._id": user2}, {
+            "user1._id": user2,
+            "user2._id": user1
+        }]
+    }, {$inc: {"msgCounter": 1}}).lean().exec(function (err, chat12) {
+        if (err) {
             return done(err);
-        }else{
+        } else {
             User.findOne({_id: user1}).lean().exec(function (err, userDoc) {
                 if (err) {
                     return done(err);
@@ -113,7 +118,12 @@ exports.chatSendNotification = function (msg, user1, user2, done) {
 
                     u["user"] = uu;
                     u["name"] = chat12.name; // user1.toString() + "|" + user2.toString();
-                    u["msgCounter"] = chat12.msgCounter;
+                    if (chat12) {
+                        u["msgCounter"] = chat12.msgCounter;
+                    }else{
+                        u["msgCounter"] = 0;
+                    }
+
                     tokens.findOne({userId: user2}).lean().exec(function (err, tokenUser2) {
                         if (err) {
                             return done(err);
@@ -195,11 +205,17 @@ exports.getUsersConversations = function (userId, done) {
     let chaters = [];
     console.log(userId)
 
-    conversationSchema.find({"user1._id": userId.toString(),"msgCounter":{$gt:0}}).lean().exec(function (err, docs1) {
+    conversationSchema.find({
+        "user1._id": userId.toString(),
+        "msgCounter": {$gt: 0}
+    }).lean().exec(function (err, docs1) {
         if (err) {
             return done(err)
         } else {
-            conversationSchema.find({"user2._id": userId.toString(),"msgCounter":{$gt:0}}).lean().exec(function (err, docs2) {
+            conversationSchema.find({
+                "user2._id": userId.toString(),
+                "msgCounter": {$gt: 0}
+            }).lean().exec(function (err, docs2) {
                 if (err) {
                     return done(err)
                 } else {
