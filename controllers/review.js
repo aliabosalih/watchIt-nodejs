@@ -74,9 +74,9 @@ const getUserAndUpdateReview = function (data, review, done) {
                         if(err){
                             done(err);
                         }else{
-                            // if(movie.owner !== data.userId){
-                            //     notifyOwner(data,movie);
-                            // }
+                            if(movie.owner !== data.userId){
+                                notifyOwner(data,movie);
+                            }
                             console.log("created review!", movie);
                             done(null, movie);
                         }
@@ -122,22 +122,22 @@ exports.addReview = function (data, done) {
                             } else {
                                 review.movieId = movie._id;
                                 // call back handle the notification for the preffer genres for other users.!
-                                getUserAndUpdateReview(data, review,done);
-                                // getUserAndUpdateReview(data, review, function(err,movie){
-                                //     getUsersWithGenres(movie.genre,function(err,ids){
-                                //         fcmTokens.find({userId:{$in:ids}}).lean().exec(function(err,tokensDoc){
-                                //             for(let j= 0 ; j < tokensDoc.length;j++){
-                                //                 let token = tokensDoc[j].fcmToken;
-                                //                 let notification = {
-                                //                     title: "new movies in your preferred genres",
-                                //                     body:  "share your review in " + movie.name + "from your preferred genres in watchIt!"
-                                //                 };
-                                //                 fcmCtrl.sendNotification(notification,token.toString());
-                                //             }
-                                //             return done();
-                                //         })
-                                //     })
-                                // });
+                                // getUserAndUpdateReview(data, review,done);
+                                getUserAndUpdateReview(data, review, function(err,movie){
+                                    getUsersWithGenres(movie.genre,function(err,ids){
+                                        fcmTokens.find({userId:{$in:ids}}).lean().exec(function(err,tokensDoc){
+                                            for(let j= 0 ; j < tokensDoc.length;j++){
+                                                let token = tokensDoc[j].fcmToken;
+                                                let notification = {
+                                                    title: "new movies in your preferred genres",
+                                                    body:  "share your review in " + movie.name + "from your preferred genres in watchIt!"
+                                                };
+                                                fcmCtrl.sendNotification(notification,token.toString());
+                                            }
+                                            return done();
+                                        })
+                                    })
+                                });
                             }
                         });
                     }else{
