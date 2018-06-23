@@ -21,7 +21,6 @@ app.use('/reviews', reviewsRoute);
 app.use('/chats', chatRoute);
 
 let port = process.env.PORT;
-console.log("............", port);
 
 app.listen(8081, function () {
 

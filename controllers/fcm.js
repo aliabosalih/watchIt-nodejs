@@ -53,15 +53,15 @@ const sentGroupMessage = function(notificationKey){
 }
 
 const sendNotification = function(notificationBody,registrationTokenArr){
-     registrationTokenArr = "djFhJDpIhyw:APA91bH_lm8G1LMSH1x_fSXk8CmlQvhPvfSdjTKVOoatBtdzQR2cnOI2dCe1AcH7OYW5hASfg90c9ZOjIoAUXXUhyaHmTL4HwPBI4QF0SNbUeQQeK-6iRO4nXefdqqPrci11SVNmqSnWRW1UN5u47sli7FJy7NzAeQ"
-// This registration token comes from the client FCM SDKs.
-    //var registrationToken = "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...";
-// See the "Defining the message payload" section below for details
-// on how to define a message payload.
+     registrationTokenArr ="cV6iQZLWNww:APA91bEGNJQjG66OJrHw3WD4ZQqs8HgBopRR5So1LnkLF7qteTYQGepNHCleAMfOKrmP1ZJkymt9twRzFy7IrnPQ1yyQG9uhTkMod4GAtsUPbiH_EUDlxoPhguIT4TC2NY2IYJu9v86jd4wpK6R0galwUcBz9M9-gw"
+
+if(!notificationBody){
     notificationBody = {
         title: 'new comments',
         body:   ' reviewd your movie! take a look',
-     };
+    };
+}
+
     var payload = {
         token : registrationTokenArr,
                notification:notificationBody ,

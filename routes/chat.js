@@ -54,4 +54,18 @@ router.post('/buildConv', function (req, res) {
     })
 });
 
+
+
+router.post('/sendMessage', function (req, res) {
+    chatCtrl.chatSendNotification(req.body.text,req.body.srcUserId,req.body.dstUserId, function (err, conversations) {
+        if (err) {
+            res.status(500).json(err);
+        }
+        else {
+            res.status(200).json(req.body);
+        }
+    })
+});
+
+
 module.exports = router;
