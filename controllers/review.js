@@ -137,7 +137,7 @@ exports.addReview = function (data, done) {
                                                 };
                                                 fcmCtrl.sendNotification(notification,token.toString(),movie._id);
                                             }
-                                            return done();
+                                            return done(null,movie);
                                         })
                                     })
                                 });
