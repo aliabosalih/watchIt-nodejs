@@ -139,6 +139,7 @@ exports.addReview = function (data, done) {
                                                     fcmCtrl.sendNotification(notification,token.toString(),movie._id);
                                                 }
                                             }
+                                            console.log("movieeeee --------- ",movie)
                                             return done(null,movie);
                                         })
                                     })
