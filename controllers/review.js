@@ -14,7 +14,7 @@ let fcmCtrl = require('./fcm');
 
 function notifyOwner(data,movie){
     console.log("data issss ",data , movie)
-    User.find({_id:data.userId}).exec(function (err,user) {
+    User.findOne({_id:data.userId}).exec(function (err,user) {
         if(err){
             console.log("err in 49 review",err)
         }else{
@@ -135,7 +135,7 @@ exports.addReview = function (data, done) {
                                                     title: "new movies in your preferred genres",
                                                     body:  "add your review for " + movie.name + " - from your preferred genres in watchIt!"
                                                 };
-                                                fcmCtrl.sendNotification(notification,token.toString());
+                                                fcmCtrl.sendNotification(movie._id,notification,token.toString());
                                             }
                                             return done();
                                         })
