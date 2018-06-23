@@ -22,7 +22,8 @@ router.post('/signIn', function (req, res) {
                         res.status(500).json(err);
                     }else{
                         console.log("updated user is ,,,,,,,,,,, ",updatedUser)
-                        res.status(200).json(updatedUser);
+                        u._id = user._id
+                        res.status(200).json(u);
 
                     }
                 })
