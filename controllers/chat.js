@@ -74,6 +74,7 @@ exports.addConversation = function (user1, user2, done) {
                     result["messages"] = [{id: user1, "text": "Hi"}];
                     result["name"] = conver.name;
                     result["isNew"] = false;
+                    console.log("conversation is ++++++++++++++++ ",result)
                     return done(null, result)
                 } else {
                     result["user"] = conver.user1;
@@ -81,6 +82,7 @@ exports.addConversation = function (user1, user2, done) {
                     result["messages"] = [{id: user1, "text": "Hi"}];
                     result["name"] = conver.name;
                     result["isNew"] = false;
+                    console.log("conversation is ++++++++++++++++ ",result)
                     return done(null, result)
                 }
             }
