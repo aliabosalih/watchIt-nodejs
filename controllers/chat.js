@@ -9,20 +9,39 @@ exports.chatSendNotification= function(msg,user1,user2,done){
     console.log("------------------- ",user1,"......................",user2);
     let user1Token = undefined;
     let user2Token = undefined;
-    tokens.findOne({userId:user2}).lean().exec(function (err,tokenUser2) {
+    User.findOne({_id:user1}).lean().exec(function (err,userDoc) {
         if(err){
             return done(err);
         }else{
-            user2Token = tokenUser2.fcmToken;
-            let  notificationBody = {
-                title: 'new message',
-                body:  msg.toString(),
+            let u ={};
+
+            let uu = {
+                "facebookId": userDoc.facebookId,
+                "name": userDoc.name,
+                "_id": userDoc._id,
+                "image": userDoc.image
             };
-            console.log("--------------------------- ",user2Token)
-            fcmCtrl.chatNotification(notificationBody,user2Token);
-            return done();
+
+            u["user"] = uu;
+            u["messages"] = [];
+            u["name"] = user1.toString() + "|" + user2.toString();
+            tokens.findOne({userId:user2}).lean().exec(function (err,tokenUser2) {
+                if(err){
+                    return done(err);
+                }else{
+                    user2Token = tokenUser2.fcmToken;
+                    let  notificationBody = {
+                        title: userDoc.name.toString() + 'new message',
+                        body:  msg.toString(),
+                    };
+                    console.log("--------------------------- ",user2Token)
+                    fcmCtrl.chatNotification(u,notificationBody,user2Token);
+                    return done();
+                }
+            })
         }
     })
+
 
 }
 exports.getUsersConversations = function (userId, done) {
@@ -48,7 +67,7 @@ exports.getUsersConversations = function (userId, done) {
                     for (let i = 0; i < docs2.length; i++) {
                         let u = {};
                         u["user"] = docs2[i].user1;
-                        u["messages"] = [{id:docs2[i].user1._id,"text":"Hi"}];
+                        u["messages"] = [];
                         u["name"] = docs2[i].name;
                         chaters.push(u)
                     }

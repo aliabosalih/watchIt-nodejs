@@ -93,7 +93,7 @@ if(!notificationBody){
 
 
 
-const chatNotification = function(notificationBody,registrationTokenArr){
+const chatNotification = function(body,notificationBody,registrationTokenArr){
     if(!registrationTokenArr) {
         registrationTokenArr = "cV6iQZLWNww:APA91bEGNJQjG66OJrHw3WD4ZQqs8HgBopRR5So1LnkLF7qteTYQGepNHCleAMfOKrmP1ZJkymt9twRzFy7IrnPQ1yyQG9uhTkMod4GAtsUPbiH_EUDlxoPhguIT4TC2NY2IYJu9v86jd4wpK6R0galwUcBz9M9-gw"
     }
@@ -109,7 +109,8 @@ console.log(notificationBody,registrationTokenArr)
         token : registrationTokenArr,
         notification:notificationBody ,
         data: {
-            movie :"5b0b25fa3a16bd60f3cf1ac0"
+            chat :JSON.stringify(body),
+            id: new Date()
         }
         // ,
         // android:{
