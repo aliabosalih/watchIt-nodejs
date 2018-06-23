@@ -14,9 +14,9 @@ router.post('/signIn', function (req, res) {
             if (user) // user already exists
             {
                 let u = {};
-                u.facebookId = user.facebookId;
-                u.image = user.image;
-                u.name = user.name;
+                u.facebookId = req.body.facebookId;
+                u.image = req.body.image;
+                u.name = req.body.name;
                 User.findOneAndUpdate({_id:user._id},{$set:u},{new:true}).lean().exec(function(err,updatedUser){
                     if(err){
                         res.status(500).json(err);
