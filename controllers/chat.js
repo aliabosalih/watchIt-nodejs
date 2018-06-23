@@ -113,6 +113,7 @@ exports.chatSendNotification = function (msg, user1, user2, done) {
 
                     u["user"] = uu;
                     u["name"] = chat12.name; // user1.toString() + "|" + user2.toString();
+                    u["msgCounter"] = chat12.msgCounter;
                     tokens.findOne({userId: user2}).lean().exec(function (err, tokenUser2) {
                         if (err) {
                             return done(err);
