@@ -27,7 +27,7 @@ function notifyOwner(data,movie){
                         title: 'new comments',
                         body: user.name + ' reviewd your movie! take a look'
                     };
-                    fcmCtrl.sendNotification(notification,token.toString());
+                    fcmCtrl.sendNotification(notification,token.toString(),movie._id);
                 }
             });
         }
@@ -135,7 +135,7 @@ exports.addReview = function (data, done) {
                                                     title: "new movies in your preferred genres",
                                                     body:  "add your review for " + movie.name + " - from your preferred genres in watchIt!"
                                                 };
-                                                fcmCtrl.sendNotification(movie._id,notification,token.toString());
+                                                fcmCtrl.sendNotification(notification,token.toString(),movie._id);
                                             }
                                             return done();
                                         })

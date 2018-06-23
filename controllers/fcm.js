@@ -52,7 +52,7 @@ const sentGroupMessage = function(notificationKey){
         });
 }
 
-const sendNotification = function(notificationBody,registrationTokenArr){
+const sendNotification = function(notificationBody,registrationTokenArr,movieId){
     if(!registrationTokenArr){
         registrationTokenArr = "f7Kai9ZN2Vk:APA91bEt83qRhFNUmO5qjiCgCOn69D7HgziYR5OhlocqBAsqvr1WnCHqiCmqNV7VhtRmzU_OfMuHbikDDIkUCi16PHBaz7MHgk-HkLX4F8RNZf8EjiwwZCOafZP3_H4uNUv981Z8e2L4bALG5OR3UCzCaRBb5SpFug"
     }
@@ -62,19 +62,15 @@ const sendNotification = function(notificationBody,registrationTokenArr){
         body:   ' reviewd your movie! take a look',
     };
 }
-
+if(!movieId){
+    movieId = "5b0b25fa3a16bd60f3cf1ac0";
+}
     var payload = {
         token : registrationTokenArr,
                notification:notificationBody ,
         data: {
-            movie :"5b0b25fa3a16bd60f3cf1ac0"
+            movie :movieId
         }
-        // ,
-        // android:{
-        //     "notification":{
-        //         click_action: '.NotificationActivity'
-        //     }
-        // }
     };
 // Send a message to the device corresponding to the provided
 // registration token.
