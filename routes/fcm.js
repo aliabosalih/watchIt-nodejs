@@ -68,7 +68,7 @@ fcmTokens.findOneAndUpdate({userId: req.body.userId}, uuu, {upsert: true}).exec(
 router.get('/notificationTest', function (req, res) {
     // fcmCtrl.sendMessage()
     let a, b;
-    fcmCtrl.sendNotification(a, b)
+    fcmCtrl.sendNotification(undefined, undefined)
     res.status(200).json({success: true});
 
 });
