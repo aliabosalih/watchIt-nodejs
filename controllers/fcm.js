@@ -104,18 +104,23 @@ const chatNotification = function(body,notificationBody,registrationTokenArr){
             body:   ' reviewd your movie! take a look',
         };
     }
+    console.log("STRINGGGG ,>>>>>>>>>>>>" , body)
+
+    body = JSON.stringify(body);
+    let d = new Date()
+    d = d.toString();
 console.log(notificationBody,registrationTokenArr)
     var payload = {
         token : registrationTokenArr,
         notification:notificationBody ,
         data: {
-            chat :JSON.stringify(body),
-            id: new Date()
+            chat :body.toString(),
+            id: d
         }
         // ,
         // android:{
         //     "notification":{
-        //         click_action: '.NotificationActivity'
+        //         click_action: '.Chat'
         //     }
         // }
     };

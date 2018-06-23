@@ -23,7 +23,6 @@ exports.chatSendNotification= function(msg,user1,user2,done){
             };
 
             u["user"] = uu;
-            u["messages"] = [];
             u["name"] = user1.toString() + "|" + user2.toString();
             tokens.findOne({userId:user2}).lean().exec(function (err,tokenUser2) {
                 if(err){
