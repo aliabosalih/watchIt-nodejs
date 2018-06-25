@@ -130,7 +130,7 @@ exports.chatSendNotification = function (msg, user1, user2, done) {
                         } else {
                             user2Token = tokenUser2.fcmToken;
                             let notificationBody = {
-                                title: userDoc.name.toString().split(" ")[0] + ' sent you new message',
+                                title: userDoc.name.toString().split(" ")[0] + ' sent a you new message',
                                 body: msg.toString(),
                             };
                             console.log("--------------------------- ", user2Token)

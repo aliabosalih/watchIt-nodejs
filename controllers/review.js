@@ -24,7 +24,7 @@ function notifyOwner(data,movie){
                 }else{
                     let token = tokenD.fcmToken;
                     let notification = {
-                        title: 'new comments',
+                        title: 'new review',
                         body: user.name + ' reviewd your movie! take a look'
                     };
                     fcmCtrl.sendNotification(notification,token.toString(),movie._id);
@@ -134,7 +134,7 @@ exports.addReview = function (data, done) {
                                                     let token = tokensDoc[j].fcmToken;
                                                     let notification = {
                                                         title: "new movies in your preferred genres",
-                                                        body:   movie.name + " is in watchIt! Share your review U+1F60D"
+                                                        body:   movie.name + " is in watchIt, Share your review now!"
                                                     };
                                                     fcmCtrl.sendNotification(notification,token.toString(),movie._id);
                                                 }

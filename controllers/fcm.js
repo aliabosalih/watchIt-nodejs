@@ -58,7 +58,7 @@ const sendNotification = function(notificationBody,registrationTokenArr,movieId)
     }
     if(!notificationBody){
     notificationBody = {
-        title: 'new comments',
+        title: 'new review',
         body:   ' reviewd your movie! take a look',
     };
 }
@@ -97,7 +97,7 @@ const chatNotification = function(body,notificationBody,registrationTokenArr){
 
     if(!notificationBody){
         notificationBody = {
-            title: 'new comments',
+            title: 'new review',
             body:   ' reviewd your movie! take a look',
         };
     }
