@@ -134,7 +134,7 @@ exports.addReview = function (data, done) {
                                                     let token = tokensDoc[j].fcmToken;
                                                     let notification = {
                                                         title: "new movies in your preferred genres",
-                                                        body:  "add your review for " + movie.name + " - from your preferred genres in watchIt!"
+                                                        body:   movie.name + " is in watchIt! Share your review U+1F60D"
                                                     };
                                                     fcmCtrl.sendNotification(notification,token.toString(),movie._id);
                                                 }
