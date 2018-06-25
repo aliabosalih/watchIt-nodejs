@@ -54,7 +54,7 @@ const sentGroupMessage = function(notificationKey){
 
 const sendNotification = function(notificationBody,registrationTokenArr,movieId){
     if(!registrationTokenArr){
-        registrationTokenArr = "f7Kai9ZN2Vk:APA91bEt83qRhFNUmO5qjiCgCOn69D7HgziYR5OhlocqBAsqvr1WnCHqiCmqNV7VhtRmzU_OfMuHbikDDIkUCi16PHBaz7MHgk-HkLX4F8RNZf8EjiwwZCOafZP3_H4uNUv981Z8e2L4bALG5OR3UCzCaRBb5SpFug"
+        registrationTokenArr = "cKaKb-_SJ9M:APA91bEDL6REeM7D2SM94TQk98lHw9D_3dDZ8fHnBDtMtw50lK8agyx5cMJl93-_w4rKXr68uPbYj9q6TzwZPeiUfXMbx830hSo1eV6OoKrILMiL1PxG37oFx8jZpZAnDDH3OxeOwxDTDNpTfMOkb9RkZUX2H-qAUQ"
     }
     if(!notificationBody){
     notificationBody = {

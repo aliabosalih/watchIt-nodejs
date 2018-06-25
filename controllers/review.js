@@ -133,7 +133,7 @@ exports.addReview = function (data, done) {
                                                 if(review.userId != tokensDoc[j].userId){
                                                     let token = tokensDoc[j].fcmToken;
                                                     let notification = {
-                                                        title: "new movies in your preferred genres",
+                                                        title: "new review in your preferred genres",
                                                         body:   movie.name + " is in watchIt, Share your review now!"
                                                     };
                                                     fcmCtrl.sendNotification(notification,token.toString(),movie._id);
