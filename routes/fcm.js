@@ -48,7 +48,7 @@ router.post('/userToken', function (req, res) {
 //     })
 // });
 
-let uuu = {$set : {"userId":req.body.userId,"fcmToken":req.body.userToken}}
+let uuu = {$set : {"userId":req.body.userId,"fcmToken":req.body.userToken,onOff:1}}
 fcmTokens.findOneAndUpdate({userId: req.body.userId}, uuu, {upsert: true}).exec(function (err, token) {
     if (err) {
         console.log("err .... ", err)
@@ -63,7 +63,17 @@ fcmTokens.findOneAndUpdate({userId: req.body.userId}, uuu, {upsert: true}).exec(
 });
 
 // });
-
+router.post('/notificationSettings/:state', function (req, res) {
+    let uuu = {$set : {onOff: Number(req.params.state)}};
+    fcmTokens.findOneAndUpdate({userId: req.body.userId}, uuu).exec(function (err, conversations) {
+        if (err) {
+            res.status(500).json(err);
+        }
+        else {
+            res.status(200).json(req.body);
+        }
+    })
+});
 
 router.get('/notificationTest', function (req, res) {
     // fcmCtrl.sendMessage()

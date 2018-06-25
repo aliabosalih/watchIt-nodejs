@@ -18,16 +18,18 @@ function notifyOwner(data,movie){
         if(err){
             console.log("err in 49 review",err)
         }else{
-            fcmTokens.findOne({userId:movie.owner}).exec(function (error,tokenD) {
+            fcmTokens.findOne({userId:movie.owner,onOff:1}).exec(function (error,tokenD) {
                 if(error || !tokenD){
                     console.log("error in 53 review",error)
                 }else{
-                    let token = tokenD.fcmToken;
-                    let notification = {
-                        title: 'new review',
-                        body: user.name + ' reviewd your movie!'
-                    };
-                    fcmCtrl.sendNotification(notification,token.toString(),movie._id);
+                    if(tokenD){
+                        let token = tokenD.fcmToken;
+                        let notification = {
+                            title: 'new review',
+                            body: user.name + ' reviewd your movie!'
+                        };
+                        fcmCtrl.sendNotification(notification,token.toString(),movie._id);
+                    }
                 }
             });
         }
@@ -128,7 +130,7 @@ exports.addReview = function (data, done) {
                                 data.firstTime = 1;
                                 getUserAndUpdateReview(data, review, function(err,movie){
                                     getUsersWithGenres(movie.genre,function(err,ids){
-                                        fcmTokens.find({userId:{$in:ids}}).lean().exec(function(err,tokensDoc){
+                                        fcmTokens.find({userId:{$in:ids},onOff:1}).lean().exec(function(err,tokensDoc){
                                             for(let j= 0 ; j < tokensDoc.length;j++){
                                                 if(review.userId != tokensDoc[j].userId){
                                                     let token = tokensDoc[j].fcmToken;

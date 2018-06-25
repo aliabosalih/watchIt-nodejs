@@ -53,7 +53,7 @@ exports.getMoviesByRatings = function (skip, done) {
 };
 // 1 sort by name
 // 2 sort low to high
-exports.getMoviesByFilter = function (filter,skip, done) {
+exports.getMoviesBySort = function (filter,skip, done) {
     let sort = {"watchItRating": -1,"ratersCounter":-1};
     if(filter ==1){
        sort = {
@@ -90,13 +90,21 @@ exports.getMyRecommendedId = function (id,skip, done) {
     });
 };
 
-exports.getMyRecommended = function (genres,skip, done) {
+exports.getMyRecommended = function (sortI,genres,skip, done) {
     console.log("req",genres)
-    movieSchema.find({"genre":{$in:genres}}).sort({"watchItRating": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
+    let sortJson = {"watchItRating": -1,"ratersCounter":-1};
+    if(sortI ==1){
+        sortJson = {
+            "name" : 1
+        };
+    }
+    if(sortI == 2){
+        sortJson = {"watchItRating": 1,"ratersCounter":-1};
+    }
+    movieSchema.find({"genre":{$in:genres}}).sort(sortJson).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
         if (err) {
             done(err);
         } else {
-            console.log("...........",sortedMovies)
             done(null, sortedMovies);
         }
     });
@@ -146,13 +154,22 @@ exports.getMovieOwner = function (movieId, done) {
 };
 
 
-exports.filterMoviesByGenres = function (genreArr, done) {
+exports.filterMoviesByGenres = function (sortI,genreArr, done) {
     let genre = "Action";
     let skip = 0 ;
     skip = genreArr.skip;
     genre = genreArr.genre;
+    let sortJson = {"watchItRating": -1,"ratersCounter":-1};
+    if(sortI ==1){
+        sortJson = {
+            "name" : 1
+        };
+    }
+    if(sortI == 2){
+        sortJson = {"watchItRating": 1,"ratersCounter":-1};
+    }
 console.log("genre",genre,skip)
-    movieSchema.find({"genre":genre}).sort({"watchItRating": -1}).lean().exec(function (err, filteredMovies) {
+    movieSchema.find({"genre":genre}).sort(sortJson).lean().exec(function (err, filteredMovies) {
         if (err) {
             done(err);
         } else {

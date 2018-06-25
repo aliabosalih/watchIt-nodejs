@@ -11,7 +11,8 @@ var Schema = mongoose.Schema;
 
 let userFcmToken = new Schema(
     {   "userId": String,
-        "fcmToken": String});
+        "fcmToken": String,
+    onOff : Number});
 let tokens = mongoose.model('userFcmTokenSchema', userFcmToken);
 
 let userSchema = new Schema(

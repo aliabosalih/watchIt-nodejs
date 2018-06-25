@@ -91,7 +91,7 @@ router.get('/getMoviesByRate/:skip', function (req, res) {
 });
 
 router.get('/getMoviesByFilter/:filter/:skip', function (req, res) {
-    moviesCtrl.getMoviesByFilter(req.params.filter,req.params.skip, function (err, movies) {
+    moviesCtrl.getMoviesBySort(req.params.filter,req.params.skip, function (err, movies) {
         if (err) {
             res.status(500).json(err);
         } else {
@@ -101,7 +101,7 @@ router.get('/getMoviesByFilter/:filter/:skip', function (req, res) {
 });
 
 router.get('/getRecommended/:id/:skip', function (req, res) {
-    moviesCtrl.getMyRecommendedId(req.params.id,req.params.skip ,function (err, movies) {
+    moviesCtrl.getMyRecommendedId(1,req.params.id,req.params.skip ,function (err, movies) {
         if (err) {
             res.status(500).json(err);
         } else {
@@ -111,8 +111,8 @@ router.get('/getRecommended/:id/:skip', function (req, res) {
 });
 
 
-router.post('/getRecommended/:skip', function (req, res) {
-    moviesCtrl.getMyRecommended(req.body.genres,req.params.skip ,function (err, movies) {
+router.post('/getRecommended/:sort/:skip', function (req, res) {
+    moviesCtrl.getMyRecommended(req.params.sort,req.body.genres,req.params.skip ,function (err, movies) {
         if (err) {
             res.status(500).json(err);
         } else {
@@ -154,9 +154,9 @@ router.get('/movie/:movieName', function (req, res) {
 /**
  * get the Genres array in the body
  */
-router.get('/filterMoviesByGenre/:genre/:skip', function (req, res) {
-    if(req.params.genre.toString() === "All"){
-        moviesCtrl.getMoviesByRatings(req.params.skip, function (err, movies) {
+router.get('/filterMoviesByGenre/:genre/:sortby/:skip', function (req, res) {
+    if(req.params.genre.toString().toLowerCase() === "all"){
+        moviesCtrl.getMoviesBySort(req.params.sortby,req.params.skip, function (err, movies) {
             if (err) {
                 res.status(500).json(err);
             } else {
@@ -164,8 +164,7 @@ router.get('/filterMoviesByGenre/:genre/:skip', function (req, res) {
             }
         });
     }else {
-        console.log("........................")
-        moviesCtrl.filterMoviesByGenres(req.params, function (err, movies) {
+        moviesCtrl.filterMoviesByGenres(req.params.sortby,req.params, function (err, movies) {
             if (err) {
                 res.status(500).json(err);
             } else {

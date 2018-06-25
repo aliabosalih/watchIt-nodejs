@@ -124,18 +124,22 @@ exports.chatSendNotification = function (msg, user1, user2, done) {
                         u["msgCounter"] = 0;
                     }
 
-                    tokens.findOne({userId: user2}).lean().exec(function (err, tokenUser2) {
+                    tokens.findOne({userId: user2,onOff:1}).lean().exec(function (err, tokenUser2) {
                         if (err) {
                             return done(err);
                         } else {
-                            user2Token = tokenUser2.fcmToken;
-                            let notificationBody = {
-                                title: userDoc.name.toString().split(" ")[0] + ' sent a you new message',
-                                body: msg.toString(),
-                            };
-                            console.log("--------------------------- ", user2Token)
-                            fcmCtrl.chatNotification(u, notificationBody, user2Token);
-                            return done();
+                            if(!tokenUser2){
+                                return done();
+                            }else{
+                                user2Token = tokenUser2.fcmToken;
+                                let notificationBody = {
+                                    title: userDoc.name.toString().split(" ")[0] + ' sent a you new message',
+                                    body: msg.toString(),
+                                };
+                                console.log("--------------------------- ", user2Token)
+                                fcmCtrl.chatNotification(u, notificationBody, user2Token);
+                                return done();
+                            }
                         }
                     });
                 }
