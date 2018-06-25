@@ -25,7 +25,7 @@ function notifyOwner(data,movie){
                     let token = tokenD.fcmToken;
                     let notification = {
                         title: 'new review',
-                        body: user.name + ' reviewd your movie! take a look'
+                        body: user.name + ' reviewd your movie! take a look \uD83C'
                     };
                     fcmCtrl.sendNotification(notification,token.toString(),movie._id);
                 }
