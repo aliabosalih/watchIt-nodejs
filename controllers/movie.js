@@ -51,13 +51,17 @@ exports.getMoviesByRatings = function (skip, done) {
     });
 
 };
-
+// 1 sort by name
+// 2 sort low to high
 exports.getMoviesByFilter = function (filter,skip, done) {
     let sort = {"watchItRating": -1,"ratersCounter":-1};
     if(filter ==1){
        sort = {
-            "name" : -1
+            "name" : 1
         }
+    }
+    if(filter == 2){
+        sort = {"watchItRating": 1,"ratersCounter":-1}
     }
     movieSchema.find({}).sort(sort).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
         if (err) {
