@@ -58,6 +58,7 @@ router.post('/buildConv', function (req, res) {
 
 
 router.post('/sendMessage', function (req, res) {
+    console.log("req .d" ,req.body)
     chatCtrl.chatSendNotification(req.body.text,req.body.srcUserId,req.body.dstUserId, function (err, conversations) {
         if (err) {
             res.status(500).json(err);
