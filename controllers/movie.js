@@ -42,7 +42,7 @@ console.log("name ",name)
 };
 
 exports.getMoviesByRatings = function (skip, done) {
-    movieSchema.find({}).sort({"watchItRating": -1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
+    movieSchema.find({}).sort({"watchItRating": -1,"ratersCounter":-1}).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
         if (err) {
             done(err);
         } else {
