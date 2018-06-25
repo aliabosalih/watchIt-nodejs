@@ -52,6 +52,23 @@ exports.getMoviesByRatings = function (skip, done) {
 
 };
 
+exports.getMoviesByFilter = function (filter,skip, done) {
+    let sort = {"watchItRating": -1,"ratersCounter":-1};
+    if(filter ==1){
+       sort = {
+            "name" : -1
+        }
+    }
+    movieSchema.find({}).sort(sort).skip(Number(skip)).limit(10).lean().exec(function (err, sortedMovies) {
+        if (err) {
+            done(err);
+        } else {
+            done(null, sortedMovies);
+        }
+    });
+
+};
+
 exports.getMyRecommendedId = function (id,skip, done) {
     userSchema.findOne({_id:id}).lean().exec(function (error,user) {
         if(error){
