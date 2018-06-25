@@ -2,7 +2,7 @@ let mongoDB = require('../MongoDB'),
     userSchema = mongoDB.mongodb.model('userSchema'),
     movieSchema = mongoDB.mongodb.model('movieSchema'),
     reviewSchema = mongoDB.mongodb.model('reviewSchema');
-
+let fcmToken = mongoDB.mongodb.model('userFcmTokenSchema');
 
 const getUserByFacebookId = (id, done) => {
 
@@ -53,29 +53,29 @@ const getReviewdMovies = (id, done) => {
                 done("no reviewed movies yet!");
             } else {
                 console.log(reviews)
-                
-                for (let i = 0 ; i < reviews.length; i++){
-                    (function(i){
-                     asyncFuncs.push(function(callback){
-                        movieSchema.findOne({_id:reviews[i].movieId}).lean().exec(function (err,movie) {
-                                if(err){
+
+                for (let i = 0; i < reviews.length; i++) {
+                    (function (i) {
+                        asyncFuncs.push(function (callback) {
+                            movieSchema.findOne({_id: reviews[i].movieId}).lean().exec(function (err, movie) {
+                                if (err) {
                                     console.log(err);
                                 }
                                 let m = JSON.parse(JSON.stringify(reviews[i]))
-                               //console.log("//////",m)
-                                m["movie"]= movie;
+                                //console.log("//////",m)
+                                m["movie"] = movie;
                                 reviewsArr.push(m);
                                 return callback(null);
                             });
                         });
                     })(i);
                 }
-                async.parallel(asyncFuncs,function(err,reviewss){
-                    if(err){
-                        console.log("74 ------ ",err);
-                    } else{
-                        console.log("-----" , reviewsArr)
-                            done(null,reviewsArr)
+                async.parallel(asyncFuncs, function (err, reviewss) {
+                    if (err) {
+                        console.log("74 ------ ", err);
+                    } else {
+                        console.log("-----", reviewsArr)
+                        done(null, reviewsArr)
                     }
                 });
                 // movieSchema.find({_id:{$in:reviews}}).lean().exec(function (err,movies) {
@@ -115,15 +115,24 @@ const createUser = (user, done) => {
         }
     });
 }
-
 const getUserById = (userId, done) => {
-    console.log("userId",userId)
+    console.log("userId", userId)
     userSchema.findOne({'_id': userId}).lean().exec(function (err, user) {
         if (err || !user) {
             done(err || "User Not Found!");
         }
         else {
-            done(null, user);
+            fcmToken.findOne({userId: userId}).lean().exec(function (err, token) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    if (token) {
+                        console.log("token", token, token.onOff, typeof token.onOff);
+                        user["notifyMe"] = token.onOff;
+                    }
+                    done(null, user);
+                }
+            });
         }
     });
 }
