@@ -23,7 +23,6 @@ exports.getMovieByName = function (name, done) {
             console.log(err);
             done(err,[]);
         } else {
-            console.log(movies);
             done(null, movies);
         }
     });

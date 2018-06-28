@@ -57,10 +57,18 @@ router.post('/search/ByNameAll', function (req, res) {
                     else {
                         console.log("movies1",movies1)
                         var allMovies = movies;
+                        var hashMap = new HashMap()
+                        for (let ij = 0; ij < allMovies.length; ij++) {
+                            (function (ij) {
+                                if (!hashMap.get(allMovies[ij].name)) {
+                                    hashMap.set(allMovies[ij].name.toString(), allMovies[ij]);
+                                }
+                            })(ij)
+                        }
                         if(movies1){
                             allMovies = movies.concat(movies1)
                         }
-                        var hashMap = new HashMap()
+
 
                         for (let i = 0; i < allMovies.length; i++) {
                             (function (i) {
@@ -68,7 +76,6 @@ router.post('/search/ByNameAll', function (req, res) {
                                     hashMap.set(allMovies[i].name.toString(), allMovies[i]);
                                 }
                             })(i)
-
                         }
                         console.log("search results :", hashMap.values())
                         res.status(200).json(hashMap.values())
